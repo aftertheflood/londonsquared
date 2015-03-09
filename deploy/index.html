@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+
+	<script type="text/javascript" src="js/paper-full.min.js"></script>
+	<script type="text/javascript" src="js/londonsquared.js"></script>
+	<script type="text/javascript">
+		
+		window.onload = function() {
+			// Get a reference to the canvas object
+			var canvas = document.getElementById('londonsquared_canvas');
+			// Create an empty project and a view for the canvas:
+			paper.setup(canvas);
+			
+			londonsquared_init(); // init the londonsquared code
+			
+		}
+	
+	</script>
+
+
+	</script>
+</head>
+<body>
+	<canvas id="londonsquared_canvas" style="background-color: #ccc; width: 500px; height: 500px; margin: 100px auto; position: relative; display: block;" />
+</body>
+</html>
