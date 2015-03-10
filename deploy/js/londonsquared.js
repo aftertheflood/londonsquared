@@ -91,14 +91,14 @@ function londonsquared_init()
 					// colour the shape
 				}
 				
-				re.fillColor = '#ffffff'
+				re.fillColor = '#000'
 				re.opacity = 0
 				tween = new TWEEN.Tween({opacity:0,element:re})
 					.to({opacity: 1}, 1000)
 					.delay(150 * (x + y))
+					.easing(TWEEN.Easing.Quadratic.InOut)
 					.onUpdate(function(){
 						this.element.opacity = this.opacity
-						//console.log(this.opacity)
 					})
 				tween.start()
 				tween_inc++
