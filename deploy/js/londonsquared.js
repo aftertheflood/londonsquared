@@ -56,9 +56,15 @@ function londonsquared_init()
 	var margin = (wid_nomargin - wid)
 	var hei = wid
 	
+	var geometry = {
+		tile_width: wid,
+		tile_height: hei,
+		tile_margin: margin
+	};
+	
 	// squares in original design are 102 x 102
 	// so work out the size multiplier for the river shapes
-	var shape_mult = wid / 102
+	// var shape_mult = wid / 102
 	
 	// store the square size as it's always the same
 	var size = new paper.Size( wid, hei )
@@ -72,36 +78,12 @@ function londonsquared_init()
 			if (maprow[x]){
 			
 				var data = maprow[x]
-				var xp = (margin/2) + (x * (wid + margin))
-				var yp = (margin/2) + (y * (hei + margin))
-					
-				if (data.shape == undefined){
-					// if there is no shape data, then draw a rectangle
-					var re = new paper.Path.Rectangle(new paper.Point(xp, yp), size)
-				} else {
-					// we have shape data
-					var re = new paper.CompoundPath( data.shape )
-					// resize the shape data to fit the current size
-					re.scale( shape_mult )
-					// work out the position offset (based on original position)
-					var off = re.position.y - 67.95
-					// position the shape
-					re.position.x = xp + (wid/2) 
-					re.position.y = yp + (hei/2) + (off * shape_mult)
-					// colour the shape
-				}
 				
-				re.fillColor = '#000'
-				re.opacity = 0
-				tween = new TWEEN.Tween({opacity:0,element:re})
-					.to({opacity: 1}, 1000)
-					.delay(150 * (x + y))
-					.easing(TWEEN.Easing.Quadratic.InOut)
-					.onUpdate(function(){
-						this.element.opacity = this.opacity
-					})
-				tween.start()
-				tween_inc++
+				var ts = new TileSquare( x, y, geometry, data )
+				ts.appear( 1000, 150 * ( x + y ) )
+				
+				data.tilesquare = ts
+				
 			}
 		}
 	}
@@ -124,3 +106,84 @@ function animate( time ) {
 function update(){
 	
 }
+
+
+function loadBitmap( url )
+{
+	var logoRaster = new paper.Raster( url );
+	logoRaster.position.x = 470;
+	logoRaster.position.y = 470;
+	logoRaster.scale(0.65);
+	
+	logoRaster.onLoad = function(){
+		paper.view.draw();
+		console.log( thisCallToAction );
+		callback(thisCallToAction.type);
+	}
+
+}
+
+function TileSquare( x, y, geom, data ){
+	this.geometry.width = geom.tile_width
+	this.geometry.height = geom.tile_height
+	this.geometry.margin = geom.tile_margin
+	this.geometry.x = x
+	this.geometry.y = y
+	if (data.shape != undefined){
+		this.shapeData = data.shape
+	}
+	this.container = new paper.Group()
+	this.render()
+}
+TileSquare.prototype = {
+	shapeData: null,
+	container: null,
+	geometry: { x: 0,
+				y: 0,
+				width: 10,
+				height: 10,
+				margin: 1 },
+	constructor: TileSquare,
+	render: function(){
+		this.container.removeChildren()
+	
+		var xp = (this.geometry.margin/2) + (this.geometry.x * (this.geometry.width  + this.geometry.margin))
+		var yp = (this.geometry.margin/2) + (this.geometry.y * (this.geometry.height + this.geometry.margin))
+		
+		if (this.shapeData == undefined){
+			// if there is no shape data, then draw a rectangle
+			var re = new paper.Path.Rectangle(new paper.Point(xp, yp), new paper.Size(this.geometry.width,this.geometry.height))
+		} else {
+			// we have shape data
+			var re = new paper.CompoundPath( this.shapeData )	
+			// squares in original design are 102 x 102
+			// so work out the size multiplier for the river shapes
+			var shape_mult = this.geometry.width / 102
+			// resize the shape data to fit the current size
+			re.scale( shape_mult )
+			// work out the position offset (based on original position this shape appears)
+			var off = re.position.y - 67.95
+			// position the shape
+			re.position.x = xp + (this.geometry.width/2) 
+			re.position.y = yp + (this.geometry.height/2) + (off * shape_mult)
+			// colour the shape
+		}
+		
+		re.fillColor = '#000'
+		//console.log("render...", re, this.geometry.x,this.geometry.y,this.shapeData);
+		this.container.addChild( re )
+	},
+	appear: function( duration, delay ){
+		this.container.opacity = 0
+		tween = new TWEEN.Tween({opacity:0,element:this.container})
+			.to({opacity: 1}, duration)
+			.delay( delay )
+			.easing(TWEEN.Easing.Quadratic.InOut)
+			.onUpdate(function(){
+				this.element.opacity = this.opacity
+			})
+		tween.start()
+	}
+}
+
+
