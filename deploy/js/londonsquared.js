@@ -136,19 +136,28 @@ function TileSquare( x, y, geom, data ){
 	this.render()
 }
 TileSquare.prototype = {
+	// variables
 	shapeData: null,
 	container: null,
 	geometry: { x: 0,
 				y: 0,
+				yoff: 0,
+				shape_mult: 0,
+				bg_x: 0,
+				bg_y: 0,
 				width: 10,
 				height: 10,
 				margin: 1 },
+	// methods
 	constructor: TileSquare,
 	render: function(){
 		this.container.removeChildren()
 	
 		var xp = (this.geometry.margin/2) + (this.geometry.x * (this.geometry.width  + this.geometry.margin))
 		var yp = (this.geometry.margin/2) + (this.geometry.y * (this.geometry.height + this.geometry.margin))
+		
+		this.geometry.bg_x = xp
+		this.geometry.bg_y = yp
 		
 		if (this.shapeData == undefined){
 			// if there is no shape data, then draw a rectangle
@@ -158,20 +167,30 @@ TileSquare.prototype = {
 			var re = new paper.CompoundPath( this.shapeData )	
 			// squares in original design are 102 x 102
 			// so work out the size multiplier for the river shapes
-			var shape_mult = this.geometry.width / 102
+			this.geometry.shape_mult = this.geometry.width / 102
 			// resize the shape data to fit the current size
-			re.scale( shape_mult )
+			re.scale( this.geometry.shape_mult )
 			// work out the position offset (based on original position this shape appears)
-			var off = re.position.y - 67.95
+			this.geometry.yoff = re.position.y - 67.95
 			// position the shape
 			re.position.x = xp + (this.geometry.width/2) 
-			re.position.y = yp + (this.geometry.height/2) + (off * shape_mult)
+			re.position.y = yp + (this.geometry.height/2) + (this.geometry.yoff * this.geometry.shape_mult)
+			// update bg_y
+			this.geometry.bg_y = yp - Math.abs(this.geometry.yoff * this.geometry.shape_mult)
 			// colour the shape
 		}
 		
 		re.fillColor = '#000'
 		//console.log("render...", re, this.geometry.x,this.geometry.y,this.shapeData);
 		this.container.addChild( re )
+		
+		this.container.clipped = true
+		
+		var bg = new paper.Path.Rectangle(new paper.Point(this.geometry.bg_x, this.geometry.bg_y), new paper.Size(this.geometry.width,this.geometry.height*2))
+		bg.fillColor = "#000"
+		this.container.addChild( bg )
+		
+		
 	},
 	appear: function( duration, delay ){
 		this.container.opacity = 0
@@ -183,6 +202,9 @@ TileSquare.prototype = {
 				this.element.opacity = this.opacity
 			})
 		tween.start()
+	},
+	loadImagesAtURL: function( arr, imagesloaded_cb ){
+		
 	}
 }
 
