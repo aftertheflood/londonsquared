@@ -47,6 +47,19 @@ function londonsquared_init()
 	ldnmap[6][3] = { name:"Stn" }
 	
 	
+	var imgs = [
+		"0a940b6299b111e3bedb1231ba1c5001_8.jpg",
+		"0b9f21ec871e11e1989612313815112c_7.jpg",
+		"0b818b40a91a11e2b1d222000a1fb859_7.jpg",
+		"0bc221f06fbc11e3b4c6124d293a9c07_8.jpg",
+		"0c3b67a0393f11e1abb01231381b65e3_7.jpg",
+		"0c8a6422eb9a11e2bfdf22000aa80117_7.jpg",
+		"0d61cf80714b11e2b93522000a1f96b2_7.jpg",
+		"0d332d2e04b811e2b70422000a1e8867_7.jpg"
+	]
+	
+	
+	
 	// work out sizes
 	var scrn_wid = paper.view.size.width
 	var pieces = 8
@@ -81,6 +94,12 @@ function londonsquared_init()
 				
 				var ts = new TileSquare( x, y, geometry, data )
 				ts.appear( 1000, 150 * ( x + y ) )
+				
+				var img_i = Math.round( Math.random() * imgs.length-2 )
+				var img1 = "img/" + imgs[ img_i ]
+				var img2 = "img/" + imgs[ img_i + 1 ]
+				
+				ts.loadImagesAtURL( [ img1, img2 ], function(){} )
 				
 				data.tilesquare = ts
 				
@@ -127,8 +146,8 @@ function TileSquare( x, y, geom, data ){
 	this.geometry.width = geom.tile_width
 	this.geometry.height = geom.tile_height
 	this.geometry.margin = geom.tile_margin
-	this.geometry.x = x
-	this.geometry.y = y
+	this.geometry.tile_x = x
+	this.geometry.tile_y = y
 	if (data.shape != undefined){
 		this.shapeData = data.shape
 	}
@@ -139,26 +158,27 @@ TileSquare.prototype = {
 	// variables
 	shapeData: null,
 	container: null,
-	geometry: { x: 0,
+	geometry: { tile_x: 0,
+				tile_y: 0,
+				x: 0,
 				y: 0,
-				yoff: 0,
-				shape_mult: 0,
-				bg_x: 0,
-				bg_y: 0,
 				width: 10,
 				height: 10,
-				margin: 1 },
+				margin: 1,
+				yoff: 0,
+				shape_mult: 0},
 	// methods
 	constructor: TileSquare,
 	render: function(){
 		this.container.removeChildren()
 	
-		var xp = (this.geometry.margin/2) + (this.geometry.x * (this.geometry.width  + this.geometry.margin))
-		var yp = (this.geometry.margin/2) + (this.geometry.y * (this.geometry.height + this.geometry.margin))
+		var xp = (this.geometry.margin/2) + (this.geometry.tile_x * (this.geometry.width  + this.geometry.margin))
+		var yp = (this.geometry.margin/2) + (this.geometry.tile_y * (this.geometry.height + this.geometry.margin))
 		
-		this.geometry.bg_x = xp
-		this.geometry.bg_y = yp
+		this.geometry.x = xp
+		this.geometry.y = yp
 		
+		// generate the mask
 		if (this.shapeData == undefined){
 			// if there is no shape data, then draw a rectangle
 			var re = new paper.Path.Rectangle(new paper.Point(xp, yp), new paper.Size(this.geometry.width,this.geometry.height))
@@ -172,21 +192,20 @@ TileSquare.prototype = {
 			re.scale( this.geometry.shape_mult )
 			// work out the position offset (based on original position this shape appears)
 			this.geometry.yoff = re.position.y - 67.95
-			// position the shape
+			// position the shape (anchor is middle, so need to add 1/2 width & 1/2 height
 			re.position.x = xp + (this.geometry.width/2) 
 			re.position.y = yp + (this.geometry.height/2) + (this.geometry.yoff * this.geometry.shape_mult)
-			// update bg_y
-			this.geometry.bg_y = yp - Math.abs(this.geometry.yoff * this.geometry.shape_mult)
-			// colour the shape
+			// update bg_y for positioning images later
+			this.geometry.y = yp - Math.abs(this.geometry.yoff * this.geometry.shape_mult)
+			
 		}
 		
 		re.fillColor = '#000'
-		//console.log("render...", re, this.geometry.x,this.geometry.y,this.shapeData);
 		this.container.addChild( re )
 		
 		this.container.clipped = true
 		
-		var bg = new paper.Path.Rectangle(new paper.Point(this.geometry.bg_x, this.geometry.bg_y), new paper.Size(this.geometry.width,this.geometry.height*2))
+		var bg = new paper.Path.Rectangle(new paper.Point(this.geometry.x, this.geometry.y), new paper.Size(this.geometry.width,this.geometry.height*2))
 		bg.fillColor = "#000"
 		this.container.addChild( bg )
 		
@@ -204,7 +223,22 @@ TileSquare.prototype = {
 		tween.start()
 	},
 	loadImagesAtURL: function( arr, imagesloaded_cb ){
+	
+		var logoRaster = new paper.Raster( arr[0] )
+		logoRaster.position.x = this.geometry.x
+		logoRaster.position.y = this.geometry.y
+		logoRaster.scale( this.geometry.width / 320 )  // original size is 640
 		
+		this.container.addChild( logoRaster )
+		
+		logoRaster.onLoad = function(){
+			
+			paper.view.draw()
+			console.log( "loaded image!" )
+			
+			imagesloaded_cb()
+		}
+	
 	}
 }
 
