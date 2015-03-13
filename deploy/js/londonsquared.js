@@ -315,20 +315,24 @@ TileSquare.prototype = {
 		}
 	},
 	showNextImage: function( duration, delay ){
+		// get pointer for this time
+		this._imagePointer++
+		if (this._imagePointer >= this._images.length) this._imagePointer = 0
 		// get the next image to animate
 		var img = this._images[ this._imagePointer ]
 		// put the image in front of everything else
 		img.bringToFront()
 		//img.opacity = 1
-		var _bg = this._bg
+		var self = this
 		// animate the image fading in
 		this._createFadeInTween( img, duration, delay, function(){
-			_bg.opacity = 0
+			self._bg.opacity = 0
+			for(var i=0;i<self._images.length;i++){
+				if (i != self._imagePointer){
+					self._images[i].opacity = 0
+				}
+			}
 		})
-		//
-		// get pointer for next time
-		this._imagePointer++
-		if (this._imagePointer >= this._images.length) this._imagePointer = 0
 	},
 	_imageLoaded: function(cb){
 		// when an image loads this is called, once the number is 0 all images are loaded
