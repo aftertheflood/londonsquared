@@ -129,12 +129,12 @@ function update(){
 
 function loadBitmap( url )
 {
-	var logoRaster = new paper.Raster( url );
-	logoRaster.position.x = 470;
-	logoRaster.position.y = 470;
-	logoRaster.scale(0.65);
+	var remoteImage = new paper.Raster( url );
+	remoteImage.position.x = 470;
+	remoteImage.position.y = 470;
+	remoteImage.scale(0.65);
 	
-	logoRaster.onLoad = function(){
+	remoteImage.onLoad = function(){
 		paper.view.draw();
 		console.log( thisCallToAction );
 		callback(thisCallToAction.type);
@@ -149,15 +149,13 @@ function TileSquare( x, y, geom, data ){
 	this.geometry.tile_x = x
 	this.geometry.tile_y = y
 	if (data.shape != undefined){
-		this.shapeData = data.shape
+		this._shapeData = data.shape
 	}
-	this.container = new paper.Group()
+	this._container = new paper.Group()
 	this.render()
 }
 TileSquare.prototype = {
 	// variables
-	shapeData: null,
-	container: null,
 	geometry: { tile_x: 0,
 				tile_y: 0,
 				x: 0,
@@ -167,10 +165,15 @@ TileSquare.prototype = {
 				margin: 1,
 				yoff: 0,
 				shape_mult: 0},
+	_shapeData: null,
+	_container: null,
+	_imagesToLoad: 0,
+	_images: [],
+	_imagePointer: 0,
 	// methods
 	constructor: TileSquare,
 	render: function(){
-		this.container.removeChildren()
+		this._container.removeChildren()
 	
 		var xp = (this.geometry.margin/2) + (this.geometry.tile_x * (this.geometry.width  + this.geometry.margin))
 		var yp = (this.geometry.margin/2) + (this.geometry.tile_y * (this.geometry.height + this.geometry.margin))
@@ -179,12 +182,12 @@ TileSquare.prototype = {
 		this.geometry.y = yp
 		
 		// generate the mask
-		if (this.shapeData == undefined){
+		if (this._shapeData == undefined){
 			// if there is no shape data, then draw a rectangle
 			var re = new paper.Path.Rectangle(new paper.Point(xp, yp), new paper.Size(this.geometry.width,this.geometry.height))
 		} else {
 			// we have shape data
-			var re = new paper.CompoundPath( this.shapeData )	
+			var re = new paper.CompoundPath( this._shapeData )	
 			// squares in original design are 102 x 102
 			// so work out the size multiplier for the river shapes
 			this.geometry.shape_mult = this.geometry.width / 102
