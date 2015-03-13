@@ -1,9 +1,10 @@
 
+var ldnmap
 
 function londonsquared_init()
 {
 	// generate the layout data for the map
-	var ldnmap = [];
+	ldnmap = []
 	for(i=0;i<8;i++){ ldnmap.push([]) }
 	//
 	ldnmap[0][4] = { name:"Enf" }
@@ -95,11 +96,13 @@ function londonsquared_init()
 				var ts = new TileSquare( x, y, geometry, data )
 				ts.appear( 1000, 150 * ( x + y ) )
 				
-				var img_i = Math.round( Math.random() * imgs.length-2 )
+				var img_i = Math.round( Math.random() * (imgs.length-2) )
 				var img1 = "img/" + imgs[ img_i ]
 				var img2 = "img/" + imgs[ img_i + 1 ]
 				
-				ts.loadImagesAtURL( [ img1, img2 ], function(){} )
+				ts.loadImagesAtURL( [ img1, img2 ], function(){
+					console.log( "loaded an image" )
+				} )
 				
 				data.tilesquare = ts
 				
@@ -110,9 +113,25 @@ function londonsquared_init()
 	paper.view.update();
 	
 	animate();
+	setInterval( animateNextImage, 250 );
 }
 
-
+function animateNextImage(){
+	//console.log("animateNextImage")
+	
+	for(var y=0;y<ldnmap.length;y++){
+		var maprow = ldnmap[y];
+		for(var x=0;x<maprow.length;x++){
+			if (maprow[x]){
+			
+				var data = maprow[x]
+				var ts = data.tilesquare
+				//console.log(x,y,ts)
+				ts.showNextImage( 1000, 150 * ( x + y ) )
+			}
+		}
+	}
+}
 
 function animate( time ) {
 
@@ -204,44 +223,76 @@ TileSquare.prototype = {
 		}
 		
 		re.fillColor = '#000'
-		this.container.addChild( re )
+		this._container.addChild( re )
 		
-		this.container.clipped = true
+		// turn on masking
+		this._container.clipped = true
+		
 		
 		var bg = new paper.Path.Rectangle(new paper.Point(this.geometry.x, this.geometry.y), new paper.Size(this.geometry.width,this.geometry.height*2))
 		bg.fillColor = "#000"
-		this.container.addChild( bg )
+		this._container.addChild( bg )
 		
 		
 	},
 	appear: function( duration, delay ){
-		this.container.opacity = 0
-		tween = new TWEEN.Tween({opacity:0,element:this.container})
-			.to({opacity: 1}, duration)
+		this._createFadeInTween( this._container, duration, delay )
+	
+	},
+	loadImagesAtURL: function( arr, imagesloaded_cb ){
+	
+		for( var i=0; i<arr.length; i++ ){
+			var remoteImage = new paper.Raster( arr[i] )
+			remoteImage.position.x = this.geometry.x + (this.geometry.width / 2)
+			remoteImage.position.y = this.geometry.y + (this.geometry.height / 2)
+			remoteImage.scale( this.geometry.width / (640 * .6) )  // original size is 640, 620 is good to allow no margin
+			
+			remoteImage.opacity = 0
+			
+			this._imagesToLoad++
+			this._container.addChild( remoteImage )
+			this._images.push( remoteImage )
+			var self = this;
+			
+			remoteImage.onLoad = function(){
+				
+				//paper.view.draw()
+				//console.log( "loaded image!" )
+				
+				self._imageLoaded( imagesloaded_cb )
+			}
+		}
+	},
+	showNextImage: function( duration, delay ){
+		// get the next image to animate
+		var img = this._images[ this._imagePointer ]
+		// put the image in front of everything else
+		img.bringToFront()
+		// animate the image fading in
+		this._createFadeInTween( img, duration, delay )
+		//
+		// get pointer for next time
+		this._imagePointer++
+		if (this._imagePointer >= this._images.length) this._imagePointer = 0
+	},
+	_imageLoaded: function(cb){
+		// when an image loads this is called, once the number is 0 all images are loaded
+		this._imagesToLoad--
+		if (this._imagesToLoad <= 0){
+			cb()
+		}
+	},
+	_createFadeInTween: function( item, duration, delay ){
+		// generic function to handle fading in
+		item.opacity = 0
+		tween = new TWEEN.Tween({ opacity:0, element:item })
+			.to({ opacity: 1 }, duration)
 			.delay( delay )
-			.easing(TWEEN.Easing.Quadratic.InOut)
+			.easing( TWEEN.Easing.Quadratic.InOut )
 			.onUpdate(function(){
 				this.element.opacity = this.opacity
 			})
 		tween.start()
-	},
-	loadImagesAtURL: function( arr, imagesloaded_cb ){
-	
-		var logoRaster = new paper.Raster( arr[0] )
-		logoRaster.position.x = this.geometry.x
-		logoRaster.position.y = this.geometry.y
-		logoRaster.scale( this.geometry.width / 320 )  // original size is 640
-		
-		this.container.addChild( logoRaster )
-		
-		logoRaster.onLoad = function(){
-			
-			paper.view.draw()
-			console.log( "loaded image!" )
-			
-			imagesloaded_cb()
-		}
-	
 	}
 }
 
