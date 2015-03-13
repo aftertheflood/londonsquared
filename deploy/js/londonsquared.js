@@ -56,9 +56,45 @@ function londonsquared_init()
 		"0c3b67a0393f11e1abb01231381b65e3_7.jpg",
 		"0c8a6422eb9a11e2bfdf22000aa80117_7.jpg",
 		"0d61cf80714b11e2b93522000a1f96b2_7.jpg",
-		"0d332d2e04b811e2b70422000a1e8867_7.jpg"
+		"0d332d2e04b811e2b70422000a1e8867_7.jpg",
+		"1e425b38cc2a11e181bd12313817987b_7.jpg",
+		"3d5b29febf6a11e180c9123138016265_7.jpg",
+		"5d3aaa52bf5d11e381b00e0f86072ad0_8.jpg",
+		"06d6357a1dbe11e1abb01231381b65e3_7.jpg",
+		"7b384bec9b6d11e181bd12313817987b_7.jpg",
+		"8a7b01ce908e11e18cf91231380fd29b_7.jpg",
+		"9dd5bf5a61f611e19896123138142014_7.jpg",
+		"29f8fddeaa7d11e1af7612313813f8e8_7.jpg",
+		"57e6c3528be711e1b9f1123138140926_7.jpg",
+		"140c0b56d1d611e380ce0002c9e0f5d8_8.jpg",
+		"337dd03a6ac411e1abb01231381b65e3_7.jpg",
+		"0624a06459a811e180c9123138016265_7.jpg",
+		"2113ac0277ef11e181bd12313817987b_7.jpg",
+		"928593_1485382161723861_1459414985_n.jpg",
+		"10349729_688991801137810_772831475_n.jpg",
+		"10513997_247533482037401_1351512266_n.jpg",
+		"10522242_344679629014567_846714450_n.jpg",
+		"10724043_378243909000223_2026375210_n.jpg",
+		"10802867_723970681021744_132432946_n.jpg",
+		"10843847_1541123259467654_1440544410_n.jpg",
+		"10932048_1390630847905709_2082568152_n.jpg",
+		"ad8cd216d3e911e1be9812313804ece1_7.jpg",
+		"b1008ec0643a11e180d51231380fcd7e_7.jpg",
+		"ba6f1f20bb7011e192e91231381b3d7a_7.jpg",
+		"bb3ae43c19c811e2864822000a9f09cf_7.jpg",
+		"c3f828289b9711e1ab011231381052c0_7.jpg",
+		"c57df87666ea11e1989612313815112c_7.jpg",
+		"dbb75e1052a011e180c9123138016265_7.jpg",
+		"dd9084181e8011e1abb01231381b65e3_7.jpg",
+		"ec8276ca624111e180c9123138016265_7.jpg",
+		"f30cdaa63e9411e1abb01231381b65e3_7.jpg",
+		"fc83ae362d7b11e1abb01231381b65e3_7.jpg"
 	]
 	
+	var indexes = []
+	for(var i=0;i<imgs.length;i++){
+		indexes.push(i);
+	}
 	
 	
 	// work out sizes
@@ -96,13 +132,23 @@ function londonsquared_init()
 				var ts = new TileSquare( x, y, geometry, data )
 				ts.appear( 1000, 150 * ( x + y ) )
 				
-				var img_i = Math.round( Math.random() * (imgs.length-2) )
-				var img1 = "img/" + imgs[ img_i ]
-				var img2 = "img/" + imgs[ img_i + 1 ]
+				var i_i = Math.round( Math.random() * (indexes.length-1) )
+				var index_1 = indexes[ i_i ]
+				var index_2 = (index_1 + 1) % imgs.length
+				var index_3 = (index_2 + 1) % imgs.length
+				var index_4 = (index_3 + 1) % imgs.length
+				indexes.splice( i_i, 1 )
+				var img1 = "img/" + imgs[ index_1 ]
+				var img2 = "img/" + imgs[ index_2 ]
+				var img3 = "img/" + imgs[ index_3 ]
+				var img4 = "img/" + imgs[ index_4 ]
 				
-				ts.loadImagesAtURL( [ img1, img2 ], function(){
-					console.log( "loaded an image" )
+				ts.loadImagesAtURL( [ img1, img2, img3, img4 ], function(){
+					//console.log( "loaded an image" )
+					//ts.showNextImage( 1000, 1000 )
 				} )
+				
+				//console.log("created", ts.geometry.tile_x, ts.geometry.tile_y )
 				
 				data.tilesquare = ts
 				
@@ -110,14 +156,16 @@ function londonsquared_init()
 		}
 	}
 	
+	//console.log( ldnmap )
+	
 	paper.view.update();
 	
 	animate();
-	setInterval( animateNextImage, 250 );
+	setInterval( animateNextImage, 3000 );
+	//setTimeout( animateNextImage, 5000 )
 }
 
 function animateNextImage(){
-	//console.log("animateNextImage")
 	
 	for(var y=0;y<ldnmap.length;y++){
 		var maprow = ldnmap[y];
@@ -126,11 +174,12 @@ function animateNextImage(){
 			
 				var data = maprow[x]
 				var ts = data.tilesquare
-				//console.log(x,y,ts)
+				//console.log( x, y, ">", ts.geometry.tile_x, ts.geometry.tile_y )
 				ts.showNextImage( 1000, 150 * ( x + y ) )
 			}
 		}
 	}
+	//console.log("animateNextImage",x,y)
 }
 
 function animate( time ) {
@@ -162,6 +211,7 @@ function loadBitmap( url )
 }
 
 function TileSquare( x, y, geom, data ){
+	this.init()
 	this.geometry.width = geom.tile_width
 	this.geometry.height = geom.tile_height
 	this.geometry.margin = geom.tile_margin
@@ -174,8 +224,15 @@ function TileSquare( x, y, geom, data ){
 	this.render()
 }
 TileSquare.prototype = {
-	// variables
-	geometry: { tile_x: 0,
+	constructor: TileSquare,
+	init: function(){
+		this._shapeData = null
+		this._container = null
+		this._bg = null
+		this._imagesToLoad = 0
+		this._images = []
+		this._imagePointer = 0
+		this.geometry = { tile_x: 0,
 				tile_y: 0,
 				x: 0,
 				y: 0,
@@ -183,14 +240,8 @@ TileSquare.prototype = {
 				height: 10,
 				margin: 1,
 				yoff: 0,
-				shape_mult: 0},
-	_shapeData: null,
-	_container: null,
-	_imagesToLoad: 0,
-	_images: [],
-	_imagePointer: 0,
-	// methods
-	constructor: TileSquare,
+				shape_mult: 0 }
+	},
 	render: function(){
 		this._container.removeChildren()
 	
@@ -229,9 +280,9 @@ TileSquare.prototype = {
 		this._container.clipped = true
 		
 		
-		var bg = new paper.Path.Rectangle(new paper.Point(this.geometry.x, this.geometry.y), new paper.Size(this.geometry.width,this.geometry.height*2))
-		bg.fillColor = "#000"
-		this._container.addChild( bg )
+		this._bg = new paper.Path.Rectangle(new paper.Point(this.geometry.x, this.geometry.y), new paper.Size(this.geometry.width,this.geometry.height*2))
+		this._bg.fillColor = "#000"
+		this._container.addChild( this._bg )
 		
 		
 	},
@@ -268,8 +319,12 @@ TileSquare.prototype = {
 		var img = this._images[ this._imagePointer ]
 		// put the image in front of everything else
 		img.bringToFront()
+		//img.opacity = 1
+		var _bg = this._bg
 		// animate the image fading in
-		this._createFadeInTween( img, duration, delay )
+		this._createFadeInTween( img, duration, delay, function(){
+			_bg.opacity = 0
+		})
 		//
 		// get pointer for next time
 		this._imagePointer++
@@ -282,16 +337,21 @@ TileSquare.prototype = {
 			cb()
 		}
 	},
-	_createFadeInTween: function( item, duration, delay ){
+	_createFadeInTween: function( item, duration, delay, cb ){
 		// generic function to handle fading in
 		item.opacity = 0
-		tween = new TWEEN.Tween({ opacity:0, element:item })
+		var tween = new TWEEN.Tween({ opacity:0, element:item })
 			.to({ opacity: 1 }, duration)
 			.delay( delay )
 			.easing( TWEEN.Easing.Quadratic.InOut )
 			.onUpdate(function(){
 				this.element.opacity = this.opacity
 			})
+		if (cb){
+			tween.onComplete( function(){
+				cb()
+			})
+		}
 		tween.start()
 	}
 }
