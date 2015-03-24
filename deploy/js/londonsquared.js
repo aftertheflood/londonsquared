@@ -1,3 +1,44 @@
+// @license http://opensource.org/licenses/MIT
+// copyright Paul Irish 2015
+ 
+ 
+// Date.now() is supported everywhere except IE8. For IE8 we use the Date.now polyfill
+//   github.com/Financial-Times/polyfill-service/blob/master/polyfills/Date.now/polyfill.js
+// as Safari 6 doesn't have support for NavigationTiming, we use a Date.now() timestamp for relative values
+ 
+// if you want values similar to what you'd get with real perf.now, place this towards the head of the page
+// but in reality, you're just getting the delta between now() calls, so it's not terribly important where it's placed
+ 
+ 
+(function(){
+ 
+  if ("performance" in window == false) {
+      window.performance = {};
+  }
+  
+  Date.now = (Date.now || function () {  // thanks IE8
+	  return new Date().getTime();
+  });
+ 
+  if ("now" in window.performance == false){
+    
+    var nowOffset = Date.now();
+    
+    if (performance.timing && performance.timing.navigationStart){
+      nowOffset = performance.timing.navigationStart
+    }
+ 
+    window.performance.now = function now(){
+      return Date.now() - nowOffset;
+    }
+  }
+ 
+})();
+
+
+
+// London Squared Starts here:
+
 
 var ldnmap
 
@@ -63,14 +104,7 @@ function londonsquared_init()
 		tile_margin: margin
 	};
 	
-	// squares in original design are 102 x 102
-	// so work out the size multiplier for the river shapes
-	// var shape_mult = wid / 102
-	
-	// store the square size as it's always the same
-	var size = new paper.Size( wid, hei )
-	
-	var tween_inc = 0;
+	console.log( "geometry:", geometry );
 	
 	// loop through and generate the tiles
 	for(var y=0;y<ldnmap.length;y++){
@@ -88,8 +122,6 @@ function londonsquared_init()
 			}
 		}
 	}
-	
-	//console.log( ldnmap )
 	
 	paper.view.update();
 	
@@ -178,6 +210,7 @@ function TileSquare( x, y, geom, data ){
 	this.geometry.margin = geom.tile_margin
 	this.geometry.tile_x = x
 	this.geometry.tile_y = y
+	this._id = data.name
 	if (data.shape != undefined){
 		this._shapeData = data.shape
 	}
@@ -187,6 +220,7 @@ function TileSquare( x, y, geom, data ){
 TileSquare.prototype = {
 	constructor: TileSquare,
 	init: function(){
+		this._id = ""
 		this._shapeData = null
 		this._container = null
 		this._bg = null
@@ -245,7 +279,7 @@ TileSquare.prototype = {
 		this._bg.fillColor = "#000"
 		this._container.addChild( this._bg )
 		
-		
+		console.log("render - ",this._id);
 	},
 	appear: function( duration, delay ){
 		this._createFadeInTween( this._container, duration, delay )
@@ -312,6 +346,9 @@ TileSquare.prototype = {
 	},
 	_createFadeInTween: function( item, duration, delay, cb ){
 		// generic function to handle fading in
+		//item.opacity = 1
+		//cb()
+		
 		item.opacity = 0
 		var tween = new TWEEN.Tween({ opacity:0, element:item })
 			.to({ opacity: 1 }, duration)
@@ -326,6 +363,7 @@ TileSquare.prototype = {
 			})
 		}
 		tween.start()
+		
 	}
 }
 
