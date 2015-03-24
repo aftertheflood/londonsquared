@@ -48,55 +48,6 @@ function londonsquared_init()
 	ldnmap[6][3] = { name:"Stn" }
 	
 	
-	var imgs = [
-		"0a940b6299b111e3bedb1231ba1c5001_8.jpg",
-		"0b9f21ec871e11e1989612313815112c_7.jpg",
-		"0b818b40a91a11e2b1d222000a1fb859_7.jpg",
-		"0bc221f06fbc11e3b4c6124d293a9c07_8.jpg",
-		"0c3b67a0393f11e1abb01231381b65e3_7.jpg",
-		"0c8a6422eb9a11e2bfdf22000aa80117_7.jpg",
-		"0d61cf80714b11e2b93522000a1f96b2_7.jpg",
-		"0d332d2e04b811e2b70422000a1e8867_7.jpg",
-		"1e425b38cc2a11e181bd12313817987b_7.jpg",
-		"3d5b29febf6a11e180c9123138016265_7.jpg",
-		"5d3aaa52bf5d11e381b00e0f86072ad0_8.jpg",
-		"06d6357a1dbe11e1abb01231381b65e3_7.jpg",
-		"7b384bec9b6d11e181bd12313817987b_7.jpg",
-		"8a7b01ce908e11e18cf91231380fd29b_7.jpg",
-		"9dd5bf5a61f611e19896123138142014_7.jpg",
-		"29f8fddeaa7d11e1af7612313813f8e8_7.jpg",
-		"57e6c3528be711e1b9f1123138140926_7.jpg",
-		"140c0b56d1d611e380ce0002c9e0f5d8_8.jpg",
-		"337dd03a6ac411e1abb01231381b65e3_7.jpg",
-		"0624a06459a811e180c9123138016265_7.jpg",
-		"2113ac0277ef11e181bd12313817987b_7.jpg",
-		"928593_1485382161723861_1459414985_n.jpg",
-		"10349729_688991801137810_772831475_n.jpg",
-		"10513997_247533482037401_1351512266_n.jpg",
-		"10522242_344679629014567_846714450_n.jpg",
-		"10724043_378243909000223_2026375210_n.jpg",
-		"10802867_723970681021744_132432946_n.jpg",
-		"10843847_1541123259467654_1440544410_n.jpg",
-		"10932048_1390630847905709_2082568152_n.jpg",
-		"ad8cd216d3e911e1be9812313804ece1_7.jpg",
-		"b1008ec0643a11e180d51231380fcd7e_7.jpg",
-		"ba6f1f20bb7011e192e91231381b3d7a_7.jpg",
-		"bb3ae43c19c811e2864822000a9f09cf_7.jpg",
-		"c3f828289b9711e1ab011231381052c0_7.jpg",
-		"c57df87666ea11e1989612313815112c_7.jpg",
-		"dbb75e1052a011e180c9123138016265_7.jpg",
-		"dd9084181e8011e1abb01231381b65e3_7.jpg",
-		"ec8276ca624111e180c9123138016265_7.jpg",
-		"f30cdaa63e9411e1abb01231381b65e3_7.jpg",
-		"fc83ae362d7b11e1abb01231381b65e3_7.jpg"
-	]
-	
-	var indexes = []
-	for(var i=0;i<imgs.length;i++){
-		indexes.push(i);
-	}
-	
-	
 	// work out sizes
 	var scrn_wid = paper.view.size.width
 	var pieces = 8
@@ -131,24 +82,6 @@ function londonsquared_init()
 				
 				var ts = new TileSquare( x, y, geometry, data )
 				ts.appear( 1000, 150 * ( x + y ) )
-				
-				var i_i = Math.round( Math.random() * (indexes.length-1) )
-				var index_1 = indexes[ i_i ]
-				var index_2 = (index_1 + 1) % imgs.length
-				var index_3 = (index_2 + 1) % imgs.length
-				var index_4 = (index_3 + 1) % imgs.length
-				indexes.splice( i_i, 1 )
-				var img1 = "img/" + imgs[ index_1 ]
-				var img2 = "img/" + imgs[ index_2 ]
-				var img3 = "img/" + imgs[ index_3 ]
-				var img4 = "img/" + imgs[ index_4 ]
-				
-				ts.loadImagesAtURL( [ img1, img2, img3, img4 ], function(){
-					//console.log( "loaded an image" )
-					//ts.showNextImage( 1000, 1000 )
-				} )
-				
-				//console.log("created", ts.geometry.tile_x, ts.geometry.tile_y )
 				
 				data.tilesquare = ts
 				
@@ -205,13 +138,34 @@ function loadRemoteData(url){
 			if (req.status==200 || req.status == 0)
 			{
 				var data = JSON.parse( req.responseText );
-				console.log( data.data );
+				//console.log( data.data );
+				console.log( ldnmap );
+				console.log( "----" );
+				for( var i=0; i<data.data.length; i++ ){
+					var key = data.data[i].key;
+					var found = false
+					for(var y=0; y<ldnmap.length; y++ ){
+						var maprow = ldnmap[y];
+						for(var x=0; x<maprow.length; x++ ){
+							var ob = maprow[x]
+							// check it's valid & is the same key
+							if (ob && ob.name == key ){
+								// console.log( "loading ",data.data[i].bg );
+								maprow[x].tilesquare.loadImagesAtURL( data.data[i].bg, function(){} )
+								found = true
+							}
+						}
+						
+					}
+					if (!found) console.log( "didn't find entry for ",key );
+				}
+				
 			} else {
 				console.log("got an error loading data", req.status );
 			}
 		}
 	}
-	console.log("loading data from",url);
+	console.log("loading data from",url, ldnmap);
 	req.open("GET",url,true);
 	req.send(null);
 }
@@ -298,30 +252,38 @@ TileSquare.prototype = {
 	
 	},
 	loadImagesAtURL: function( arr, imagesloaded_cb ){
-	
+		var self = this
+		self._imagesToLoad = arr.length
+		
 		for( var i=0; i<arr.length; i++ ){
-			var remoteImage = new paper.Raster( arr[i] )
-			remoteImage.position.x = this.geometry.x + (this.geometry.width / 2)
-			remoteImage.position.y = this.geometry.y + (this.geometry.height / 2)
-			remoteImage.scale( this.geometry.width / (640 * .6) )  // original size is 640, 620 is good to allow no margin
-			
-			remoteImage.opacity = 0
-			
-			this._imagesToLoad++
-			this._container.addChild( remoteImage )
-			this._images.push( remoteImage )
-			var self = this;
-			
-			remoteImage.onLoad = function(){
+		
+			// preload the images via HTML image object first... just to filter out the ones that won't load
+			var preloadImage = new Image()
+			preloadImage.onload = function(){
+				var remoteImage = new paper.Raster( this.src )
+				remoteImage.position.x = self.geometry.x + (self.geometry.width / 2)
+				remoteImage.position.y = self.geometry.y + (self.geometry.height / 2)
+				remoteImage.scale( self.geometry.width / (306 * .6) )  // original size is 640, 620 is good to allow no margin
 				
-				//paper.view.draw()
-				//console.log( "loaded image!" )
+				remoteImage.opacity = 0
 				
+				self._container.addChild( remoteImage )
+				self._images.push( remoteImage )
 				self._imageLoaded( imagesloaded_cb )
 			}
+			preloadImage.onerror = function(){
+				console.log( "errored...")
+				self._imageLoaded( imagesloaded_cb )
+			}
+			preloadImage.src = arr[i];
+			
 		}
 	},
 	showNextImage: function( duration, delay ){
+	
+		//console.log("showNextImage",this._imagePointer,this._images);
+		// bail if we don't have images yet!
+		if (this._images.length == 0) return;
 		// get pointer for this time
 		this._imagePointer++
 		if (this._imagePointer >= this._images.length) this._imagePointer = 0
