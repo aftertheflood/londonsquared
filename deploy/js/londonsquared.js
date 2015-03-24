@@ -163,6 +163,8 @@ function londonsquared_init()
 	animate();
 	setInterval( animateNextImage, 3000 );
 	//setTimeout( animateNextImage, 5000 )
+	
+	loadRemoteData( "data/londonsquared.json" );
 }
 
 function animateNextImage(){
@@ -194,21 +196,26 @@ function update(){
 	
 }
 
-
-function loadBitmap( url )
-{
-	var remoteImage = new paper.Raster( url );
-	remoteImage.position.x = 470;
-	remoteImage.position.y = 470;
-	remoteImage.scale(0.65);
-	
-	remoteImage.onLoad = function(){
-		paper.view.draw();
-		console.log( thisCallToAction );
-		callback(thisCallToAction.type);
+function loadRemoteData(url){
+	var req = new XMLHttpRequest(); // a new request
+	req.onreadystatechange=function()
+	{
+		if (req.readyState==4)
+		{
+			if (req.status==200 || req.status == 0)
+			{
+				var data = JSON.parse( req.responseText );
+				console.log( data.data );
+			} else {
+				console.log("got an error loading data", req.status );
+			}
+		}
 	}
-
+	console.log("loading data from",url);
+	req.open("GET",url,true);
+	req.send(null);
 }
+
 
 function TileSquare( x, y, geom, data ){
 	this.init()
