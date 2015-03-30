@@ -39,171 +39,213 @@
 
 // London Squared Starts here:
 
-
-var ldnmap
-
-function londonsquared_init()
+function LondonSquaredMap( opts )
 {
-	// generate the layout data for the map
-	ldnmap = []
-	for(i=0;i<8;i++){ ldnmap.push([]) }
-	//
-	ldnmap[0][4] = { name:"Enf" }
-	//
-	ldnmap[1][2] = { name:"Hrw" }
-	ldnmap[1][3] = { name:"Brn" }
-	ldnmap[1][4] = { name:"Hgy" }
-	ldnmap[1][5] = { name:"Wth" }
-	//
-	ldnmap[2][0] = { name:"Hdn" }
-	ldnmap[2][1] = { name:"Elg" }
-	ldnmap[2][2] = { name:"Brt" }
-	ldnmap[2][3] = { name:"Cmd" }
-	ldnmap[2][4] = { name:"Isl" }
-	ldnmap[2][5] = { name:"Hck" }
-	ldnmap[2][6] = { name:"Rdb" }
-	ldnmap[2][7] = { name:"Hvg" }
-	//
-	ldnmap[3][0] = { name:"Hns" }
-	ldnmap[3][1] = { name:"Hms" }
-	ldnmap[3][2] = { name:"Kns" }
-	ldnmap[3][3] = { name:"Wst", shape:"M18.7,124.4c5.4,2.4,10.5,4.6,18.3,4.6c10.4,0,18.3-4.4,26.5-9c8.8-4.9,17.9-10,30.5-10c2.9,0,5.5,0.2,8,0.5V17H0v102.1C8,119.6,13.4,122,18.7,124.4z" }
-	ldnmap[3][4] = { name:"Cty", shape:"M115,112l0.2,0l84.3,12c4.5,0.5,8.6,0.8,12.5,0.9V17H110v94.5C111.6,111.7,113.2,111.9,115,112z" }
-	ldnmap[3][5] = { name:"Tow", shape:"M235.5,121.3c4.5-1.8,8-5.2,11.3-8.6c4.9-4.9,10.5-10.5,19.6-9.7c12.8,1.2,14,17.7,14.6,25.7c0.3,4,1.7,7.2,4.1,9.2c2.1,1.8,5,2.5,8.5,2.1c5.9-0.6,9.2-2.9,8.4-12.7l0-0.6c-0.5-6-1.5-18.5,10.6-19.7c3.5-0.3,6.5,0.2,9.4,1.4V17H220v107.7C225.5,124.3,230.5,123.3,235.5,121.3z" }
-	ldnmap[3][6] = { name:"Nwm", shape:"M332.4,114.4c8.2,5.6,18.5,12.6,38.6,12.6c12.6,0,21.8-3.6,30.7-7.1c7.7-3,14.9-5.9,23.3-5.9c2.5,0,4.8,0.1,7,0.3V17H330v95.8C330.8,113.3,331.6,113.9,332.4,114.4z" }
-	ldnmap[3][7] = { name:"Bar", shape:"M440,17v98.3c2.4,0.4,4.6,0.9,6.9,1.3c5.7,1.2,11.1,2.3,18.1,2.3h77V17H440z" }
-	//
-	ldnmap[4][1] = { name:"Rch" }
-	ldnmap[4][2] = { name:"Wns" }
-	ldnmap[4][3] = { name:"Lam", shape:"M664,8c-10.5,0-18.3,4.4-26.6,9c-8.8,4.9-17.9,10-30.4,10c-9.5,0-15.6-2.7-21.5-5.3c-4.7-2.1-9.2-4.1-15.5-4.6V119h102V8.5C669.5,8.2,666.9,8,664,8z" }
-	ldnmap[4][4] = { name:"Swr", shape:"M768.6,22l-0.2,0l-84.3-12c-1.5-0.1-2.8-0.3-4.2-0.4V119h102V22.9C777.7,22.8,773.3,22.5,768.6,22z" }
-	ldnmap[4][5] = { name:"Lsh", shape:"M883.4,5c-3.2,0.3-4.2,2-3.5,11.1l0.1,0.6c1,12.9-4.2,20.1-15.6,21.3c-0.9,0.1-1.7,0.1-2.6,0.1c-4.6,0-8.7-1.4-11.9-4.1c-4-3.4-6.5-8.6-6.9-14.7c-0.6-8.8-2-17.8-7.4-18.3c-5.1-0.5-8.2,2.4-13.2,7.4c-3.7,3.7-7.9,7.9-14,10.4c-6,2.4-12,3.6-18.5,4V119h102V7.2C889.1,5.6,886.4,4.7,883.4,5z" }
-	ldnmap[4][6] = { name:"Grn", shape:"M995,12c-6.9,0-13.1,2.5-20.3,5.3c-9.1,3.6-19.5,7.7-33.7,7.7c-20.8,0-32.5-6.9-41-12.6V119h102V12.3C999.8,12.1,997.5,12,995,12z" }
-	ldnmap[4][7] = { name:"Bxl", shape:"M1015.2,14.5c-1.7-0.4-3.4-0.7-5.2-1V119h102V17h-77C1027.2,17,1021.1,15.7,1015.2,14.5z" }
-	//
-	ldnmap[5][2] = { name:"Kng" }
-	ldnmap[5][3] = { name:"Mrt" }
-	ldnmap[5][4] = { name:"Crd" }
-	ldnmap[5][5] = { name:"Brm" }
-	//
-	ldnmap[6][3] = { name:"Stn" }
-	
-	
-	// work out sizes
-	var scrn_wid = paper.view.size.width
-	var pieces = 8
-	var margin_amnt = .5
-	var wid = scrn_wid / (pieces+(margin_amnt))
-	var wid_nomargin = scrn_wid / pieces
-	var margin = (wid_nomargin - wid)
-	var hei = wid
-	
-	var geometry = {
-		tile_width: wid,
-		tile_height: hei,
-		tile_margin: margin
-	};
-	
-	console.log( "geometry:", geometry );
-	
-	// loop through and generate the tiles
-	for(var y=0;y<ldnmap.length;y++){
-		var maprow = ldnmap[y];
-		for(var x=0;x<maprow.length;x++){
-			if (maprow[x]){
-			
-				var data = maprow[x]
-				
-				var ts = new TileSquare( x, y, geometry, data )
-				ts.appear( 1000, 150 * ( x + y ) )
-				
-				data.tilesquare = ts
-				
-			}
-		}
+	if (!opts.canvas){
+		console.log("LondonSquaredMap requires opts.canvas to be defined, so nothing to render the map to!")
+	}
+	if (!opts.dataURL){
+		
 	}
 	
-	paper.view.update();
-	
-	animate();
-	setInterval( animateNextImage, 3000 );
-	//setTimeout( animateNextImage, 5000 )
-	
-	loadRemoteData( "data/londonsquared.json" );
-}
-
-function animateNextImage(){
-	
-	for(var y=0;y<ldnmap.length;y++){
-		var maprow = ldnmap[y];
-		for(var x=0;x<maprow.length;x++){
-			if (maprow[x]){
-			
-				var data = maprow[x]
-				var ts = data.tilesquare
-				//console.log( x, y, ">", ts.geometry.tile_x, ts.geometry.tile_y )
-				ts.showNextImage( 1000, 150 * ( x + y ) )
-			}
-		}
-	}
-	//console.log("animateNextImage",x,y)
-}
-
-function animate( time ) {
-
-	requestAnimationFrame( animate );
-
-	TWEEN.update( time );
-	paper.view.update();
-}
-
-function update(){
+	this.init( opts.canvas, opts.dataURL )
 	
 }
-
-function loadRemoteData(url){
-	var req = new XMLHttpRequest(); // a new request
-	req.onreadystatechange=function()
-	{
-		if (req.readyState==4)
-		{
-			if (req.status==200 || req.status == 0)
-			{
-				var data = JSON.parse( req.responseText );
-				//console.log( data.data );
-				console.log( ldnmap );
-				console.log( "----" );
-				for( var i=0; i<data.data.length; i++ ){
-					var key = data.data[i].key;
-					var found = false
-					for(var y=0; y<ldnmap.length; y++ ){
-						var maprow = ldnmap[y];
-						for(var x=0; x<maprow.length; x++ ){
-							var ob = maprow[x]
-							// check it's valid & is the same key
-							if (ob && ob.name == key ){
-								// console.log( "loading ",data.data[i].bg );
-								maprow[x].tilesquare.loadImagesAtURL( data.data[i].bg, function(){} )
-								found = true
-							}
-						}
-						
-					}
-					if (!found) console.log( "didn't find entry for ",key );
+LondonSquaredMap.prototype = {
+	init: function( canvas_id, dataURL ){
+		// Get a reference to the canvas object
+		var canvas = document.getElementById( canvas_id );
+		// Create an empty project and a view for the canvas:
+		paper.setup(canvas);
+	
+		// generate the layout data for the map
+		this._mapGrid = []
+		for(i=0;i<8;i++){ this._mapGrid.push([]) }
+		//
+		this._mapGrid[0][4] = { name:"Enf" }
+		//
+		this._mapGrid[1][2] = { name:"Hrw" }
+		this._mapGrid[1][3] = { name:"Brn" }
+		this._mapGrid[1][4] = { name:"Hgy" }
+		this._mapGrid[1][5] = { name:"Wth" }
+		//
+		this._mapGrid[2][0] = { name:"Hdn" }
+		this._mapGrid[2][1] = { name:"Elg" }
+		this._mapGrid[2][2] = { name:"Brt" }
+		this._mapGrid[2][3] = { name:"Cmd" }
+		this._mapGrid[2][4] = { name:"Isl" }
+		this._mapGrid[2][5] = { name:"Hck" }
+		this._mapGrid[2][6] = { name:"Rdb" }
+		this._mapGrid[2][7] = { name:"Hvg" }
+		//
+		this._mapGrid[3][0] = { name:"Hns" }
+		this._mapGrid[3][1] = { name:"Hms" }
+		this._mapGrid[3][2] = { name:"Kns" }
+		this._mapGrid[3][3] = { name:"Wst", shape:"M18.7,124.4c5.4,2.4,10.5,4.6,18.3,4.6c10.4,0,18.3-4.4,26.5-9c8.8-4.9,17.9-10,30.5-10c2.9,0,5.5,0.2,8,0.5V17H0v102.1C8,119.6,13.4,122,18.7,124.4z" }
+		this._mapGrid[3][4] = { name:"Cty", shape:"M115,112l0.2,0l84.3,12c4.5,0.5,8.6,0.8,12.5,0.9V17H110v94.5C111.6,111.7,113.2,111.9,115,112z" }
+		this._mapGrid[3][5] = { name:"Tow", shape:"M235.5,121.3c4.5-1.8,8-5.2,11.3-8.6c4.9-4.9,10.5-10.5,19.6-9.7c12.8,1.2,14,17.7,14.6,25.7c0.3,4,1.7,7.2,4.1,9.2c2.1,1.8,5,2.5,8.5,2.1c5.9-0.6,9.2-2.9,8.4-12.7l0-0.6c-0.5-6-1.5-18.5,10.6-19.7c3.5-0.3,6.5,0.2,9.4,1.4V17H220v107.7C225.5,124.3,230.5,123.3,235.5,121.3z" }
+		this._mapGrid[3][6] = { name:"Nwm", shape:"M332.4,114.4c8.2,5.6,18.5,12.6,38.6,12.6c12.6,0,21.8-3.6,30.7-7.1c7.7-3,14.9-5.9,23.3-5.9c2.5,0,4.8,0.1,7,0.3V17H330v95.8C330.8,113.3,331.6,113.9,332.4,114.4z" }
+		this._mapGrid[3][7] = { name:"Bar", shape:"M440,17v98.3c2.4,0.4,4.6,0.9,6.9,1.3c5.7,1.2,11.1,2.3,18.1,2.3h77V17H440z" }
+		//
+		this._mapGrid[4][1] = { name:"Rch" }
+		this._mapGrid[4][2] = { name:"Wns" }
+		this._mapGrid[4][3] = { name:"Lam", shape:"M664,8c-10.5,0-18.3,4.4-26.6,9c-8.8,4.9-17.9,10-30.4,10c-9.5,0-15.6-2.7-21.5-5.3c-4.7-2.1-9.2-4.1-15.5-4.6V119h102V8.5C669.5,8.2,666.9,8,664,8z" }
+		this._mapGrid[4][4] = { name:"Swr", shape:"M768.6,22l-0.2,0l-84.3-12c-1.5-0.1-2.8-0.3-4.2-0.4V119h102V22.9C777.7,22.8,773.3,22.5,768.6,22z" }
+		this._mapGrid[4][5] = { name:"Lsh", shape:"M883.4,5c-3.2,0.3-4.2,2-3.5,11.1l0.1,0.6c1,12.9-4.2,20.1-15.6,21.3c-0.9,0.1-1.7,0.1-2.6,0.1c-4.6,0-8.7-1.4-11.9-4.1c-4-3.4-6.5-8.6-6.9-14.7c-0.6-8.8-2-17.8-7.4-18.3c-5.1-0.5-8.2,2.4-13.2,7.4c-3.7,3.7-7.9,7.9-14,10.4c-6,2.4-12,3.6-18.5,4V119h102V7.2C889.1,5.6,886.4,4.7,883.4,5z" }
+		this._mapGrid[4][6] = { name:"Grn", shape:"M995,12c-6.9,0-13.1,2.5-20.3,5.3c-9.1,3.6-19.5,7.7-33.7,7.7c-20.8,0-32.5-6.9-41-12.6V119h102V12.3C999.8,12.1,997.5,12,995,12z" }
+		this._mapGrid[4][7] = { name:"Bxl", shape:"M1015.2,14.5c-1.7-0.4-3.4-0.7-5.2-1V119h102V17h-77C1027.2,17,1021.1,15.7,1015.2,14.5z" }
+		//
+		this._mapGrid[5][2] = { name:"Kng" }
+		this._mapGrid[5][3] = { name:"Mrt" }
+		this._mapGrid[5][4] = { name:"Crd" }
+		this._mapGrid[5][5] = { name:"Brm" }
+		//
+		this._mapGrid[6][3] = { name:"Stn" }
+	
+		
+		// work out sizes
+		var scrn_wid = paper.view.size.width
+		var pieces = 8
+		var margin_amnt = .5
+		var wid = scrn_wid / (pieces+(margin_amnt))
+		var wid_nomargin = scrn_wid / pieces
+		var margin = (wid_nomargin - wid)
+		var hei = wid
+		
+		this.geometry = {
+			tile_width: wid,
+			tile_height: hei,
+			tile_margin: margin
+		};
+		
+		//console.log( "geometry:", this.geometry );
+		
+		this._mapLinear = []
+		
+		// loop through and generate the tiles
+		for( var y=0; y<this._mapGrid.length; y++ ){
+			var maprow = this._mapGrid[y];
+			for(var x=0;x<maprow.length;x++){
+				if (maprow[x]){
+				
+					var data = maprow[x]
+					
+					var ts = new TileSquare( x, y, this.geometry, data )
+					ts.appear( 1000, 150 * ( x + y ) )
+					
+					data.tilesquare = ts
+					this._mapLinear.push( data )
 				}
-				
-			} else {
-				console.log("got an error loading data", req.status );
 			}
 		}
+		
+		this._generateRandomOrder()
+		
+		paper.view.update();
+		
+		var self = this;
+		
+		this.animate();
+		setInterval( function(){ self.animateNextImage() }, 3000 );
+		
+		this.loadRemoteData( dataURL );
+		
+	},
+	animate: function( time ) {
+		
+		var self = this;
+
+		requestAnimationFrame( function(_time){ self.animate(_time) } );
+	
+		TWEEN.update( time );
+		paper.view.update();
+	},
+	animateNextImage: function(){
+	
+		for( var y=0; y < this._mapGrid.length; y++ ){
+			var maprow = this._mapGrid[y];
+			for(var x=0;x<maprow.length;x++){
+				if (maprow[x]){
+				
+					var data = maprow[x]
+					var ts = data.tilesquare
+					//console.log( x, y, ">", ts.geometry.tile_x, ts.geometry.tile_y )
+					ts.showNextImage( 1000, 150 * ( x + y ) )
+				}
+			}
+		}
+		//console.log("animateNextImage",x,y)
+	},
+	loadRemoteData: function(url){
+		var req = new XMLHttpRequest(); // a new request
+		var self = this;
+		req.onreadystatechange=function()
+		{
+			if (req.readyState==4)
+			{
+				if (req.status==200 || req.status == 0) // 200 for a server, 0 for locally
+				{
+					var data = JSON.parse( req.responseText );
+					//console.log( data.data );
+					//console.log( this._mapGrid );
+					//console.log( "----" );
+					for( var i=0; i < data.data.length; i++ ){
+						var key = data.data[i].key;
+						var found = false
+						for(var y=0; y < self._mapGrid.length; y++ ){
+							var maprow = self._mapGrid[y];
+							for(var x=0; x<maprow.length; x++ ){
+								var ob = maprow[x]
+								// check it's valid & is the same key
+								if (ob && ob.name == key ){
+									// console.log( "loading ",data.data[i].bg );
+									maprow[x].tilesquare.loadImagesAtURL( data.data[i].bg, function(){} )
+									found = true
+								}
+							}
+							
+						}
+						if (!found) console.log( "didn't find entry for ", key );
+					}
+					
+				} else {
+					console.log("got an error loading data", req.status );
+				}
+			}
+		}
+		req.open("GET",url,true);
+		req.send(null);
+	},
+	_generateRandomOrder: function(){
+		this._mapPointers = []
+		for( var i=0; i< this._mapLinear; i++){
+			this._mapPointers.push( i )
+		}
+		this._mapPointers = this._fisherYatesShuffle( this._mapPointers )
+	},
+	_fisherYatesShuffle: function(array){
+		// algorithm from https://github.com/coolaj86/knuth-shuffle
+		
+		var currentIndex = array.length, temporaryValue, randomIndex ;
+		
+		// While there remain elements to shuffle...
+		while (0 !== currentIndex) {
+	
+			// Pick a remaining element...
+			randomIndex = Math.floor(Math.random() * currentIndex);
+			currentIndex -= 1;
+	
+			// And swap it with the current element.
+			temporaryValue = array[currentIndex];
+			array[currentIndex] = array[randomIndex];
+			array[randomIndex] = temporaryValue;
+		}
+		return array;
 	}
-	console.log("loading data from",url, ldnmap);
-	req.open("GET",url,true);
-	req.send(null);
 }
 
-
-function TileSquare( x, y, geom, data ){
+function TileSquare( x, y, geom, data )
+{
 	this.init()
 	this.geometry.width = geom.tile_width
 	this.geometry.height = geom.tile_height
@@ -279,7 +321,6 @@ TileSquare.prototype = {
 		this._bg.fillColor = "#000"
 		this._container.addChild( this._bg )
 		
-		console.log("render - ",this._id);
 	},
 	appear: function( duration, delay ){
 		this._createFadeInTween( this._container, duration, delay )
