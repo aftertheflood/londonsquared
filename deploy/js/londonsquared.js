@@ -58,6 +58,8 @@ LondonSquaredMap.prototype = {
 		// Create an empty project and a view for the canvas:
 		paper.setup(canvas);
 	
+		this._dataURL = dataURL
+	
 		// generate the layout data for the map
 		this._mapGrid = []
 		for(i=0;i<8;i++){ this._mapGrid.push([]) }
@@ -146,7 +148,7 @@ LondonSquaredMap.prototype = {
 		var self = this;
 		
 		this.animate();
-		setInterval( function(){ self.animateNextImage() }, 3000 );
+		setInterval( function(){ self.animateNextImage() }, 600 );
 		
 		this.loadRemoteData( dataURL );
 		
@@ -161,20 +163,22 @@ LondonSquaredMap.prototype = {
 		paper.view.update();
 	},
 	animateNextImage: function(){
-	
-		for( var y=0; y < this._mapGrid.length; y++ ){
-			var maprow = this._mapGrid[y];
-			for(var x=0;x<maprow.length;x++){
-				if (maprow[x]){
-				
-					var data = maprow[x]
-					var ts = data.tilesquare
-					//console.log( x, y, ">", ts.geometry.tile_x, ts.geometry.tile_y )
-					ts.showNextImage( 1000, 150 * ( x + y ) )
-				}
-			}
+		//console.log( this._mapPointers )
+		
+		var p = this._mapPointers.shift()
+		var map = this._mapLinear[ p ]
+		var ts = map.tilesquare
+		
+		//console.log( p, map ) //, ts )
+		
+		ts.showNextImage( 500, 0 )
+		
+		if (this._mapPointers.length == 0){
+			this._generateRandomOrder()
+			// get the data again!
+			this.loadRemoteData( this._dataURL );
 		}
-		//console.log("animateNextImage",x,y)
+		
 	},
 	loadRemoteData: function(url){
 		var req = new XMLHttpRequest(); // a new request
@@ -186,9 +190,7 @@ LondonSquaredMap.prototype = {
 				if (req.status==200 || req.status == 0) // 200 for a server, 0 for locally
 				{
 					var data = JSON.parse( req.responseText );
-					//console.log( data.data );
-					//console.log( this._mapGrid );
-					//console.log( "----" );
+					console.log( "loaded data" )
 					for( var i=0; i < data.data.length; i++ ){
 						var key = data.data[i].key;
 						var found = false
@@ -217,8 +219,9 @@ LondonSquaredMap.prototype = {
 		req.send(null);
 	},
 	_generateRandomOrder: function(){
+		
 		this._mapPointers = []
-		for( var i=0; i< this._mapLinear; i++){
+		for( var i=0; i< this._mapLinear.length ; i++){
 			this._mapPointers.push( i )
 		}
 		this._mapPointers = this._fisherYatesShuffle( this._mapPointers )
@@ -268,6 +271,7 @@ TileSquare.prototype = {
 		this._bg = null
 		this._imagesToLoad = 0
 		this._images = []
+		this._imageUrls = []
 		this._imagePointer = 0
 		this.geometry = { tile_x: 0,
 				tile_y: 0,
@@ -328,30 +332,49 @@ TileSquare.prototype = {
 	},
 	loadImagesAtURL: function( arr, imagesloaded_cb ){
 		var self = this
+		
+		// filter out duplicate images from self._images here...
+		for( var i=arr.length-1; i >= 0; i--){
+			var url = arr[i]
+			for( var j=0; j < self._imageUrls.length; j++){
+				//console.log( url, self._images[j].src )
+				if (url == self._imageUrls[j]){
+					//console.log("found duplicate",url)
+					arr.splice( i, 1 )
+				}
+			}
+		}
+		
 		self._imagesToLoad = arr.length
 		
-		for( var i=0; i<arr.length; i++ ){
-		
-			// preload the images via HTML image object first... just to filter out the ones that won't load
-			var preloadImage = new Image()
-			preloadImage.onload = function(){
-				var remoteImage = new paper.Raster( this.src )
-				remoteImage.position.x = self.geometry.x + (self.geometry.width / 2)
-				remoteImage.position.y = self.geometry.y + (self.geometry.height / 2)
-				remoteImage.scale( self.geometry.width / (306 * .6) )  // original size is 640, 620 is good to allow no margin
-				
-				remoteImage.opacity = 0
-				
-				self._container.addChild( remoteImage )
-				self._images.push( remoteImage )
-				self._imageLoaded( imagesloaded_cb )
-			}
-			preloadImage.onerror = function(){
-				console.log( "errored...")
-				self._imageLoaded( imagesloaded_cb )
-			}
-			preloadImage.src = arr[i];
+		if (arr.length > 0){ 
 			
+			for( var i=0; i<arr.length; i++ ){
+			
+				// preload the images via HTML image object first... just to filter out the ones that won't load
+				var preloadImage = new Image()
+				preloadImage.onload = function(){
+					var remoteImage = new paper.Raster( this.src )
+					remoteImage.position.x = self.geometry.x + (self.geometry.width / 2)
+					remoteImage.position.y = self.geometry.y + (self.geometry.height / 2)
+					remoteImage.scale( self.geometry.width / (306 * .6) )  // original size is 640, 620 is good to allow no margin
+					
+					remoteImage.opacity = 0
+					
+					self._container.addChild( remoteImage )
+					self._images.unshift( remoteImage )  // add to the beginning
+					self._imageUrls.unshift( this.src )
+					self._imageLoaded( imagesloaded_cb )
+				}
+				preloadImage.onerror = function(){
+					console.log( "errored...")
+					self._imageLoaded( imagesloaded_cb )
+				}
+				preloadImage.src = arr[i];
+				
+			}
+		} else {
+			self._imageLoaded( imagesloaded_cb )
 		}
 	},
 	showNextImage: function( duration, delay ){
