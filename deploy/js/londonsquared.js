@@ -372,9 +372,12 @@ TileSquare.prototype = {
 					var remoteImage = new paper.Raster( this.src )
 					remoteImage.position.x = self.geometry.x + (self.geometry.width / 2)
 					remoteImage.position.y = self.geometry.y + (self.geometry.height / 2)
-					remoteImage.scale( self.geometry.width / (306 * .6) )  // original size is 640, 620 is good to allow no margin
-					
 					remoteImage.opacity = 0
+					// scale the image to fit the square,
+					var perc = 1
+					//  if the shape is funky then zoom in a bit more
+					if (self._shapeData) perc = 0.6
+					remoteImage.scale( self.geometry.width / (306 * perc) )
 					
 					self._container.addChild( remoteImage )
 					self._images.unshift( remoteImage )  // add to the beginning
