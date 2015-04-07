@@ -47,18 +47,25 @@ function LondonSquaredMap( opts )
 	if (!opts.dataURL){
 		
 	}
+	var colour = "#000"
+	if (opts.colour){
+		colour = opts.colour
+	}
+	var animateTime = 500
+	if (opts.animateTime) animateTime = opts.animateTime
 	
-	this.init( opts.canvas, opts.dataURL )
+	this.init( opts.canvas, opts.dataURL, colour, animateTime )
 	
 }
 LondonSquaredMap.prototype = {
-	init: function( canvas_id, dataURL ){
+	init: function( canvas_id, dataURL, colour, animateTime ){
 		// Get a reference to the canvas object
 		var canvas = document.getElementById( canvas_id );
 		// Create an empty project and a view for the canvas:
 		paper.setup(canvas);
 	
 		this._dataURL = dataURL
+		this._animateTime = animateTime
 	
 		// generate the layout data for the map
 		this._mapGrid = []
@@ -132,8 +139,8 @@ LondonSquaredMap.prototype = {
 				
 					var data = maprow[x]
 					
-					var ts = new TileSquare( x, y, this.geometry, data )
-					ts.appear( 1000, 150 * ( x + y ) )
+					var ts = new TileSquare( x, y, this.geometry, colour, data )
+					//ts.appear( 1000, 150 * ( x + y ) )
 					
 					data.tilesquare = ts
 					this._mapLinear.push( data )
@@ -171,12 +178,17 @@ LondonSquaredMap.prototype = {
 		
 		//console.log( p, map ) //, ts )
 		
-		ts.showNextImage( 500, 0 )
+		ts.showNextImage( this._animateTime, 0 )
 		
 		if (this._mapPointers.length == 0){
+			
 			this._generateRandomOrder()
-			// get the data again!
-			this.loadRemoteData( this._dataURL );
+			
+			this._fullUpdateCounter++
+			if (this._fullUpdateCounter >= 5){
+				// get the data again!
+				this.loadRemoteData( this._dataURL );
+			}
 		}
 		
 	},
@@ -247,7 +259,7 @@ LondonSquaredMap.prototype = {
 	}
 }
 
-function TileSquare( x, y, geom, data )
+function TileSquare( x, y, geom, bgcolour, data )
 {
 	this.init()
 	this.geometry.width = geom.tile_width
@@ -260,6 +272,7 @@ function TileSquare( x, y, geom, data )
 		this._shapeData = data.shape
 	}
 	this._container = new paper.Group()
+	this._bgcolour = bgcolour
 	this.render()
 }
 TileSquare.prototype = {
@@ -322,8 +335,10 @@ TileSquare.prototype = {
 		
 		
 		this._bg = new paper.Path.Rectangle(new paper.Point(this.geometry.x, this.geometry.y), new paper.Size(this.geometry.width,this.geometry.height*2))
-		this._bg.fillColor = "#000"
+		this._bg.fillColor = this._bgcolour; //"#000"
 		this._container.addChild( this._bg )
+		
+		this._bg.opacity = 0
 		
 	},
 	appear: function( duration, delay ){
@@ -391,6 +406,7 @@ TileSquare.prototype = {
 		img.bringToFront()
 		//img.opacity = 1
 		var self = this
+		/*
 		// animate the image fading in
 		this._createFadeInTween( img, duration, delay, function(){
 			self._bg.opacity = 0
@@ -399,6 +415,22 @@ TileSquare.prototype = {
 					self._images[i].opacity = 0
 				}
 			}
+		})
+		*/
+		duration = duration / 2
+		this._bg.bringToFront()
+		this._createFadeInTween( this._bg, duration, delay, function(){
+			
+			img.bringToFront()
+			
+			self._createFadeInTween( img, duration, delay, function(){
+				self._bg.opacity = 0
+				for(var i=0;i<self._images.length;i++){
+					if (i != self._imagePointer){
+						self._images[i].opacity = 0
+					}
+				}
+			})
 		})
 	},
 	_imageLoaded: function(cb){

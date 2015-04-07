@@ -12,16 +12,11 @@
 	<script type="text/javascript">
 		
 		window.onload = function() {
-			/*
-			// Get a reference to the canvas object
-			var canvas = document.getElementById('londonsquared_canvas');
-			// Create an empty project and a view for the canvas:
-			paper.setup(canvas);
 			
-			londonsquared_init(); // init the londonsquared code
-			*/
 			var map = new LondonSquaredMap( { canvas: "londonsquared_canvas", 
-											 dataURL: "data/londonsquared.json" } )
+											 dataURL: "data/londonsquared.json",
+											 colour: "#f00",
+											 animateTime: 1000 } )
 			
 		}
 	
