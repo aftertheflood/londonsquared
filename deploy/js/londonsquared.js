@@ -52,13 +52,16 @@ function LondonSquaredMap( opts )
 		colour = opts.colour
 	}
 	var animateTime = 500
-	if (opts.animateTime) animateTime = opts.animateTime
+	if (opts.tileAnimateTime) animateTime = opts.tileAnimateTime
 	
-	this.init( opts.canvas, opts.dataURL, colour, animateTime )
+	var delayBetweenTiles = 0
+	if (opts.delayBetweenTiles) delayBetweenTiles = opts.delayBetweenTiles
+	
+	this.init( opts.canvas, opts.dataURL, colour, animateTime, delayBetweenTiles )
 	
 }
 LondonSquaredMap.prototype = {
-	init: function( canvas_id, dataURL, colour, animateTime ){
+	init: function( canvas_id, dataURL, colour, animateTime, delayBetweenTiles ){
 		// Get a reference to the canvas object
 		var canvas = document.getElementById( canvas_id );
 		// Create an empty project and a view for the canvas:
@@ -155,7 +158,7 @@ LondonSquaredMap.prototype = {
 		var self = this;
 		
 		this.animate();
-		setInterval( function(){ self.animateNextImage() }, 600 );
+		setInterval( function(){ self.animateNextImage() }, this._animateTime + delayBetweenTiles );
 		
 		this.loadRemoteData( dataURL );
 		
