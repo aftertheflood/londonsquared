@@ -53,41 +53,67 @@ canvas {
 }
 
 
+
+
+
+
+
+
+
+
+
+/* The CSS starts here */
+
+
 h1 {
-	font-size: 5em;
-	font-family: Helvetica, Arial, Sans-serif;
-	color: #FFF;
+	font-size: 8em;
+	font-family: "futura-pt-condensed", Helvetica, Arial, Sans-serif;
+	font-weight: Bold;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	color: #000;
+	text-align: center;
 }
 
 h2 {
-	font-size: 2em;
-	font-family: Helvetica, Arial, Sans-serif;
+	font-size: 1.8em;
+	font-family: "futura-pt", Helvetica, Arial, Sans-serif;
+	font-weight: Bold;
 	color: #FFF;
-	margin: 0 0 20px 0;
+	text-transform: uppercase;
+	text-align: center;
+	letter-spacing: 3px;
+	margin: 0 0 50px 0;
 }
 
 p {
 	font-size: 1em;
-	line-height: 1.3em;
+	line-height: 1.6em;
 	letter-spacing: 1px;
 	font-family: Helvetica, Arial, Sans-serif;
 	color: #FFF;
-	max-width: 550px;
-	margin: 0 0 20px 0;
+	max-width: 650px;
+	margin: 0 0 25px 0;
 }	
 
 #the-header {
 	width: 100%;
-	background-color: #A00;
-	padding: 4%;
+	background-color: #FFF;
+	padding: 80px 0 80px 0;
 }
 
 #the-rest {
 	width: 100%;
 	background-color: #F00;
-	padding: 4%;
 }
-*/
+
+#description-block {
+	margin-right: auto;
+	margin-left: auto;
+	width: 650px;
+	padding: 50px 50px 100px 50px;
+
+}
 
 /* THE CANVAS STUFF GOES HERE */
 
@@ -99,7 +125,9 @@ p {
 	position: relative; 
 	display: block;
 } 
-*/
+
+
+
 
 /* don't need this
 * { margin:0; padding:0; } /* to remove the top and left whitespace */
