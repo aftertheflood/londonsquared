@@ -67,6 +67,12 @@ LondonSquaredMap.prototype = {
 		// Create an empty project and a view for the canvas:
 		paper.setup(canvas);
 	
+		var self = this
+		
+		paper.view.on('resize', function(event){
+			self._resizeMap()
+		})
+		
 		this._dataURL = dataURL
 		this._animateTime = animateTime
 	
@@ -114,22 +120,7 @@ LondonSquaredMap.prototype = {
 		//
 		this._mapGrid[6][3] = { name:"Stn" }
 	
-		
-		// work out sizes
-		var scrn_wid = paper.view.size.width
-		var pieces = 8
-		var margin_amnt = .5
-		var wid = scrn_wid / (pieces+(margin_amnt))
-		var wid_nomargin = scrn_wid / pieces
-		var margin = (wid_nomargin - wid)
-		var hei = wid
-		
-		this.geometry = {
-			tile_width: wid,
-			tile_height: hei,
-			tile_margin: margin
-		};
-		
+		this._generateGeometry()
 		//console.log( "geometry:", this.geometry );
 		
 		this._mapLinear = []
@@ -157,17 +148,44 @@ LondonSquaredMap.prototype = {
 		
 		var self = this;
 		
-		this.animate();
+		this._animate();
 		setInterval( function(){ self.animateNextImage() }, this._animateTime + delayBetweenTiles );
 		
 		this.loadRemoteData( dataURL );
 		
 	},
-	animate: function( time ) {
+	_generateGeometry: function(){
+		
+		// work out sizes
+		var scrn_wid = paper.view.size.width
+		var pieces = 8
+		var margin_amnt = .5
+		var wid = scrn_wid / (pieces+(margin_amnt))
+		var wid_nomargin = scrn_wid / pieces
+		var margin = (wid_nomargin - wid)
+		var hei = wid
+		
+		this.geometry = {
+			tile_width: wid,
+			tile_height: hei,
+			tile_margin: margin
+		};
+		
+	},
+	_resizeMap: function(){
+		
+		this._generateGeometry()
+		for( var t=0; t<this._mapLinear.length; t++ ){
+			var ts = this._mapLinear[t].tilesquare
+			ts.resizeTile( this.geometry )
+			
+		}
+	},
+	_animate: function( time ) {
 		
 		var self = this;
 
-		requestAnimationFrame( function(_time){ self.animate(_time) } );
+		requestAnimationFrame( function(_time){ self._animate(_time) } );
 	
 		TWEEN.update( time );
 		paper.view.update();
@@ -198,6 +216,7 @@ LondonSquaredMap.prototype = {
 	loadRemoteData: function(url){
 		var req = new XMLHttpRequest(); // a new request
 		var self = this;
+		this.queuedImageLoad = [];
 		req.onreadystatechange=function()
 		{
 			if (req.readyState==4)
@@ -205,7 +224,7 @@ LondonSquaredMap.prototype = {
 				if (req.status==200 || req.status == 0) // 200 for a server, 0 for locally
 				{
 					var data = JSON.parse( req.responseText );
-					console.log( "loaded data" )
+					
 					for( var i=0; i < data.data.length; i++ ){
 						var key = data.data[i].key;
 						var found = false
@@ -216,7 +235,8 @@ LondonSquaredMap.prototype = {
 								// check it's valid & is the same key
 								if (ob && ob.name == key ){
 									// console.log( "loading ",data.data[i].bg );
-									maprow[x].tilesquare.loadImagesAtURL( data.data[i].bg, function(){} )
+									maprow[x].tilesquare.queueImagesAtURL( data.data[i].bg )
+									self.queuedImageLoad.push( maprow[x].tilesquare )
 									found = true
 								}
 							}
@@ -225,6 +245,8 @@ LondonSquaredMap.prototype = {
 						if (!found) console.log( "didn't find entry for ", key );
 					}
 					
+					self._loadNextTile()					
+					
 				} else {
 					console.log("got an error loading data", req.status );
 				}
@@ -232,6 +254,17 @@ LondonSquaredMap.prototype = {
 		}
 		req.open("GET",url,true);
 		req.send(null);
+	},
+	_loadNextTile: function(){
+		var self = this
+		if (this.queuedImageLoad.length > 0){
+			var ts = this.queuedImageLoad.shift()
+			ts.loadQueuedImages( function(){
+				self._loadNextTile()
+			})
+		} else {
+			console.log("tiles done loading")
+		}
 	},
 	_generateRandomOrder: function(){
 		
@@ -287,7 +320,7 @@ TileSquare.prototype = {
 		this._bg = null
 		this._imagesToLoad = 0
 		this._images = []
-		this._imageUrls = []
+		this._loadedImageUrls = []
 		this._imagePointer = 0
 		this.geometry = { tile_x: 0,
 				tile_y: 0,
@@ -297,7 +330,8 @@ TileSquare.prototype = {
 				height: 10,
 				margin: 1,
 				yoff: 0,
-				shape_mult: 0 }
+				shape_mult: 0,
+				originalWidth: 10 }
 	},
 	render: function(){
 		this._container.removeChildren()
@@ -329,6 +363,8 @@ TileSquare.prototype = {
 			this.geometry.y = yp - Math.abs(this.geometry.yoff * this.geometry.shape_mult)
 			
 		}
+		this.geometry.originalWidth = this.geometry.width;
+		this._maskShape = re
 		
 		re.fillColor = '#000'
 		this._container.addChild( re )
@@ -348,26 +384,81 @@ TileSquare.prototype = {
 		this._createFadeInTween( this._container, duration, delay )
 	
 	},
-	loadImagesAtURL: function( arr, imagesloaded_cb ){
+	resizeTile: function( geom ){
+		
 		var self = this
 		
+		this.geometry.originalWidth = this.geometry.width
+		
+		this.geometry.width = geom.tile_width
+		this.geometry.height = geom.tile_height
+		this.geometry.margin = geom.tile_margin
+		
+		var xp = (this.geometry.margin/4) + ((this.geometry.tile_x+.5) * (this.geometry.width  + this.geometry.margin))
+		var yp = (this.geometry.margin/4) + ((this.geometry.tile_y+.5) * (this.geometry.height + this.geometry.margin))
+		
+		this.geometry.x = xp
+		this.geometry.y = yp
+		
+		this._bg.position.x = this.geometry.x
+		this._bg.position.y = this.geometry.y
+		this._bg.scale( this.geometry.width / this.geometry.originalWidth )
+	
+		if (this._shapeData == undefined){
+			
+			this._maskShape.position.x = this.geometry.x
+			this._maskShape.position.y = this.geometry.y
+			this._maskShape.scale( this.geometry.width / this.geometry.originalWidth )
+			
+		} else {
+			var orig = this.geometry.originalWidth / 102
+			this.geometry.shape_mult = this.geometry.width / 102
+			// resize the shape data to fit the current size
+			this._maskShape.scale( this.geometry.shape_mult / orig )
+			this._maskShape.position.x = xp
+			this._maskShape.position.y = yp + (this.geometry.yoff * this.geometry.shape_mult)
+			
+		}
+		
+		// resize the images
+		for(var i=0; i<this._images.length; i++){
+			var img = this._images[i]
+			img.position.x = self.geometry.x //+ (self.geometry.width / 2)
+			img.position.y = self.geometry.y //+ (self.geometry.height / 2)
+			
+			// scale the image to fit the square,
+			var perc = 1
+			//  if the shape is funky then zoom in a bit more
+			if (self._shapeData) perc = 0.6
+			img.scale( (self.geometry.width / (306 * perc)) / (self.geometry.originalWidth / (306 * perc)) )
+		}
+		
+	},
+	queueImagesAtURL: function( arr ){
+		var self = this
+	
 		// filter out duplicate images from self._images here...
 		for( var i=arr.length-1; i >= 0; i--){
 			var url = arr[i]
-			for( var j=0; j < self._imageUrls.length; j++){
+			for( var j=0; j < self._loadedImageUrls.length; j++){
 				//console.log( url, self._images[j].src )
-				if (url == self._imageUrls[j]){
+				if (url == self._loadedImageUrls[j]){
 					//console.log("found duplicate",url)
 					arr.splice( i, 1 )
 				}
 			}
 		}
 		
+		self._pendingImageUrls = arr
 		self._imagesToLoad = arr.length
 		
-		if (arr.length > 0){ 
+	},
+	loadQueuedImages: function( imagesloaded_cb ){
+		var self = this
+		
+		if (self._pendingImageUrls.length > 0){ 
 			
-			for( var i=0; i<arr.length; i++ ){
+			for( var i=0; i<self._pendingImageUrls.length; i++ ){
 			
 				// preload the images via HTML image object first... just to filter out the ones that won't load
 				var preloadImage = new Image()
@@ -384,14 +475,14 @@ TileSquare.prototype = {
 					
 					self._container.addChild( remoteImage )
 					self._images.unshift( remoteImage )  // add to the beginning
-					self._imageUrls.unshift( this.src )
+					self._loadedImageUrls.unshift( this.src )
 					self._imageLoaded( imagesloaded_cb )
 				}
 				preloadImage.onerror = function(){
-					console.log( "errored...")
+					//console.log( "errored...")
 					self._imageLoaded( imagesloaded_cb )
 				}
-				preloadImage.src = arr[i];
+				preloadImage.src = self._pendingImageUrls[i];
 				
 			}
 		} else {
