@@ -1,7 +1,10 @@
 <?php
 
-if (php_sapi_name() != "cli") {
-	echo("nope\n");
+$sapi_name = php_sapi_name();
+
+if ($sapi_name != "cli" && $sapi_name != "cgi-fcgi") { // cli is MacOSX / cgi-fcgi is memset
+	echo("nope");
+	//echo("nope (".php_sapi_name().")\n");
 	return;
 } else {
 	echo("running IG cache\n");
@@ -9,54 +12,54 @@ if (php_sapi_name() != "cli") {
 
 // will fetch IG data here...
 
+// create a cache of images, and prevent the same image appearing in multiple boroughs
 $already_used_urls = array();
 
-$ldnmap_pointer = 0;
 $output = array();
 	
 	// Lat Lng from Wikipedia http://en.wikipedia.org/wiki/List_of_London_boroughs
 	
 	$ldnmap = array();
 	
-	$ldnmap[] = array( key=> "Enf", lat=> 51.6538, lng=> 0.0799 ); // Enfield W
+	$ldnmap[] = array( "key"=> "Enf", "lat"=> 51.6538, "lng"=> 0.0799 ); // Enfield W
 	
-	$ldnmap[] = array( key=> "Hrw", lat=> 51.5898, lng=> -0.3346 ); // Harrow W
-	$ldnmap[] = array( key=> "Brn", lat=> 51.5588, lng=> -0.2817 ); // Brent W
-	$ldnmap[] = array( key=> "Hgy", lat=> 51.6000, lng=> -0.1119 ); // Haringay W
-	$ldnmap[] = array( key=> "Wth", lat=> 51.5588, lng=> -0.2817 ); // Waltham Forest W
+	$ldnmap[] = array( "key"=> "Hrw", "lat"=> 51.5898, "lng"=> -0.3346 ); // Harrow W
+	$ldnmap[] = array( "key"=> "Brn", "lat"=> 51.5588, "lng"=> -0.2817 ); // Brent W
+	$ldnmap[] = array( "key"=> "Hgy", "lat"=> 51.6000, "lng"=> -0.1119 ); // Haringay W
+	$ldnmap[] = array( "key"=> "Wth", "lat"=> 51.5588, "lng"=> -0.2817 ); // Waltham Forest W
 	
-	$ldnmap[] = array( key=> "Hdn", lat=> 51.5441, lng=> -0.4760 ); // Hillingdon W
-	$ldnmap[] = array( key=> "Elg", lat=> 51.5130, lng=> -0.3089 ); // Ealing W
-	$ldnmap[] = array( key=> "Brt", lat=> 51.5588, lng=> -0.2817 ); // Brent W
-	$ldnmap[] = array( key=> "Cmd", lat=> 51.5290, lng=> -0.1255 ); // Camden W
-	$ldnmap[] = array( key=> "Isl", lat=> 51.5416, lng=> -0.1022 ); // Islington W
-	$ldnmap[] = array( key=> "Hck", lat=> 51.5450, lng=> -0.0553 ); // Hackney W
-	$ldnmap[] = array( key=> "Rdb", lat=> 51.5590, lng=> 0.0741 ); // Redbridge °E
-	$ldnmap[] = array( key=> "Hvg", lat=> 51.5812, lng=> 0.1837 ); // Havering °E
+	$ldnmap[] = array( "key"=> "Hdn", "lat"=> 51.5441, "lng"=> -0.4760 ); // Hillingdon W
+	$ldnmap[] = array( "key"=> "Elg", "lat"=> 51.5130, "lng"=> -0.3089 ); // Ealing W
+	$ldnmap[] = array( "key"=> "Brt", "lat"=> 51.5588, "lng"=> -0.2817 ); // Brent W
+	$ldnmap[] = array( "key"=> "Cmd", "lat"=> 51.5290, "lng"=> -0.1255 ); // Camden W
+	$ldnmap[] = array( "key"=> "Isl", "lat"=> 51.5416, "lng"=> -0.1022 ); // Islington W
+	$ldnmap[] = array( "key"=> "Hck", "lat"=> 51.5450, "lng"=> -0.0553 ); // Hackney W
+	$ldnmap[] = array( "key"=> "Rdb", "lat"=> 51.5590, "lng"=> 0.0741 ); // Redbridge °E
+	$ldnmap[] = array( "key"=> "Hvg", "lat"=> 51.5812, "lng"=> 0.1837 ); // Havering °E
 	
-	$ldnmap[] = array( key=> "Hns", lat=> 51.4746, lng=> -0.3680 ); // Hounslow °N °W
-	$ldnmap[] = array( key=> "Hms", lat=> 51.4927, lng=> -0.2339 ); // Hammersmith & Fulham °N °W
-	$ldnmap[] = array( key=> "Kns", lat=> 51.5020, lng=> -0.1947 ); // Kensington & Chelsea °N °W
-	$ldnmap[] = array( key=> "Wst", lat=> 51.4973, lng=> -0.1372 ); // Westminster °N °W
-	$ldnmap[] = array( key=> "Cty", lat=> 51.5155, lng=> -0.0922 ); // City °N °W
-	$ldnmap[] = array( key=> "Tow", lat=> 51.5099, lng=> -0.0059 ); // Tower Hamlets °N °W
-	$ldnmap[] = array( key=> "Nwm", lat=> 51.5077, lng=> 0.0469 ); // Newham °N °E
-	$ldnmap[] = array( key=> "Bar", lat=> 51.6252, lng=> -0.1517 ); // Barnet °N °W
+	$ldnmap[] = array( "key"=> "Hns", "lat"=> 51.4746, "lng"=> -0.3680 ); // Hounslow °N °W
+	$ldnmap[] = array( "key"=> "Hms", "lat"=> 51.4927, "lng"=> -0.2339 ); // Hammersmith & Fulham °N °W
+	$ldnmap[] = array( "key"=> "Kns", "lat"=> 51.5020, "lng"=> -0.1947 ); // Kensington & Chelsea °N °W
+	$ldnmap[] = array( "key"=> "Wst", "lat"=> 51.4973, "lng"=> -0.1372 ); // Westminster °N °W
+	$ldnmap[] = array( "key"=> "Cty", "lat"=> 51.5155, "lng"=> -0.0922 ); // City °N °W
+	$ldnmap[] = array( "key"=> "Tow", "lat"=> 51.5099, "lng"=> -0.0059 ); // Tower Hamlets °N °W
+	$ldnmap[] = array( "key"=> "Nwm", "lat"=> 51.5077, "lng"=> 0.0469 ); // Newham °N °E
+	$ldnmap[] = array( "key"=> "Bar", "lat"=> 51.6252, "lng"=> -0.1517 ); // Barnet °N °W
 	
-	$ldnmap[] = array( key=> "Rch", lat=> 51.4479, lng=> -0.3260 ); // Richmond °N °W
-	$ldnmap[] = array( key=> "Wns", lat=> 51.4567, lng=> -0.1910 ); // Wandsworth °N °W
-	$ldnmap[] = array( key=> "Lam", lat=> 51.4607, lng=> -0.1163 ); // Lambeth °N °W
-	$ldnmap[] = array( key=> "Swr", lat=> 51.5035, lng=> -0.0804 ); // Southwark °N °W
-	$ldnmap[] = array( key=> "Lsh", lat=> 51.4452, lng=> -0.0209 ); // Lewisham °N °W
-	$ldnmap[] = array( key=> "Grn", lat=> 51.4892, lng=> 0.0648 ); // Greenwich °N °E
-	$ldnmap[] = array( key=> "Bxl", lat=> 51.4549, lng=> 0.1505 ); // Bexley °N °E
+	$ldnmap[] = array( "key"=> "Rch", "lat"=> 51.4479, "lng"=> -0.3260 ); // Richmond °N °W
+	$ldnmap[] = array( "key"=> "Wns", "lat"=> 51.4567, "lng"=> -0.1910 ); // Wandsworth °N °W
+	$ldnmap[] = array( "key"=> "Lam", "lat"=> 51.4607, "lng"=> -0.1163 ); // Lambeth °N °W
+	$ldnmap[] = array( "key"=> "Swr", "lat"=> 51.5035, "lng"=> -0.0804 ); // Southwark °N °W
+	$ldnmap[] = array( "key"=> "Lsh", "lat"=> 51.4452, "lng"=> -0.0209 ); // Lewisham °N °W
+	$ldnmap[] = array( "key"=> "Grn", "lat"=> 51.4892, "lng"=> 0.0648 ); // Greenwich °N °E
+	$ldnmap[] = array( "key"=> "Bxl", "lat"=> 51.4549, "lng"=> 0.1505 ); // Bexley °N °E
 	
-	$ldnmap[] = array( key=> "Kng", lat=> 51.4085, lng=> -0.3064 ); // Kingston upon Thames °N °W
-	$ldnmap[] = array( key=> "Mrt", lat=> 51.4014, lng=> -0.1958 ); // Merton °N °W
-	$ldnmap[] = array( key=> "Crd", lat=> 51.3714, lng=> -0.0977 ); // Croydon °N °W
-	$ldnmap[] = array( key=> "Brm", lat=> 51.4039, lng=> 0.0198 ); // Bromley °N °E
+	$ldnmap[] = array( "key"=> "Kng", "lat"=> 51.4085, "lng"=> -0.3064 ); // Kingston upon Thames °N °W
+	$ldnmap[] = array( "key"=> "Mrt", "lat"=> 51.4014, "lng"=> -0.1958 ); // Merton °N °W
+	$ldnmap[] = array( "key"=> "Crd", "lat"=> 51.3714, "lng"=> -0.0977 ); // Croydon °N °W
+	$ldnmap[] = array( "key"=> "Brm", "lat"=> 51.4039, "lng"=> 0.0198 ); // Bromley °N °E
 	
-	$ldnmap[] = array( key=> "Stn", lat=> 51.3618, lng=> -0.1945 ); // Sutton °N °W
+	$ldnmap[] = array( "key"=> "Stn", "lat"=> 51.3618, "lng"=> -0.1945 ); // Sutton °N °W
 	
 	
 $t_start = time();
@@ -67,7 +70,7 @@ for( $i=0; $i<count($ldnmap); $i++ ){
 
 
 // turn the array into JSON	
-$json_str = json_encode( array( data => $output ) );
+$json_str = json_encode( array( "data" => $output ) );
 //echo( $json_str . "\n");
 
 // save to a local file
@@ -89,7 +92,7 @@ function grabFeedFromInstagram( $i ){
 	
 	$map = $ldnmap[ $i ];	
 	//var_dump( $map );
-	$url = "https://api.instagram.com/v1/media/search?lat={$map['lat']}&lng={$map['lng']}&distance=100&client_id=365a40f43cd5419eb56a06eeb6677ce5";
+	$url = "https://api.instagram.com/v1/media/search?lat={$map['lat']}&lng={$map['lng']}&distance=4000&client_id=365a40f43cd5419eb56a06eeb6677ce5";
 	
 	// echo $url;
 	
@@ -116,7 +119,7 @@ function grabFeedFromInstagram( $i ){
 	
 	echo( $map["key"] . " (" . count($ret) . ")\n" );
 	
-	$output[] = array( key=> $map["key"], bg=> $ret );
+	$output[] = array( "key" => $map["key"], "bg"=> $ret );
 }
 
 	/*
