@@ -38,16 +38,32 @@ html, body { width: 100%; height: 100%; } /* just to be sure these are full scre
 
 /* ------------------------- LAYOUT ------------------------- */
 #the-header {
-	width: 85%;
-	margin: 0 auto 0 auto;
-	padding: 2rem 0 0 0; }
-@media (max-width: 1050px) { #the-header { padding: 3rem 0 0 0; } }
+	margin: 0 1rem 0 1rem;
+	padding: 1rem 0 0 0; }
+/* @media (max-width: 1050px) { #the-header { padding: 1rem 0 0 0; } } */
+#page-title { width: 70%; }
+#badge {
+	text-align: right;
+	float: right;	
+	position: absolute;
+	top: 1rem;
+	right: 1.2rem; }
+@media (max-width: 1050px) { #badge { top: 1.1rem; right: 1.4rem; }}
+@media (max-width: 750px) { 
+	#badge {
+		text-align: left;
+		float: left;
+		position: relative;
+		top: 0.5rem;
+		margin-left: 1rem;
+		right: 1rem; } }
 #londonsquared_canvas {
 	max-width: 100%;
-	margin: 4rem auto 5rem auto; 
+	margin: 2.5rem auto 5rem auto; 
 	position: relative; 
 	display: block; } 
-@media (max-width: 1050px) { #londonsquared_canvas { max-width: 90%; } }
+@media (max-width: 1050px) { #londonsquared_canvas { max-width: 90%; margin: 3.5rem auto 5rem auto; } }
+@media (max-width: 600px) { #londonsquared_canvas { margin: 4rem auto 5rem auto; } }
 #the-description { width: 100%; }
 #description-block {
 	margin-right: auto;
@@ -89,6 +105,8 @@ a.more-info, a.more-info:link, a.more-info:visited {
 	{ padding: 14px 15px 15px 15px; color: #f00;} }
 
 
+
+
 /* ------------------------- COLORS ------------------------- */
 html {background-color: #fff; }
 #londonsquared_canvas { background-color: #fff; } 
@@ -98,6 +116,7 @@ h1 { color: #222; }
 h2 { color: #fff; }
 h3 { color: #fff; }
 p { color: #fff; }
+#badge p { color: #000; }
 .note { color: #888; }
 a.more-info, a.more-info:link, a.more-info:visited { color: #fff; background-color: #28c0e1; }
 a.more-info:hover, a.more-info:active { color: #000; background-color: #fdff7a; }
@@ -105,19 +124,23 @@ a.more-info:hover, a.more-info:active { color: #000; background-color: #fdff7a; 
 
 
 /* ------------------------- TYPOGRAPHY, ish ------------------------- */
-html { font-size: 30px; }
+html { 
+	font-size: 30px; 
+	text-rendering: optimizeLegibility; 
+	-webkit-font-variant-ligatures: common-ligatures; 
+	font-variant-ligatures: common-ligatures; }
 @media (max-width: 1050px) { html { font-size: 24px; } }
 @media (max-width: 600px) { html { font-size: 16px; } }
 h1 {
 	font-family: "futura-pt-condensed", Helvetica, Arial, Sans-serif;
 	font-weight: Bold;
-	font-size: 6rem;
-	line-height: 5.2rem;
-	letter-spacing: 0.07em;
-	text-align: center;
+	font-size: 4.8rem;
+	line-height: 3.8rem;
+	letter-spacing: 0.03em;
+	text-align: left;
 	text-transform: uppercase; }
-@media (max-width: 1050px) { h1 { font-size: 5rem; line-height: 4.2rem;} }
-@media (max-width: 600px) { h1 { font-size: 4rem; line-height: 3.6rem;} }
+@media (max-width: 1050px) { h1 { font-size: 4.4rem; line-height: 3.6rem;} }
+@media (max-width: 600px) { h1 { font-size: 4rem; line-height: 3.5rem;} }
 h2 {
 	font-family: "futura-pt", Helvetica, Arial, Sans-serif;
 	font-size: 1rem;
@@ -135,6 +158,25 @@ p {
 	font-size: 1rem;
 	line-height: 1.4rem;
 	letter-spacing: 0.05em;}
+@font-face {
+	font-family: 'Tiempos';
+	src: url('/fonts/TiemposTextWeb-Regular.eot'); /* IE9 Compat Modes */
+	src: url('/fonts/TiemposTextWeb-Regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+		url('/fonts/TiemposTextWeb-Regular.woff') format('woff'); /* Pretty Modern Browsers */
+	font-weight: normal;
+	font-style: normal; }
+@font-face {
+	font-family: 'Tiempos';
+	src: url('/fonts/TiemposTextWeb-RegularItalic.eot'); /* IE9 Compat Modes */
+	src: url('/fonts/TiemposTextWeb-RegularItalic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+		url('/fonts/TiemposTextWeb-RegularItalic.woff') format('woff'); /* Pretty Modern Browsers */
+	font-weight: normal;
+	font-style: italic; }
+#badge p {
+	font-family: "Tiempos", Georgia, Times, Serif;
+	font-size: 1rem;
+	line-height: 1rem;
+	letter-spacing: 0; }
 
 
 
@@ -155,5 +197,14 @@ a.more-info:active {
 	-moz-box-shadow: inset 0 2px 6px rgba(0, 0, 0, 1); 
 	box-shadow: inset 0 2px 6px rgba(0, 0, 0, 1); 
 	outline: none; }
- 
+ a.logo, a.logo:link, a.logo:visited { text-decoration: none; border-bottom: none; color: #000; }
+ a.logo:hover, a.logo:active { text-decoration: none; border-bottom: none; color: #fa402a; }
+
+
+
+
+
+
+
+
 

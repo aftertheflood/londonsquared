@@ -374,7 +374,7 @@ TileSquare.prototype = {
 		
 		
 		this._bg = new paper.Path.Rectangle(new paper.Point(this.geometry.x, this.geometry.y), new paper.Size(this.geometry.width,this.geometry.height*2))
-		this._bg.fillColor = this._bgcolour; //"#000"
+		this._bg.fillColor = this._bgcolour; //"#eee"
 		this._container.addChild( this._bg )
 		
 		this._bg.opacity = 0
