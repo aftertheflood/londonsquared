@@ -47,7 +47,7 @@ function LondonSquaredMap( opts )
 	if (!opts.dataURL){
 		
 	}
-	var colour = "#000"
+	var colour = "#eee"
 	if (opts.colour){
 		colour = opts.colour
 	}
@@ -366,7 +366,7 @@ TileSquare.prototype = {
 		this.geometry.originalWidth = this.geometry.width;
 		this._maskShape = re
 		
-		re.fillColor = '#000'
+		re.fillColor = '#eee'
 		this._container.addChild( re )
 		
 		// turn on masking
