@@ -40,8 +40,7 @@ html, body { width: 100%; height: 100%; } /* just to be sure these are full scre
 #the-header {
 	margin: 0 1rem 0 1rem;
 	padding: 1rem 0 0 0; }
-/* @media (max-width: 1050px) { #the-header { padding: 1rem 0 0 0; } } */
-#page-title { width: 70%; }
+#page-title { width: 60%; }
 #badge {
 	text-align: right;
 	float: right;	
@@ -54,7 +53,7 @@ html, body { width: 100%; height: 100%; } /* just to be sure these are full scre
 		text-align: left;
 		float: left;
 		position: relative;
-		top: 0.5rem;
+		top: 0.3rem;
 		margin-left: 1rem;
 		right: 1rem; } }
 #londonsquared_canvas {
@@ -62,8 +61,8 @@ html, body { width: 100%; height: 100%; } /* just to be sure these are full scre
 	margin: 2.5rem auto 5rem auto; 
 	position: relative; 
 	display: block; } 
-@media (max-width: 1050px) { #londonsquared_canvas { max-width: 90%; margin: 3.5rem auto 5rem auto; } }
-@media (max-width: 600px) { #londonsquared_canvas { margin: 4rem auto 5rem auto; } }
+@media (max-width: 1050px) { #londonsquared_canvas { max-width: 90%; margin: 2rem auto 1rem auto; } }
+@media (max-width: 600px) { #londonsquared_canvas { margin: 4rem auto 1.5rem auto; } }
 #the-description { width: 100%; }
 #description-block {
 	margin-right: auto;
@@ -80,7 +79,7 @@ html, body { width: 100%; height: 100%; } /* just to be sure these are full scre
 	#description-block, 
 	#footer-block { 
 		max-width: 700px; 
-		padding: 1.7rem, 2rem, 4rem, 2rem; } }
+		padding: 1rem, 2rem, 4rem, 2rem; } }
 /* ------------ Type-related layout ------------ */
 h2 { margin: 0 0 1.2rem 0; }
 p { margin: 0 0 1rem 0; }
@@ -136,11 +135,10 @@ h1 {
 	font-weight: Bold;
 	font-size: 4.8rem;
 	line-height: 3.8rem;
-	letter-spacing: 0.03em;
 	text-align: left;
 	text-transform: uppercase; }
 @media (max-width: 1050px) { h1 { font-size: 4.4rem; line-height: 3.6rem;} }
-@media (max-width: 600px) { h1 { font-size: 4rem; line-height: 3.5rem;} }
+@media (max-width: 600px) { h1 { font-size: 4rem; line-height: 3.2rem;} }
 h2 {
 	font-family: "futura-pt", Helvetica, Arial, Sans-serif;
 	font-size: 1rem;
