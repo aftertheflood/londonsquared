@@ -47,7 +47,7 @@ function LondonSquaredMap( opts )
 	if (!opts.dataURL){
 		
 	}
-	var colour = "#eee"
+	var colour = "#000"
 	if (opts.colour){
 		colour = opts.colour
 	}
@@ -75,6 +75,7 @@ LondonSquaredMap.prototype = {
 		
 		this._dataURL = dataURL
 		this._animateTime = animateTime
+		this._delayBetweenTiles = delayBetweenTiles
 	
 		// generate the layout data for the map
 		this._mapGrid = []
@@ -149,7 +150,6 @@ LondonSquaredMap.prototype = {
 		var self = this;
 		
 		this._animate();
-		setInterval( function(){ self.animateNextImage() }, this._animateTime + delayBetweenTiles );
 		
 		this.loadRemoteData( dataURL );
 		
@@ -264,6 +264,8 @@ LondonSquaredMap.prototype = {
 			})
 		} else {
 			console.log("tiles done loading")
+			// start animating (if we're set to animate)
+			setInterval( function(){ self.animateNextImage() }, this._animateTime + this._delayBetweenTiles );
 		}
 	},
 	_generateRandomOrder: function(){
@@ -332,6 +334,7 @@ TileSquare.prototype = {
 				yoff: 0,
 				shape_mult: 0,
 				originalWidth: 10 }
+		this._hasLoadedFirstImage = false
 	},
 	render: function(){
 		this._container.removeChildren()
@@ -366,7 +369,7 @@ TileSquare.prototype = {
 		this.geometry.originalWidth = this.geometry.width;
 		this._maskShape = re
 		
-		re.fillColor = '#eee'
+		re.fillColor = '#000'
 		this._container.addChild( re )
 		
 		// turn on masking
@@ -374,10 +377,10 @@ TileSquare.prototype = {
 		
 		
 		this._bg = new paper.Path.Rectangle(new paper.Point(this.geometry.x, this.geometry.y), new paper.Size(this.geometry.width,this.geometry.height*2))
-		this._bg.fillColor = this._bgcolour; //"#eee"
+		this._bg.fillColor = this._bgcolour; //"#000"
 		this._container.addChild( this._bg )
 		
-		this._bg.opacity = 0
+		this._bg.opacity = 1
 		
 	},
 	appear: function( duration, delay ){
@@ -476,11 +479,11 @@ TileSquare.prototype = {
 					self._container.addChild( remoteImage )
 					self._images.unshift( remoteImage )  // add to the beginning
 					self._loadedImageUrls.unshift( this.src )
-					self._imageLoaded( imagesloaded_cb )
+					self._imageLoaded( imagesloaded_cb, remoteImage, true )
 				}
 				preloadImage.onerror = function(){
 					//console.log( "errored...")
-					self._imageLoaded( imagesloaded_cb )
+					self._imageLoaded( imagesloaded_cb, null, false )
 				}
 				preloadImage.src = self._pendingImageUrls[i];
 				
@@ -530,8 +533,12 @@ TileSquare.prototype = {
 			})
 		})
 	},
-	_imageLoaded: function(cb){
+	_imageLoaded: function(cb, img, success){
 		// when an image loads this is called, once the number is 0 all images are loaded
+		if (success == true && this._hasLoadedFirstImage == false){
+			img.opacity = 1
+			this._hasLoadedFirstImage = true
+		}
 		this._imagesToLoad--
 		if (this._imagesToLoad <= 0){
 			cb()
