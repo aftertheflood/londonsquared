@@ -63,9 +63,9 @@ function LondonSquaredMap( opts )
 LondonSquaredMap.prototype = {
 	init: function( canvas_id, dataURL, colour, animateTime, delayBetweenTiles ){
 		// Get a reference to the canvas object
-		var canvas = document.getElementById( canvas_id );
+		this.htmlCanvasElement = document.getElementById( canvas_id );
 		// Create an empty project and a view for the canvas:
-		paper.setup(canvas);
+		paper.setup(this.htmlCanvasElement);
 	
 		var self = this
 		
@@ -153,6 +153,12 @@ LondonSquaredMap.prototype = {
 		
 		this.loadRemoteData( dataURL );
 		
+	},
+	exportMapAsPNG: function(){
+		console.log("londonsquared - exportMapAsPNG")
+		var image = this.htmlCanvasElement.toDataURL("image/png")
+		image.replace("image/png", "image/octet-stream") //Convert image to 'octet-stream' (Just a download, really)
+		window.location.href = image
 	},
 	_generateGeometry: function(){
 		
@@ -376,7 +382,7 @@ TileSquare.prototype = {
 		this._container.clipped = true
 		
 		
-		this._bg = new paper.Path.Rectangle(new paper.Point(this.geometry.x, this.geometry.y), new paper.Size(this.geometry.width,this.geometry.height*2))
+		this._bg = new paper.Path.Rectangle(new paper.Point(this.geometry.x, this.geometry.y - (this.geometry.height /4)), new paper.Size(this.geometry.width,this.geometry.height*2))
 		this._bg.fillColor = this._bgcolour; //"#000"
 		this._container.addChild( this._bg )
 		
@@ -404,7 +410,7 @@ TileSquare.prototype = {
 		this.geometry.y = yp
 		
 		this._bg.position.x = this.geometry.x
-		this._bg.position.y = this.geometry.y
+		this._bg.position.y = this.geometry.y - (this.geometry.height/4)
 		this._bg.scale( this.geometry.width / this.geometry.originalWidth )
 	
 		if (this._shapeData == undefined){
