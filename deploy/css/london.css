@@ -102,10 +102,15 @@ html, body { width: 100%; height: 100%; } /* just to be sure these are full scre
         max-width: 850px;
         padding: 0 2rem 0 2rem;
     }
-    .chloropleth {
+    @media (max-width: 1050px) { .map-example { max-width: 700px; } }
+    @media (max-width: 600px) { .map-example { max-width: 500px; } }
+   .chloropleth {
         position: relative;
         display: block;
+        max-width: 850px;
     }
+    @media (max-width: 1050px) { .chloropleth { max-width: 700px; } }
+    @media (max-width: 600px) { .chloropleth { max-width: 500px; } }
 /*  Type-related layout ------------ */
 h2 { margin: 0 0 1.2rem 0; }
 p { margin: 0 0 1rem 0; }
@@ -138,13 +143,19 @@ a.more-info, a.more-info:link, a.more-info:visited {
 
 /* COLORS 
 --------------------------------------------------------------- */
-html {background-color: #fff; }
+html { background-color: #fff; }
 h1 { color: #333; }
 h2 { color: #fff; }
 h3 { color: #333; }
 p { color: #fff; }
-a.more-info, a.more-info:link, a.more-info:visited { color: #fff; background-color: #28c0e1; }
-a.more-info:hover, a.more-info:active { color: #000; background-color: #fdff7a; }
+a.more-info, a.more-info:link, a.more-info:visited { 
+    color: #fff; 
+    background-color: #28c0e1; 
+}
+a.more-info:hover, a.more-info:active { 
+    color: #000; 
+    background-color: #fdff7a; 
+}
 #londonsquared_canvas { background-color: #fff; } 
 #the-description { background-color: #fa402a; }
 #the-pitch { background-color: #222; }
