@@ -44,9 +44,6 @@ function LondonSquaredMap( opts )
 	if (!opts.canvas){
 		console.log("LondonSquaredMap requires opts.canvas to be defined, so nothing to render the map to!")
 	}
-	if (!opts.dataURL){
-		
-	}
 	var colour = "#000"
 	if (opts.colour){
 		colour = opts.colour
@@ -57,11 +54,17 @@ function LondonSquaredMap( opts )
 	var delayBetweenTiles = 0
 	if (opts.delayBetweenTiles) delayBetweenTiles = opts.delayBetweenTiles
 	
-	this.init( opts.canvas, opts.dataURL, colour, animateTime, delayBetweenTiles )
+	this.init( opts.canvas, colour, animateTime, delayBetweenTiles )
 	
+	// favour a URL of data over a raw chunk of data (shouldn't have both)
+	if (opts.dataURL != undefined){
+		this._loadRemoteData( opts.dataURL )
+	} else if (opts.data != undefined){
+		this._loadJsonData( opts.data )
+	}
 }
 LondonSquaredMap.prototype = {
-	init: function( canvas_id, dataURL, colour, animateTime, delayBetweenTiles ){
+	init: function( canvas_id, colour, animateTime, delayBetweenTiles ){
 		// Get a reference to the canvas object
 		this.htmlCanvasElement = document.getElementById( canvas_id );
 		// Create an empty project and a view for the canvas:
@@ -73,7 +76,6 @@ LondonSquaredMap.prototype = {
 			self._resizeMap()
 		})
 		
-		this._dataURL = dataURL
 		this._animateTime = animateTime
 		this._delayBetweenTiles = delayBetweenTiles
 	
@@ -151,13 +153,13 @@ LondonSquaredMap.prototype = {
 		
 		this._animate();
 		
-		this.loadRemoteData( dataURL );
 		
 	},
 	exportMapAsPNG: function(){
 		console.log("londonsquared - exportMapAsPNG")
 		var image = this.htmlCanvasElement.toDataURL("image/png")
-		image.replace("image/png", "image/octet-stream") //Convert image to 'octet-stream' (Just a download, really)
+		//Convert image to 'octet-stream' to force a download (otherwise it loads in the browser window)
+		image = image.replace("image/png", "image/octet-stream") 
 		window.location.href = image
 	},
 	_generateGeometry: function(){
@@ -214,58 +216,79 @@ LondonSquaredMap.prototype = {
 			this._fullUpdateCounter++
 			if (this._fullUpdateCounter >= 5){
 				// get the data again!
-				this.loadRemoteData( this._dataURL );
+				if (this._dataURL != undefined){
+					this._loadRemoteData( this._dataURL )
+				}
 			}
 		}
 		
 	},
-	loadRemoteData: function(url){
-		var req = new XMLHttpRequest(); // a new request
-		var self = this;
-		this.queuedImageLoad = [];
+	_loadRemoteData: function(url){
+		this._dataURL = url
+		var req = new XMLHttpRequest() // a new request
+		var self = this
 		req.onreadystatechange=function()
 		{
 			if (req.readyState==4)
 			{
 				if (req.status==200 || req.status == 0) // 200 for a server, 0 for locally
 				{
-					var data = JSON.parse( req.responseText );
-					
-					for( var i=0; i < data.data.length; i++ ){
-						var key = data.data[i].key;
-						var found = false
-						for(var y=0; y < self._mapGrid.length; y++ ){
-							var maprow = self._mapGrid[y];
-							for(var x=0; x<maprow.length; x++ ){
-								var ob = maprow[x]
-								// check it's valid & is the same key
-								if (ob && ob.name == key ){
-									// console.log( "loading ",data.data[i].bg );
-									maprow[x].tilesquare.queueImagesAtURL( data.data[i].bg )
-									self.queuedImageLoad.push( maprow[x].tilesquare )
-									found = true
-								}
-							}
-							
-						}
-						if (!found) console.log( "didn't find entry for ", key );
-					}
-					
-					self._loadNextTile()					
+					var data = JSON.parse( req.responseText ) // get the response and turn it into JSON
+					self._parseData( data )
 					
 				} else {
-					console.log("got an error loading data", req.status );
+					console.log("got an error loading data", req.status )
 				}
 			}
 		}
 		req.open("GET",url,true);
 		req.send(null);
 	},
+	_loadJsonData: function( json_str ){
+		console.log( json_str )
+		var data = JSON.parse( json_str ) // turn the JSON string into data (validation could/should go here)
+		this._parseData( data )
+	},
+	_parseData: function( data ){
+		var self = this
+		this.queuedImageLoad = []
+		// loop through the data
+		for( var i=0; i < data.data.length; i++ ){
+			var thisdata = data.data[i]
+			console.log( thisdata )
+			var key = thisdata.key
+			var found = false
+			// now loop through the grid to find a match
+			for(var y=0; y < self._mapGrid.length; y++ ){
+				var maprow = self._mapGrid[y];
+				for(var x=0; x<maprow.length; x++ ){
+					var ob = maprow[x]
+					// check it's valid & is the same key
+					if (ob && ob.name == key ){
+						// we have a match!!
+						// console.log( "loading ",data.data[i].bg );
+						if (thisdata.bg != undefined){
+							maprow[x].tilesquare.queueImagesAtURL( thisdata.bg )
+						}
+						if (thisdata.data != undefined){
+							maprow[x].tilesquare.setData( thisdata.data )
+						}
+						self.queuedImageLoad.push( maprow[x].tilesquare )
+						found = true
+					}
+				}
+				
+			}
+			if (!found) console.log( "didn't find entry for ", key );
+		}
+		
+		self._loadNextTile()	
+	},
 	_loadNextTile: function(){
 		var self = this
 		if (this.queuedImageLoad.length > 0){
 			var ts = this.queuedImageLoad.shift()
-			ts.loadQueuedImages( function(){
+			ts.loadTile( function(){
 				self._loadNextTile()
 			})
 		} else {
@@ -341,6 +364,7 @@ TileSquare.prototype = {
 				shape_mult: 0,
 				originalWidth: 10 }
 		this._hasLoadedFirstImage = false
+		this._pendingImageUrls = []
 	},
 	render: function(){
 		this._container.removeChildren()
@@ -443,6 +467,9 @@ TileSquare.prototype = {
 		}
 		
 	},
+	setData: function( d ){
+		// do something with the data here...
+	},
 	queueImagesAtURL: function( arr ){
 		var self = this
 	
@@ -462,7 +489,7 @@ TileSquare.prototype = {
 		self._imagesToLoad = arr.length
 		
 	},
-	loadQueuedImages: function( imagesloaded_cb ){
+	loadTile: function( imagesloaded_cb ){
 		var self = this
 		
 		if (self._pendingImageUrls.length > 0){ 
