@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>London Squared</title>
+	<link rel="stylesheet" type="text/css" href="css/london.css">
+	<script src="//use.typekit.net/jac3auh.js"></script>
+	<script>try{Typekit.load();}catch(e){}</script>
+	<script type="text/javascript" src="js/paper-full.min.js"></script>
+	<script type="text/javascript" src="js/RequestAnimationFrame.js"></script>
+	<script type="text/javascript" src="js/Tween.js"></script>
+	<script type="text/javascript" src="js/window-size.js"></script>
+	<script type="text/javascript" src="js/londonsquared.js"></script>
+	<script type="text/javascript">
+		
+		window.onload = function() {
+			/*
+			var map = new LondonSquaredMap( { canvas: "londonsquared_canvas", 
+											 dataURL: "data/londonsquared.json",
+											 colour: "#fa402a",
+											 tileAnimateTime: 200,
+											 delayBetweenTiles: 200 } )
+			*/
+		}
+		function processForm(form){
+			var boroughs = ["enf","hrw","hgy","wth",
+						"hdn","elg","brt","cmd","isl","hck","rdb","hvg",
+						"hns","hms","kns","wst","cty","tow","nwm","bar",
+						"rch","wns","lam","swr","lsh","grn","bxl",
+						"kng","mrt","crd"]
+			
+			var str = "";
+			
+			var max = 0
+			var min = 9007199254740991
+			for( var b=0; b < boroughs.length; b++ ){
+				//console.log( "boroughs> " + b + ": " + boroughs[b] + " " + form[b].value ) 
+				var borough = boroughs[b]
+				var val = form[b].value
+				max = Math.max( val, max )
+				min = Math.min( val, min )
+				//str += borough+': <input type="text" name="'+borough+'" value="" /><br /> \n'
+				//console.log( str )
+			}
+			var div = document.getElementById('exportedcode')
+			div.innerHTML = str
+		}
+		
+	</script>
+
+</head>
+<body>
+
+	<section id="the-form">
+		<form name="input_values" action="">
+			Enfield: <input type="text" name="enf" value="" /><br />
+			Harrow: <input type="text" name="hrw" value="" /><br />
+			Haringay: <input type="text" name="hgy" value="" /><br />
+			wth: <input type="text" name="wth" value="" /><br /> 
+			hdn: <input type="text" name="hdn" value="" /><br /> 
+			elg: <input type="text" name="elg" value="" /><br /> 
+			brt: <input type="text" name="brt" value="" /><br /> 
+			Camden: <input type="text" name="cmd" value="" /><br /> 
+			Islington: <input type="text" name="isl" value="" /><br /> 
+			Hackney: <input type="text" name="hck" value="" /><br /> 
+			rdb: <input type="text" name="rdb" value="" /><br /> 
+			hvg: <input type="text" name="hvg" value="" /><br /> 
+			Hounslow: <input type="text" name="hns" value="" /><br /> 
+			Hammersmith & Fulham: <input type="text" name="hms" value="" /><br /> 
+			Kensington: <input type="text" name="kns" value="" /><br /> 
+			Westminster: <input type="text" name="wst" value="" /><br /> 
+			City: <input type="text" name="cty" value="" /><br /> 
+			Tower Hamlets: <input type="text" name="tow" value="" /><br /> 
+			nwm: <input type="text" name="nwm" value="" /><br /> 
+			bar: <input type="text" name="bar" value="" /><br /> 
+			rch: <input type="text" name="rch" value="" /><br /> 
+			wns: <input type="text" name="wns" value="" /><br /> 
+			lam: <input type="text" name="lam" value="" /><br /> 
+			swr: <input type="text" name="swr" value="" /><br /> 
+			lsh: <input type="text" name="lsh" value="" /><br /> 
+			grn: <input type="text" name="grn" value="" /><br /> 
+			bxl: <input type="text" name="bxl" value="" /><br /> 
+			kng: <input type="text" name="kng" value="" /><br /> 
+			mrt: <input type="text" name="mrt" value="" /><br /> 
+			crd: <input type="text" name="crd" value="" /><br /> 
+
+			
+			
+			<input type="button" name="button" onClick="processForm(this.form)" value="GO!" />
+		</form>
+	
+	</section>
+	
+	<section id="the-export">
+		<div id="exportedcode">
+		
+		</div>
+	
+	</section>
+
+
+</body>
+</html>
