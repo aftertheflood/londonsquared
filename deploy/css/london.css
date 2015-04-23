@@ -1,27 +1,28 @@
-/*	http://meyerweb.com/eric/tools/css/reset/     
-	v2.0 | 20110126
-	License: none (public domain) */
+/*    http://meyerweb.com/eric/tools/css/reset/     
+    v2.0 | 20110126
+    License: none (public domain) */
 html, body, div, span, applet, object, iframe, 
 h1, h2, h3, h4, h5, h6, 
 p, blockquote, pre, a, abbr, acronym, address, big, 
 cite, code, del, dfn, em, img, ins, kbd, q, s, 
 samp, small, strike, strong, sub, sup, tt, var, b, u, 
 i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, 
-legend, table, caption, tbody, tfoot, thead, tr, th, td, 
-article, aside, canvas, details, embed, figure, figcaption, 
-footer, header, hgroup, menu, nav, output, ruby, section, 
-summary, time, mark, audio, video { 
-	margin: 0; 
-	padding: 0; 
-	border: 0; 
-	font-size: 100%; 
-	font: inherit; 
-	vertical-align: baseline; 
+legend, table, caption, tbody, tfoot, thead, tr, th, 
+td, article, aside, canvas, details, embed, figure, 
+figcaption, footer, header, hgroup, menu, nav, output, 
+ruby, section, summary, time, mark, audio, video { 
+    margin: 0; 
+    padding: 0; 
+    border: 0; 
+    font-size: 100%; 
+    font: inherit; 
+    vertical-align: baseline; 
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section { 
-	display: block; }
+    display: block; 
+}
 body { line-height: 1; }
 ol, ul { list-style: none; }
 blockquote, q { quotes: none; }
@@ -32,171 +33,221 @@ canvas { width: 1; height: 1; display: block; }
 
 
 
+
 html, body { width: 100%; height: 100%; } /* just to be sure these are full screen*/
 
 
 
-/* ------------------------- LAYOUT ------------------------- */
+
+/*  LAYOUT 
+--------------------------------------------------------------- */
 #the-header {
-	margin: 0 1rem 0 1rem;
-	padding: 1rem 0 0 0; }
-#page-title { width: 60%; }
-#badge {
-	text-align: right;
-	float: right;	
-	position: absolute;
-	top: 1rem;
-	right: 1.2rem; }
-@media (max-width: 1050px) { #badge { top: 1.1rem; right: 1.4rem; }}
-@media (max-width: 750px) { 
-	#badge {
-		text-align: left;
-		float: left;
-		position: relative;
-		top: 0.3rem;
-		margin-left: 1rem;
-		right: 1rem; } }
+    margin: 0 1rem 0 1rem;
+    padding: 1rem 0 0 0; 
+}
+    .page-title { width: 60%; }
+    .badge {
+        margin: 0.2rem 0 0 0.2rem; 
+    }    
+    @media (max-width: 1050px) { .badge { margin: 0.4rem 0 0 0.2rem; } }
+    @media (max-width: 750px) { .badge { margin: 1rem 0 0 0.2rem; } }
+    .photos-from {
+        text-align: right;
+        float: right;    
+        position: absolute;
+        top: 1rem;
+        right: 1.2rem; 
+    }
+    @media (max-width: 1050px) { .photos-from { top: 1.1rem; right: 1.3rem; }}
+    @media (max-width: 750px) { 
+        .photos-from {
+            text-align: left;
+            float: left;
+            position: relative;
+            top: 0.25rem;
+            margin: 0 0 1rem 1.5rem; 
+        } 
+    }
 #londonsquared_canvas {
-	max-width: 100%;
-	margin: 2.5rem auto 5rem auto; 
-	position: relative; 
-	display: block; } 
+    max-width: 100%;
+    margin: 2.5rem auto 5rem auto; 
+    position: relative; 
+    display: block; 
+} 
 @media (max-width: 1050px) { #londonsquared_canvas { max-width: 90%; margin: 2rem auto 1rem auto; } }
+@media (max-width: 750px) { #londonsquared_canvas { margin: 3rem auto 1rem auto; } }
 @media (max-width: 600px) { #londonsquared_canvas { margin: 4rem auto 1.5rem auto; } }
 #the-description { width: 100%; }
-#description-block {
-	margin-right: auto;
-	margin-left: auto;
-	max-width: 850px;
-	padding: 3rem 2rem 2rem 2rem; }
+    #description-block {
+        margin-right: auto;
+        margin-left: auto;
+        max-width: 850px;
+        padding: 3rem 2rem 2rem 2rem; 
+    }
+    @media (max-width: 1050px) { #description-block { max-width: 700px; padding: 2.5rem 2rem 1.5rem 2rem; } }
+    @media (max-width: 600px) { #description-block { padding: 2rem 2rem 1rem 2rem; } }
+#the-pitch { width: 100%; }
+    #pitch-block {
+        margin-right: auto;
+        margin-left: auto;
+        max-width: 850px;
+        padding: 3rem 2rem 1.2rem 2rem; 
+    }
+    @media (max-width: 1050px) { #pitch-block { max-width: 700px; padding: 2.5rem 2rem 1.5rem 2rem; } }
+    @media (max-width: 600px) { #pitch-block { padding: 2rem 2rem 2rem 2rem; } }
 #the-footer { width: 100%; }
-#footer-block {
-	margin-right: auto;
-	margin-left: auto;
-	max-width: 850px;
-	padding: 3rem 2rem 4rem 2rem; }
-@media (max-width: 1050px) { 
-	#description-block, 
-	#footer-block { 
-		max-width: 700px; 
-		padding: 1rem, 2rem, 4rem, 2rem; } }
-/* ------------ Type-related layout ------------ */
+    .map-example { 
+        margin-right: auto;
+        margin-left: auto;
+        max-width: 850px;
+        padding: 0 2rem 0 2rem;
+    }
+    .chloropleth {
+        position: relative;
+        display: block;
+    }
+/*  Type-related layout ------------ */
 h2 { margin: 0 0 1.2rem 0; }
 p { margin: 0 0 1rem 0; }
-/* ------------ Link layout ------------ */
+p.note { margin: 0; }
+/*  Link layout ------------ */
 a.more-info, a.more-info:link, a.more-info:visited {
-	margin: 0 0 1rem 0;
-	padding: 18px 22px 22px 22px;
-	display: inline-block; }
+    margin: 0 0 1rem 0;
+    padding: 18px 22px 22px 22px;
+    display: inline-block; 
+}
 @media (max-width: 1050px) { 
-	a.more-info, 
-	a.more-info:link, 
-	a.more-info:visited,  
-	a.more-info:hover, 
-	a.more-info:active
-	{ padding: 15px 18px 18px 18px; } }
+    a.more-info, 
+    a.more-info:link, 
+    a.more-info:visited,  
+    a.more-info:hover, 
+    a.more-info:active
+    { padding: 15px 18px 18px 18px; } 
+}
 @media (max-width: 600px) { 
-	a.more-info, 
-	a.more-info:link, 
-	a.more-info:visited,  
-	a.more-info:hover, 
-	a.more-info:active
-	{ padding: 14px 15px 15px 15px; color: #f00;} }
+    a.more-info, 
+    a.more-info:link, 
+    a.more-info:visited,  
+    a.more-info:hover, 
+    a.more-info:active
+    { padding: 14px 15px 15px 15px; color: #f00;} 
+}
 
 
 
 
-/* ------------------------- COLORS ------------------------- */
+/* COLORS 
+--------------------------------------------------------------- */
 html {background-color: #fff; }
-#londonsquared_canvas { background-color: #fff; } 
-#the-description { background-color: #fa402a; }
-#the-footer { background-color: #222; }
-h1 { color: #222; }
+h1 { color: #333; }
 h2 { color: #fff; }
-h3 { color: #fff; }
+h3 { color: #333; }
 p { color: #fff; }
-#badge p { color: #000; }
-.note { color: #888; }
 a.more-info, a.more-info:link, a.more-info:visited { color: #fff; background-color: #28c0e1; }
 a.more-info:hover, a.more-info:active { color: #000; background-color: #fdff7a; }
+#londonsquared_canvas { background-color: #fff; } 
+#the-description { background-color: #fa402a; }
+#the-pitch { background-color: #222; }
+#the-footer { background-color: #222; }
+.badge { color: #333; }
+.note { color: #888; }
 
 
 
-/* ------------------------- TYPOGRAPHY, ish ------------------------- */
+
+/* TYPOGRAPHY, ish 
+--------------------------------------------------------------- */
 html { 
-	font-size: 30px; 
-	text-rendering: optimizeLegibility; 
-	-webkit-font-variant-ligatures: common-ligatures; 
-	font-variant-ligatures: common-ligatures; }
+    font-size: 30px; 
+    text-rendering: optimizeLegibility; 
+    -webkit-font-variant-ligatures: common-ligatures; 
+    font-variant-ligatures: common-ligatures; 
+}
 @media (max-width: 1050px) { html { font-size: 24px; } }
 @media (max-width: 600px) { html { font-size: 16px; } }
+
 h1 {
-	font-family: "futura-pt-condensed", Helvetica, Arial, Sans-serif;
-	font-weight: Bold;
-	font-size: 4.8rem;
-	line-height: 3.8rem;
-	text-align: left;
-	text-transform: uppercase; }
+    font-family: "futura-pt-condensed", Helvetica, Arial, Sans-serif;
+    font-weight: Bold;
+    font-size: 4.8rem;
+    line-height: 3.8rem;
+    text-align: left;
+    text-transform: uppercase; 
+}
 @media (max-width: 1050px) { h1 { font-size: 4.4rem; line-height: 3.6rem;} }
 @media (max-width: 600px) { h1 { font-size: 4rem; line-height: 3.2rem;} }
 h2 {
-	font-family: "futura-pt", Helvetica, Arial, Sans-serif;
-	font-size: 1rem;
-	font-weight: Bold;
-	letter-spacing: 0.05em;
-	text-align: left; }
+    font-family: "futura-pt", Helvetica, Arial, Sans-serif;
+    font-size: 1rem;
+    font-weight: Bold;
+    letter-spacing: 0.05em;
+    text-align: left; 
+}
 h3 {
-	font-family: "futura-pt", Helvetica, Arial, Sans-serif;
-	font-size: 1rem;
-	line-height: 1.4rem;
-	letter-spacing: 0.05em;
-	text-align: left; }
+    font-family: "futura-pt", Helvetica, Arial, Sans-serif;
+    font-size: 1rem;
+    line-height: 1rem;
+    letter-spacing: 0.03em; 
+}
 p {
-	font-family: "futura-pt", Helvetica, Arial, Sans-serif;
-	font-size: 1rem;
-	line-height: 1.4rem;
-	letter-spacing: 0.05em;}
+    font-family: "futura-pt", Helvetica, Arial, Sans-serif;
+    font-size: 1rem;
+    line-height: 1.4rem;
+    letter-spacing: 0.05em; 
+}
 @font-face {
-	font-family: 'Tiempos';
-	src: url('/fonts/TiemposTextWeb-Regular.eot'); /* IE9 Compat Modes */
-	src: url('/fonts/TiemposTextWeb-Regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-		url('/fonts/TiemposTextWeb-Regular.woff') format('woff'); /* Pretty Modern Browsers */
-	font-weight: normal;
-	font-style: normal; }
+    font-family: 'Tiempos';
+    src: url('/fonts/TiemposTextWeb-Regular.eot');
+    src: url('/fonts/TiemposTextWeb-Regular.eot?#iefix') 
+            format('embedded-opentype'), 
+        url('/fonts/TiemposTextWeb-Regular.woff') 
+            format('woff'); 
+    font-weight: normal;
+    font-style: normal; 
+}
 @font-face {
-	font-family: 'Tiempos';
-	src: url('/fonts/TiemposTextWeb-RegularItalic.eot'); /* IE9 Compat Modes */
-	src: url('/fonts/TiemposTextWeb-RegularItalic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-		url('/fonts/TiemposTextWeb-RegularItalic.woff') format('woff'); /* Pretty Modern Browsers */
-	font-weight: normal;
-	font-style: italic; }
-#badge p {
-	font-family: "Tiempos", Georgia, Times, Serif;
-	font-size: 1rem;
-	line-height: 1rem;
-	letter-spacing: 0; }
+    font-family: 'Tiempos';
+    src: url('/fonts/TiemposTextWeb-RegularItalic.eot'); 
+    src: url('/fonts/TiemposTextWeb-RegularItalic.eot?#iefix') 
+            format('embedded-opentype'), 
+        url('/fonts/TiemposTextWeb-RegularItalic.woff') 
+            format('woff');
+    font-weight: normal;
+    font-style: italic; 
+}
+.badge {
+    font-family: "Tiempos", Georgia, Times, Serif;
+    font-size: 0.95rem;
+    line-height: 1rem;
+    letter-spacing: 0; 
+}
+@media (max-width: 750px) { .badge { font-size: 0.9rem; } }
 
 
 
-/* ------------------------- LINKS ------------------------- */
+
+/* LINKS 
+--------------------------------------------------------------- */
 a:link { text-decoration: none; border-bottom: 2px solid #ff7a7a; color: #fff; }
 a:visited { text-decoration: none; border-bottom: 2px solid #ff7a7a; color: #fff; }
 a:hover { text-decoration: none; border-bottom: 2px solid #000; color: #000; }
 a:active { text-decoration: none; border-bottom: 2px solid #000; color: #000; }
 a.more-info, a.more-info:link, a.more-info:visited {
-	font-size: 1rem;
-	font-family: "futura-pt", Helvetica, Arial, Sans-serif;
-	font-weight: Bold;
-	letter-spacing: 0.05em;
-	text-decoration: none;
-	border: none; }
+    font-size: 1rem;
+    font-family: "futura-pt", Helvetica, Arial, Sans-serif;
+    font-weight: Bold;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    border: none; 
+}
 a.more-info:active { 
-	-webkit-box-shadow: inset 0 2px 6px rgba(140, 100, 0, 1); 
-	-moz-box-shadow: inset 0 2px 6px rgba(140, 100, 0, 1); 
-	box-shadow: inset 0 2px 6px rgba(140, 100, 0, 1); 
-	outline: none; }
- a.logo, a.logo:link, a.logo:visited { text-decoration: none; border-bottom: none; color: #000; }
- a.logo:hover, a.logo:active { text-decoration: none; border-bottom: none; color: #fa402a; }
+    -webkit-box-shadow: inset 0 2px 6px rgba(140, 100, 0, 1); 
+    -moz-box-shadow: inset 0 2px 6px rgba(140, 100, 0, 1); 
+    box-shadow: inset 0 2px 6px rgba(140, 100, 0, 1); 
+    outline: none; 
+}
+a.logo, a.logo:link, a.logo:visited { text-decoration: none; border-bottom: none; color: #000; }
+a.logo:hover, a.logo:active { text-decoration: none; border-bottom: none; color: #fa402a; }
 
 
 
