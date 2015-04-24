@@ -237,7 +237,7 @@ a:active { text-decoration: none; border-bottom: 2px solid #000; color: #000; }
 a.more-info, a.more-info:link, a.more-info:visited {
     font-size: 1rem;
     font-family: "futura-pt", Helvetica, Arial, Sans-serif;
-    font-weight: Bold;
+    font-weight: bold;
     letter-spacing: 0.05em;
     text-decoration: none;
     border: none; 
