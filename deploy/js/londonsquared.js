@@ -48,13 +48,21 @@ function LondonSquaredMap( opts )
 	if (opts.colour){
 		colour = opts.colour
 	}
-	var animateTime = 500
+	var animateTime = -1
 	if (opts.tileAnimateTime) animateTime = opts.tileAnimateTime
 	
 	var delayBetweenTiles = 0
 	if (opts.delayBetweenTiles) delayBetweenTiles = opts.delayBetweenTiles
 	
 	this.init( opts.canvas, colour, animateTime, delayBetweenTiles )
+	
+	if (opts.palette){
+		this._palette = opts.palette
+	}
+	this._showTitle = false
+	if (opts.showTitle){
+		this._showTitle = true
+	}
 	
 	// favour a URL of data over a raw chunk of data (shouldn't have both)
 	if (opts.dataURL != undefined){
@@ -124,7 +132,8 @@ LondonSquaredMap.prototype = {
 		this._mapGrid[6][3] = { name:"Stn" }
 	
 		this._generateGeometry()
-		//console.log( "geometry:", this.geometry );
+		
+		this._palette = "green"
 		
 		this._mapLinear = []
 		
@@ -199,13 +208,10 @@ LondonSquaredMap.prototype = {
 		paper.view.update();
 	},
 	animateNextImage: function(){
-		//console.log( this._mapPointers )
 		
 		var p = this._mapPointers.shift()
 		var map = this._mapLinear[ p ]
 		var ts = map.tilesquare
-		
-		//console.log( p, map ) //, ts )
 		
 		ts.showNextImage( this._animateTime, 0 )
 		
@@ -237,7 +243,7 @@ LondonSquaredMap.prototype = {
 					self._parseData( data )
 					
 				} else {
-					console.log("got an error loading data", req.status )
+					console.log("got an error loading remote data", req.status )
 				}
 			}
 		}
@@ -245,17 +251,15 @@ LondonSquaredMap.prototype = {
 		req.send(null);
 	},
 	_loadJsonData: function( json_str ){
-		console.log( json_str )
 		var data = JSON.parse( json_str ) // turn the JSON string into data (validation could/should go here)
 		this._parseData( data )
 	},
 	_parseData: function( data ){
 		var self = this
-		this.queuedImageLoad = []
+		this._queuedTileLoad = []
 		// loop through the data
 		for( var i=0; i < data.data.length; i++ ){
 			var thisdata = data.data[i]
-			console.log( thisdata )
 			var key = thisdata.key
 			var found = false
 			// now loop through the grid to find a match
@@ -266,14 +270,22 @@ LondonSquaredMap.prototype = {
 					// check it's valid & is the same key
 					if (ob && ob.name == key ){
 						// we have a match!!
-						// console.log( "loading ",data.data[i].bg );
+						// update title (if we want it)
+						if (self._showTitle){ 
+							maprow[x].tilesquare.setTitle( key )
+						}
+						// update palette
+						maprow[x].tilesquare.setPalette( self._palette )
+						// if there is a background then update it
 						if (thisdata.bg != undefined){
 							maprow[x].tilesquare.queueImagesAtURL( thisdata.bg )
 						}
+						// if there is data then update it
 						if (thisdata.data != undefined){
 							maprow[x].tilesquare.setData( thisdata.data )
 						}
-						self.queuedImageLoad.push( maprow[x].tilesquare )
+						
+						self._queuedTileLoad.push( maprow[x].tilesquare )
 						found = true
 					}
 				}
@@ -286,15 +298,16 @@ LondonSquaredMap.prototype = {
 	},
 	_loadNextTile: function(){
 		var self = this
-		if (this.queuedImageLoad.length > 0){
-			var ts = this.queuedImageLoad.shift()
+		if (this._queuedTileLoad.length > 0){
+			var ts = this._queuedTileLoad.shift()
 			ts.loadTile( function(){
 				self._loadNextTile()
 			})
 		} else {
-			console.log("tiles done loading")
 			// start animating (if we're set to animate)
-			setInterval( function(){ self.animateNextImage() }, this._animateTime + this._delayBetweenTiles );
+			if (this._animateTime > 0){
+				setInterval( function(){ self.animateNextImage() }, this._animateTime + this._delayBetweenTiles );
+			}
 		}
 	},
 	_generateRandomOrder: function(){
@@ -341,6 +354,14 @@ function TileSquare( x, y, geom, bgcolour, data )
 	this._container = new paper.Group()
 	this._bgcolour = bgcolour
 	this.render()
+	this.availablePalettes = {
+		green: ["#d9efe7", "#b2dfcf", "#7ac7ac", "#40af88", "#009460"],
+		blue: ["#dde9f9", "#bad2f3", "#bdb4e8", "#558fe1", "#1c6ad7"],
+		purple: ["#eee1f4","#ddc3ea","#c79cdb","#ab6bca","#8f39b8"],
+		red: ["#f8ddde","#f0bbbc","#e68e8f","#da5658","#cd1d20"],
+		orange: ["#fbe8d9","#f7d0b2","#f1b07f","#ea8940","#e36200"],
+	}
+	this.palette = this.availablePalettes.green;
 }
 TileSquare.prototype = {
 	constructor: TileSquare,
@@ -410,6 +431,19 @@ TileSquare.prototype = {
 		this._bg.fillColor = this._bgcolour; //"#000"
 		this._container.addChild( this._bg )
 		
+		this._titleText = new paper.PointText( new paper.Point( this.geometry.x+(this.geometry.margin*1.5), this.geometry.y+(this.geometry.margin*4) ) )
+		this._titleText.fontSize = 18
+		this._titleText.fillColor = 'black'
+		this._titleText.fontWeight = 'bold'
+		this._titleText.contents = "T"
+		
+		this._valueText = new paper.PointText( new paper.Point( this.geometry.x+(this.geometry.margin*1.5), this._titleText.position.y + (this.geometry.margin*3) ) )
+		this._valueText.fontSize = 18
+		this._valueText.fillColor = 'black'
+		this._valueText.contents = ""
+		
+		this._titleText.contents = ""
+		
 		this._bg.opacity = 1
 		
 	},
@@ -467,8 +501,20 @@ TileSquare.prototype = {
 		}
 		
 	},
+	setPalette: function( name ){
+		if (this.availablePalettes[name] != undefined){
+			this.palette = this.availablePalettes[name]
+		}
+	},
+	setTitle: function( title ){
+		this._titleText.content = title
+	},
 	setData: function( d ){
 		// do something with the data here...
+		var n = Math.floor( d.norm * (this.palette.length-1) )
+		var col = this.palette[n]
+		this._bg.fillColor = col
+		this._valueText.content = d.disp
 	},
 	queueImagesAtURL: function( arr ){
 		var self = this
@@ -477,9 +523,7 @@ TileSquare.prototype = {
 		for( var i=arr.length-1; i >= 0; i--){
 			var url = arr[i]
 			for( var j=0; j < self._loadedImageUrls.length; j++){
-				//console.log( url, self._images[j].src )
 				if (url == self._loadedImageUrls[j]){
-					//console.log("found duplicate",url)
 					arr.splice( i, 1 )
 				}
 			}
@@ -515,7 +559,7 @@ TileSquare.prototype = {
 					self._imageLoaded( imagesloaded_cb, remoteImage, true )
 				}
 				preloadImage.onerror = function(){
-					//console.log( "errored...")
+					// the image couldn't load
 					self._imageLoaded( imagesloaded_cb, null, false )
 				}
 				preloadImage.src = self._pendingImageUrls[i];
@@ -539,17 +583,7 @@ TileSquare.prototype = {
 		img.bringToFront()
 		//img.opacity = 1
 		var self = this
-		/*
-		// animate the image fading in
-		this._createFadeInTween( img, duration, delay, function(){
-			self._bg.opacity = 0
-			for(var i=0;i<self._images.length;i++){
-				if (i != self._imagePointer){
-					self._images[i].opacity = 0
-				}
-			}
-		})
-		*/
+		
 		duration = duration / 2
 		this._bg.bringToFront()
 		this._createFadeInTween( this._bg, duration, delay, function(){
