@@ -42,41 +42,25 @@ html, body { width: 100%; height: 100%; } /* just to be sure these are full scre
 /*  LAYOUT 
 --------------------------------------------------------------- */
 #the-header {
-    margin: 0 1rem 0 1rem;
-    padding: 1rem 0 0 0; 
+    margin: 3rem 1rem 0 1rem;
+    padding: 0 0 1.5rem 0; 
 }
-    .page-title { width: 60%; }
-    .badge {
-        margin: 0.2rem 0 0 0.2rem; 
-    }    
-    @media (max-width: 1050px) { .badge { margin: 0.4rem 0 0 0.2rem; } }
-    @media (max-width: 750px) { .badge { margin: 1rem 0 0 0.2rem; } }
-    .photos-from {
-        text-align: right;
-        float: right;    
-        position: absolute;
-        top: 1rem;
-        right: 1.2rem; 
-    }
-    @media (max-width: 1050px) { .photos-from { top: 1.1rem; right: 1.3rem; }}
-    @media (max-width: 750px) { 
-        .photos-from {
-            text-align: left;
-            float: left;
-            position: relative;
-            top: 0.25rem;
-            margin: 0 0 1rem 1.5rem; 
-        } 
-    }
+    .page-title { width: 100%; }
+    .badge { margin-top: 0.5rem; }    
+    @media (max-width: 1050px) { .badge { margin-top: 0.5rem; } }
+    @media (max-width: 750px) { .badge { margin-top: 0.7rem; } }
+    @media (max-width: 600px) { .badge { margin-top: 0.8rem; } }
+    .photos-from { margin: 1.5rem 0 0 0; }
+    @media (max-width: 750px) { .photos-from { margin-top: 1.8rem; } }
 #londonsquared_canvas {
     max-width: 100%;
     margin: 2.5rem auto 5rem auto; 
     position: relative; 
     display: block; 
 } 
-@media (max-width: 1050px) { #londonsquared_canvas { max-width: 90%; margin: 2rem auto 1rem auto; } }
-@media (max-width: 750px) { #londonsquared_canvas { margin: 3rem auto 1rem auto; } }
-@media (max-width: 600px) { #londonsquared_canvas { margin: 4rem auto 1.5rem auto; } }
+@media (max-width: 1050px) { #londonsquared_canvas { max-width: 90%; margin: 2.2rem auto 1rem auto; } }
+@media (max-width: 750px) { #londonsquared_canvas { margin: 2.3rem auto 1rem auto; } }
+@media (max-width: 600px) { #londonsquared_canvas { margin: 2.8rem auto 1.5rem auto; } }
 #the-description { width: 100%; }
     #description-block {
         margin-right: auto;
@@ -160,7 +144,7 @@ a.more-info:hover, a.more-info:active {
 #the-description { background-color: #fa402a; }
 #the-pitch { background-color: #222; }
 #the-footer { background-color: #222; }
-.badge { color: #333; }
+.badge { color: #888; }
 .note { color: #888; }
 
 
@@ -179,10 +163,10 @@ html {
 
 h1 {
     font-family: "futura-pt-condensed", Helvetica, Arial, Sans-serif;
-    font-weight: Bold;
-    font-size: 4.8rem;
+    font-weight: bold;
+    font-size: 4.6rem;
     line-height: 3.8rem;
-    text-align: left;
+    text-align: center;
     text-transform: uppercase; 
 }
 @media (max-width: 1050px) { h1 { font-size: 4.4rem; line-height: 3.6rem;} }
@@ -190,7 +174,7 @@ h1 {
 h2 {
     font-family: "futura-pt", Helvetica, Arial, Sans-serif;
     font-size: 1rem;
-    font-weight: Bold;
+    font-weight: bold;
     letter-spacing: 0.05em;
     text-align: left; 
 }
@@ -199,6 +183,7 @@ h3 {
     font-size: 1rem;
     line-height: 1rem;
     letter-spacing: 0.03em; 
+    text-align: center;
 }
 p {
     font-family: "futura-pt", Helvetica, Arial, Sans-serif;
@@ -228,11 +213,17 @@ p {
 }
 .badge {
     font-family: "Tiempos", Georgia, Times, Serif;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     line-height: 1rem;
     letter-spacing: 0; 
 }
-@media (max-width: 750px) { .badge { font-size: 0.9rem; } }
+.photos-from {
+    font-size: 2rem;
+    font-family: "futura-pt-condensed", Helvetica, Arial, Sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.09rem;
+}
 
 
 
@@ -257,8 +248,8 @@ a.more-info:active {
     box-shadow: inset 0 2px 6px rgba(140, 100, 0, 1); 
     outline: none; 
 }
-a.logo, a.logo:link, a.logo:visited { text-decoration: none; border-bottom: none; color: #000; }
-a.logo:hover, a.logo:active { text-decoration: none; border-bottom: none; color: #fa402a; }
+a.logo, a.logo:link, a.logo:visited { text-decoration: none; border-bottom: none; color: #fa402a; }
+a.logo:hover, a.logo:active { text-decoration: none; border-bottom: none; color: #222; }
 
 
 
