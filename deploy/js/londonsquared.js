@@ -44,25 +44,26 @@ function LondonSquaredMap( opts )
 	if (!opts.canvas){
 		console.log("LondonSquaredMap requires opts.canvas to be defined, so nothing to render the map to!")
 	}
+	
 	var colour = "#000"
-	if (opts.colour){
-		colour = opts.colour
-	}
+	if (opts.colour) colour = opts.colour
+	
 	var animateTime = -1
 	if (opts.tileAnimateTime) animateTime = opts.tileAnimateTime
 	
 	var delayBetweenTiles = 0
 	if (opts.delayBetweenTiles) delayBetweenTiles = opts.delayBetweenTiles
 	
-	this.init( opts.canvas, colour, animateTime, delayBetweenTiles )
+	this._showCredit = false
+	if (opts.showCredit) this._showCredit = opts.showCredit
 	
-	if (opts.palette){
-		this._palette = opts.palette
-	}
+	this._palette = "green"
+	if (opts.palette) this._palette = opts.palette
+	
 	this._showTitle = false
-	if (opts.showTitle){
-		this._showTitle = true
-	}
+	if (opts.showTitle) this._showTitle = true
+	
+	this.init( opts.canvas, colour, animateTime, delayBetweenTiles )
 	
 	// favour a URL of data over a raw chunk of data (shouldn't have both)
 	if (opts.dataURL != undefined){
@@ -133,8 +134,6 @@ LondonSquaredMap.prototype = {
 	
 		this._generateGeometry()
 		
-		this._palette = "green"
-		
 		this._mapLinear = []
 		
 		// loop through and generate the tiles
@@ -156,9 +155,19 @@ LondonSquaredMap.prototype = {
 		
 		this._generateRandomOrder()
 		
-		paper.view.update();
+		if (this._showCredit == true){
 		
-		var self = this;
+			console.log("adding credit")
+			var pt = new paper.Point( paper.view.bounds.width - 410, paper.view.bounds.height - 5 )
+			this._creditText = new paper.PointText( pt )
+			this._creditText.fontSize = 18
+			this._creditText.fillColor = 'black'
+			//this._creditText.fontWeight = 'bold'
+			this._creditText.content = "London Squared Map ©2015 www.aftertheflood.co"
+			console.log("added credit:", this._creditText )
+		}
+		
+		paper.view.update();
 		
 		this._animate();
 		
@@ -431,18 +440,16 @@ TileSquare.prototype = {
 		this._bg.fillColor = this._bgcolour; //"#000"
 		this._container.addChild( this._bg )
 		
-		this._titleText = new paper.PointText( new paper.Point( this.geometry.x+(this.geometry.margin*1.5), this.geometry.y+(this.geometry.margin*4) ) )
-		this._titleText.fontSize = 18
-		this._titleText.fillColor = 'black'
-		this._titleText.fontWeight = 'bold'
-		this._titleText.contents = "T"
+		this._creditText = new paper.PointText( new paper.Point( this.geometry.x+(this.geometry.margin*1.5), this.geometry.y+(this.geometry.margin*4) ) )
+		this._creditText.fontSize = 18
+		this._creditText.fillColor = 'black'
+		this._creditText.fontWeight = 'bold'
+		this._creditText.contents = ""
 		
-		this._valueText = new paper.PointText( new paper.Point( this.geometry.x+(this.geometry.margin*1.5), this._titleText.position.y + (this.geometry.margin*3) ) )
+		this._valueText = new paper.PointText( new paper.Point( this.geometry.x+(this.geometry.margin*1.5), this._creditText.position.y + (this.geometry.margin*3) ) )
 		this._valueText.fontSize = 18
 		this._valueText.fillColor = 'black'
 		this._valueText.contents = ""
-		
-		this._titleText.contents = ""
 		
 		this._bg.opacity = 1
 		
@@ -507,7 +514,7 @@ TileSquare.prototype = {
 		}
 	},
 	setTitle: function( title ){
-		this._titleText.content = title
+		this._creditText.content = title
 	},
 	setData: function( d ){
 		// do something with the data here...

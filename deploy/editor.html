@@ -22,7 +22,13 @@
 											 delayBetweenTiles: 200 } )
 			*/
 		}
-		function processForm(form){
+		
+		function processForm(){
+		
+			var form = document.forms["londonsquared_form"] //getElementById("londonsquared_form")
+			
+			//console.log( form )
+			
 			var boroughs = ["Enf",
 						"Hrw","Brn","Hgy","Wth",
 						"Hdn","Elg","Brt","Cmd","Isl","Hck","Rdb","Hvg",
@@ -39,8 +45,10 @@
 			for( var b=0; b < boroughs.length; b++ ){
 				//console.log( "boroughs> " + b + ": " + boroughs[b] + " " + form[b].value ) 
 				var borough = boroughs[b]
-				var oval = form[b].value
-				var val = parseInt( oval )
+				var element = form.elements[borough]
+				
+				var o_val = element.value
+				var val = parseInt( o_val )
 				var norm = 1
 				if (isNaN(val)){
 					norm = 0
@@ -51,7 +59,7 @@
 					min = Math.min( val, min )
 				}
 				var ob = {   key: borough,
-							data: {raw: val, norm: norm, disp: oval}
+							data: {raw: val, norm: norm, disp: o_val}
 						}
 				ret.push( ob )
 			}
@@ -70,22 +78,30 @@
 			}
 			// convert data to JSON to pass to the map
 			var json = JSON.stringify( {data: ret} )
-			console.log( json )
 			
 			var palette = form['palette'].value
 			
 			// create a new canvas element (should override the previous one, if one exists).
 			var div = document.getElementById('exportedcode')
-			div.innerHTML = "<canvas id='londonsquared_canvas' width='900' height='900'></canvas><br /><a href='javascript:window.londonSquaredMap.exportMapAsPNG();' download='londonsquared.png' onClick='window.londonSquaredMap.exportMapAsPNG();'>Save Canvas</a>"
+			div.innerHTML = "<canvas id='londonsquared_canvas' width='900' height='900'></canvas><br />"
 			// create an instance of the LondonSquaredMap, passing in the data
 			window.londonSquaredMap = new LondonSquaredMap( {
 				canvas: 'londonsquared_canvas',
 				data: json,
 				colour: "#ffffff",
 				palette: palette,
-				showTitle: true
+				showTitle: true,
+				showCredit: true
 			} )
 			
+		}
+		function exportMap(){
+		
+			if (window.londonSquaredMap == undefined){
+				alert("please enter some values and preview first")		
+			} else {
+				window.londonSquaredMap.exportMapAsPNG()
+			}
 		}
 		
 	</script>
@@ -94,42 +110,45 @@
 <body>
 
 	<section id="the-form">
-		<form name="input_values" action="">
-			Enfield: <input type="text" name="Enf" value="" /><br />
-			Harrow: <input type="text" name="Hrw" value="" /><br />
-			Brent: <input type="text" name="Brn" value="" /><br />
-			Haringay: <input type="text" name="Hgy" value="" /><br />
-			Waltham Forest: <input type="text" name="Wth" value="" /><br /> 
-			Hillingdon: <input type="text" name="Hdn" value="" /><br /> 
-			Ealing: <input type="text" name="Elg" value="" /><br /> 
-			Brent: <input type="text" name="Brt" value="" /><br /> 
-			Camden: <input type="text" name="Cmd" value="" /><br /> 
-			Islington: <input type="text" name="Isl" value="" /><br /> 
-			Hackney: <input type="text" name="Hck" value="" /><br /> 
-			Redbridge: <input type="text" name="Rdb" value="" /><br /> 
-			Havering: <input type="text" name="Hvg" value="" /><br /> 
-			Hounslow: <input type="text" name="Hns" value="" /><br /> 
-			Hammersmith & Fulham: <input type="text" name="Hms" value="" /><br /> 
-			Kensington: <input type="text" name="Kns" value="" /><br /> 
-			Westminster: <input type="text" name="Wst" value="" /><br /> 
-			City: <input type="text" name="Cty" value="" /><br /> 
-			Tower Hamlets: <input type="text" name="Tow" value="" /><br /> 
-			Newham: <input type="text" name="Nwm" value="" /><br /> 
-			Barnet: <input type="text" name="Bar" value="" /><br /> 
-			Richmond: <input type="text" name="Rch" value="" /><br /> 
-			Wandsworth: <input type="text" name="Wns" value="" /><br /> 
-			Lambeth: <input type="text" name="Lam" value="" /><br /> 
-			Southwark: <input type="text" name="Swr" value="" /><br /> 
-			Lewisham: <input type="text" name="Lsh" value="" /><br /> 
-			Greenwich: <input type="text" name="Grn" value="" /><br /> 
+		<form id="londonsquared_form" name="londonsquared_form" action="">
+			
+			1. Enter data for boroughs here:<br /><br />
+			
+			City of London: <input type="text" name="Cty" value="" /><br /> 
+			Barking & Dagenham: <input type="text" name="Bar" value="" /><br /> 
+			Barnet: <input type="text" name="Brn" value="" /><br /> 
 			Bexley: <input type="text" name="Bxl" value="" /><br /> 
-			Kingston upon Thames: <input type="text" name="Kng" value="" /><br /> 
-			Merton: <input type="text" name="Mrt" value="" /><br /> 
-			Croydon: <input type="text" name="Crd" value="" /><br /> 
+			Brent: <input type="text" name="Brt" value="" /><br /> 
 			Bromley: <input type="text" name="Brm" value="" /><br /> 
+			Camden: <input type="text" name="Cmd" value="" /><br /> 
+			Croydon: <input type="text" name="Crd" value="" /><br /> 
+			Enfield: <input type="text" name="Enf" value="" /><br />
+			Ealing: <input type="text" name="Elg" value="" /><br /> 
+			Greenwich: <input type="text" name="Grn" value="" /><br />
+			Hackney: <input type="text" name="Hck" value="" /><br />  
+			Hammersmith & Fulham: <input type="text" name="Hms" value="" /><br />  
+			Haringay: <input type="text" name="Hgy" value="" /><br />
+			Harrow: <input type="text" name="Hrw" value="" /><br /> 
+			Havering: <input type="text" name="Hvg" value="" /><br />
+			Hillingdon: <input type="text" name="Hdn" value="" /><br /> 
+			Hounslow: <input type="text" name="Hns" value="" /><br /> 
+			Islington: <input type="text" name="Isl" value="" /><br /> 
+			Kensington: <input type="text" name="Kns" value="" /><br /> 
+			Kingston upon Thames: <input type="text" name="Kng" value="" /><br /> 
+			Lambeth: <input type="text" name="Lam" value="" /><br /> 
+			Lewisham: <input type="text" name="Lsh" value="" /><br /> 
+			Merton: <input type="text" name="Mrt" value="" /><br /> 
+			Newham: <input type="text" name="Nwm" value="" /><br /> 
+			Redbridge: <input type="text" name="Rdb" value="" /><br /> 
+			Richmond: <input type="text" name="Rch" value="" /><br /> 
+			Southwark: <input type="text" name="Swr" value="" /><br /> 
 			Sutton: <input type="text" name="Stn" value="" /><br /> 
+			Tower Hamlets: <input type="text" name="Tow" value="" /><br /> 
+			Waltham Forest: <input type="text" name="Wth" value="" /><br /> 
+			Wandsworth: <input type="text" name="Wns" value="" /><br /> 
+			Westminster: <input type="text" name="Wst" value="" /><br />
 
-			Colour Palette: <select name="palette">
+			2. Choose colour palette: <select name="palette">
 				<option value="green">Green</option>
 				<option value="blue">Blue</option>
 				<option value="purple">Purple</option>
@@ -137,7 +156,7 @@
 				<option value="orange">Orange</option>
 			</select><br />
 			
-			<input type="button" name="button" onClick="processForm(this.form)" value="GO!" />
+			<a href="javascript:processForm()" onClick="processForm()">3. Preview</a><br />
 		</form>
 	
 	</section>
@@ -146,7 +165,9 @@
 		<div id="exportedcode">
 			
 		</div>
-		
+		<div>
+			<a href='javascript:exportMap();' download='londonsquared.png' onClick='exportMap;'>4. Export</a>
+		</div>
 	
 	</section>
 
