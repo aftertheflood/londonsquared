@@ -2,11 +2,27 @@
 @import 'partials/webfont-kit';
 
 
+
+
 /*  VARIABLES
 --------------------------------------------------------------- */
+
+/* Fonts */
 $text-font: "futura-pt", Helvetica, Arial, Sans-serif;
 $headline-font: "futura-pt-condensed", Helvetica, Arial, Sans-serif;
 $logo-font: "Tiempos", Georgia, Times, Serif;
+
+/* Colours */
+$black: #000;
+$grey-1: #222;
+$grey-2: #333;
+$grey-3: #888;
+$white: #fff;
+$red: #fa402a;
+$pink: #ff7a7a;
+$button-normal: #28c0e1;
+$button-hover: #fdff7a;
+
 
 
 
@@ -99,25 +115,25 @@ a.more-info, a.more-info:link, a.more-info:visited {
 
 /* COLORS 
 --------------------------------------------------------------- */
-html { background-color: #fff; }
-h1 { color: #333; }
-h2 { color: #fff; }
-h3 { color: #333; }
-p { color: #fff; }
+html { background-color: $white; }
+h1 { color: $grey-2; }
+h2 { color: $white; }
+h3 { color: $grey-2; }
+p { color: $white; }
 a.more-info, a.more-info:link, a.more-info:visited { 
-    color: #fff; 
-    background-color: #28c0e1; 
+    color: $white; 
+    background-color: $button-normal; 
 }
 a.more-info:hover, a.more-info:active { 
-    color: #000; 
-    background-color: #fdff7a; 
+    color: $black; 
+    background-color: $button-hover; 
 }
-#londonsquared_canvas { background-color: #fff; } 
-#the-description { background-color: #fa402a; }
-#the-pitch { background-color: #222; }
-#the-footer { background-color: #222; }
-.badge { color: #888; }
-.note { color: #888; }
+#londonsquared_canvas { background-color: $white; } 
+#the-description { background-color: $red; }
+#the-pitch { background-color: $grey-1; }
+#the-footer { background-color: $grey-1; }
+.badge { color: $grey-3; }
+.note { color: $grey-3; }
 
 
 
@@ -182,13 +198,13 @@ p {
 
 /* LINKS 
 --------------------------------------------------------------- */
-a:link { text-decoration: none; border-bottom: 2px solid #ff7a7a; color: #fff; }
-a:visited { text-decoration: none; border-bottom: 2px solid #ff7a7a; color: #fff; }
-a:hover { text-decoration: none; border-bottom: 2px solid #000; color: #000; }
-a:active { text-decoration: none; border-bottom: 2px solid #000; color: #000; }
+a:link { text-decoration: none; border-bottom: 2px solid $pink; color: $white; }
+a:visited { text-decoration: none; border-bottom: 2px solid $pink; color: $white; }
+a:hover { text-decoration: none; border-bottom: 2px solid $black; color: $black; }
+a:active { text-decoration: none; border-bottom: 2px solid $black; color: $black; }
 a.more-info, a.more-info:link, a.more-info:visited {
     font-size: 1rem;
-    font-family: "futura-pt", Helvetica, Arial, Sans-serif;
+    font-family: $text-font;
     font-weight: bold;
     letter-spacing: 0.05em;
     text-decoration: none;
@@ -200,8 +216,8 @@ a.more-info:active {
     box-shadow: inset 0 2px 6px rgba(140, 100, 0, 1); 
     outline: none; 
 }
-a.logo, a.logo:link, a.logo:visited { text-decoration: none; border-bottom: none; color: #fa402a; }
-a.logo:hover, a.logo:active { text-decoration: none; border-bottom: none; color: #222; }
+a.logo, a.logo:link, a.logo:visited { text-decoration: none; border-bottom: none; color: $red; }
+a.logo:hover, a.logo:active { text-decoration: none; border-bottom: none; color: $grey-1; }
 
 
 
