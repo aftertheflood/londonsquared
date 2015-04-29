@@ -177,7 +177,7 @@ LondonSquaredMap.prototype = {
 		console.log("londonsquared - exportMapAsPNG")
 		var image = this.htmlCanvasElement.toDataURL("image/png")
 		//Convert image to 'octet-stream' to force a download (otherwise it loads in the browser window)
-		image = image.replace("image/png", "image/octet-stream") 
+		image = image.replace("image/png", "image/octet-stream;headers=Content-Disposition%3A%20attachment%3B%20filename=map.png")
 		window.location.href = image
 	},
 	_generateGeometry: function(){
