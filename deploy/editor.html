@@ -83,10 +83,10 @@
 			
 			// create a new canvas element (should override the previous one, if one exists).
 			var div = document.getElementById('exportedcode')
-			div.innerHTML = "<canvas id='londonsquared_canvas' width='900' height='900'></canvas><br />"
+			div.innerHTML = "<canvas id='londonsquared_editor_canvas' width='900' height='900'></canvas><br />"
 			// create an instance of the LondonSquaredMap, passing in the data
 			window.londonSquaredMap = new LondonSquaredMap( {
-				canvas: 'londonsquared_canvas',
+				canvas: 'londonsquared_editor_canvas',
 				data: json,
 				colour: "#ffffff",
 				palette: palette,
