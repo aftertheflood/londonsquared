@@ -1,4 +1,6 @@
+AuthUserFile /var/www/vhosts/aftertheflood.co/subdomains/londonsquared/.htpasswd
+AuthName "London Squared Editor"
 AuthType Basic
-AuthName "Password Protected Area"
-AuthUserFile /.htpasswd
-Require valid-user
+<Files "editor.html">
+  require valid-user
+</Files>
