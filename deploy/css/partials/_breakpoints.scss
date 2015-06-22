@@ -1,0 +1,82 @@
+// based on combination of http://jakearchibald.github.io/sass-ie/ and http://css-tricks.com/media-queries-sass-3-2-and-codekit/
+
+$huge-screen: 1500px;
+$large-screen: 1000px;
+$medium-screen: 650px;
+$small-screen: 450px;
+
+$fixed-width: 0 !default;
+$old-ie: false !default;
+
+@mixin breakpoint($point) {
+	// If we're outputting for a fixed media query set...
+	@if $old-ie {
+		// ...and if we should apply these rules...
+		@if $point == huge {
+			@if $fixed-width >= $huge-screen { @content; }
+		}
+		@else if $point == large {
+			@if $fixed-width >= $large-screen { @content; }
+		}
+		@else if $point == medium {
+			@if $fixed-width >= $medium-screen { @content; }
+		}
+		@else if $point == small {
+			@if $fixed-width >= $small-screen { @content; }
+		}
+		@else {
+			@if $fixed-width >= $point { @content; }
+		}
+	}
+	@else {
+		// Otherwise, output it using a regular media query
+		@if $point == huge {
+			@media screen and (min-width: $huge-screen) { @content; }
+		}
+		@else if $point == large {
+			@media screen and (min-width: $large-screen) { @content; }
+		}
+		@else if $point == medium {
+			@media screen and (min-width: $medium-screen)  { @content; }
+		}
+		@else if $point == small {
+			@media screen and (min-width: $small-screen)  { @content; }
+		}
+		@else {
+			@media screen and (min-width: $point) { @content; }
+		}
+	}
+}
+@mixin below-breakpoint($point) {
+	// If we're outputting for a fixed media query set...
+	@if $old-ie {
+		// ...and if we should apply these rules...
+		@if $point == huge {
+			@if $fixed-width < $huge-screen { @content; }
+		}
+		@else if $point == large {
+			@if $fixed-width < $large-screen { @content; }
+		}
+		@else if $point == medium {
+			@if $fixed-width < $medium-screen { @content; }
+		}
+		@else if $point == small {
+			@if $fixed-width < $small-screen { @content; }
+		}
+	}
+	@else {
+		// Otherwise, output it using a regular media query
+		@if $point == huge {
+			@media screen and (max-width: $huge-screen - 1) { @content; }
+		}
+		@else if $point == large {
+			@media screen and (max-width: $large-screen - 1) { @content; }
+		}
+		@else if $point == medium {
+			@media screen and (max-width: $medium-screen - 1)  { @content; }
+		}
+		@else if $point == small {
+			@media screen and (max-width: $small-screen - 1)  { @content; }
+		}
+	}
+}

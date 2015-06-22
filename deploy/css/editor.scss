@@ -1,0 +1,55 @@
+// SASS imports
+@import 'partials/third-party/normalize';
+@import 'partials/webfont-kit';
+@import 'partials/breakpoints';
+
+
+
+
+/* VARIABLES
+----------------------------------------------------------------------------- */
+
+// Fonts
+$text-font: "futura-pt", Helvetica, Arial, Sans-serif;
+$headline-font: "futura-pt-condensed", Helvetica, Arial, Sans-serif;
+$logo-font: "Tiempos", Georgia, Times, Serif;
+
+// Colours
+$black: #000;
+$grey-1: #222;
+$grey-2: #333;
+$grey-3: #888;
+$white: #fff;
+$red: #fa402a;
+$pink: #ff7a7a;
+$button-normal: #28c0e1;
+$button-hover: #fdff7a;
+
+
+
+
+/* BASICS
+----------------------------------------------------------------------------- */
+
+html {
+  font-size: 30px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-variant-ligatures: common-ligatures;
+  font-variant-ligatures: common-ligatures;
+  @include breakpoint(large) {
+    html { font-size: 24px; }
+  }
+  @include breakpoint(medium) {
+    html { font-size: 16px; }
+  }
+}
+
+body {
+  margin: 25px;
+}
+
+h1 {
+  font-family: $headline-font;
+  font-size: 2rem;
+  color: $red;
+}
