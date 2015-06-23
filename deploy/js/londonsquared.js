@@ -1,38 +1,38 @@
 // @license http://opensource.org/licenses/MIT
 // copyright Paul Irish 2015
- 
- 
+
+
 // Date.now() is supported everywhere except IE8. For IE8 we use the Date.now polyfill
 //   github.com/Financial-Times/polyfill-service/blob/master/polyfills/Date.now/polyfill.js
 // as Safari 6 doesn't have support for NavigationTiming, we use a Date.now() timestamp for relative values
- 
+
 // if you want values similar to what you'd get with real perf.now, place this towards the head of the page
 // but in reality, you're just getting the delta between now() calls, so it's not terribly important where it's placed
- 
- 
+
+
 (function(){
- 
+
   if ("performance" in window == false) {
       window.performance = {};
   }
-  
+
   Date.now = (Date.now || function () {  // thanks IE8
 	  return new Date().getTime();
   });
- 
+
   if ("now" in window.performance == false){
-    
+
     var nowOffset = Date.now();
-    
+
     if (performance.timing && performance.timing.navigationStart){
       nowOffset = performance.timing.navigationStart
     }
- 
+
     window.performance.now = function now(){
       return Date.now() - nowOffset;
     }
   }
- 
+
 })();
 
 
@@ -44,27 +44,27 @@ function LondonSquaredMap( opts )
 	if (!opts.canvas){
 		console.log("LondonSquaredMap requires opts.canvas to be defined, so nothing to render the map to!")
 	}
-	
+
 	var colour = "#000"
 	if (opts.colour) colour = opts.colour
-	
+
 	var animateTime = -1
 	if (opts.tileAnimateTime) animateTime = opts.tileAnimateTime
-	
+
 	var delayBetweenTiles = 0
 	if (opts.delayBetweenTiles) delayBetweenTiles = opts.delayBetweenTiles
-	
+
 	this._showCredit = false
 	if (opts.showCredit) this._showCredit = opts.showCredit
-	
+
 	this._palette = "green"
 	if (opts.palette) this._palette = opts.palette
-	
+
 	this._showTitle = false
 	if (opts.showTitle) this._showTitle = true
-	
+
 	this.init( opts.canvas, colour, animateTime, delayBetweenTiles )
-	
+
 	// favour a URL of data over a raw chunk of data (shouldn't have both)
 	if (opts.dataURL != undefined){
 		this._loadRemoteData( opts.dataURL )
@@ -78,16 +78,16 @@ LondonSquaredMap.prototype = {
 		this.htmlCanvasElement = document.getElementById( canvas_id );
 		// Create an empty project and a view for the canvas:
 		paper.setup(this.htmlCanvasElement);
-	
+
 		var self = this
-		
+
 		paper.view.on('resize', function(event){
 			self._resizeMap()
 		})
-		
+
 		this._animateTime = animateTime
 		this._delayBetweenTiles = delayBetweenTiles
-	
+
 		// generate the layout data for the map
 		this._mapGrid = []
 		for(i=0;i<8;i++){ this._mapGrid.push([]) }
@@ -131,32 +131,32 @@ LondonSquaredMap.prototype = {
 		this._mapGrid[5][5] = { name:"Brm" }
 		//
 		this._mapGrid[6][3] = { name:"Stn" }
-	
+
 		this._generateGeometry()
-		
+
 		this._mapLinear = []
-		
+
 		// loop through and generate the tiles
 		for( var y=0; y<this._mapGrid.length; y++ ){
 			var maprow = this._mapGrid[y];
 			for(var x=0;x<maprow.length;x++){
 				if (maprow[x]){
-				
+
 					var data = maprow[x]
-					
+
 					var ts = new TileSquare( x, y, this.geometry, colour, data )
 					//ts.appear( 1000, 150 * ( x + y ) )
-					
+
 					data.tilesquare = ts
 					this._mapLinear.push( data )
 				}
 			}
 		}
-		
+
 		this._generateRandomOrder()
-		
+
 		if (this._showCredit == true){
-		
+
 			console.log("adding credit")
 			var pt = new paper.Point( paper.view.bounds.width - 410, paper.view.bounds.height - 5 )
 			this._creditText = new paper.PointText( pt )
@@ -166,12 +166,12 @@ LondonSquaredMap.prototype = {
 			this._creditText.content = "London Squared Map ©2015 www.aftertheflood.co"
 			console.log("added credit:", this._creditText )
 		}
-		
+
 		paper.view.update();
-		
+
 		this._animate();
-		
-		
+
+
 	},
 	exportMapAsPNG: function(){
 		console.log("londonsquared - exportMapAsPNG")
@@ -181,7 +181,7 @@ LondonSquaredMap.prototype = {
 		window.location.href = image
 	},
 	_generateGeometry: function(){
-		
+
 		// work out sizes
 		var scrn_wid = paper.view.size.width
 		var pieces = 8
@@ -190,44 +190,44 @@ LondonSquaredMap.prototype = {
 		var wid_nomargin = scrn_wid / pieces
 		var margin = (wid_nomargin - wid)
 		var hei = wid
-		
+
 		this.geometry = {
 			tile_width: wid,
 			tile_height: hei,
 			tile_margin: margin
 		};
-		
+
 	},
 	_resizeMap: function(){
-		
+
 		this._generateGeometry()
 		for( var t=0; t<this._mapLinear.length; t++ ){
 			var ts = this._mapLinear[t].tilesquare
 			ts.resizeTile( this.geometry )
-			
+
 		}
 	},
 	_animate: function( time ) {
-		
+
 		var self = this;
 
 		requestAnimationFrame( function(_time){ self._animate(_time) } );
-	
+
 		TWEEN.update( time );
 		paper.view.update();
 	},
 	animateNextImage: function(){
-		
+
 		var p = this._mapPointers.shift()
 		var map = this._mapLinear[ p ]
 		var ts = map.tilesquare
-		
+
 		ts.showNextImage( this._animateTime, 0 )
-		
+
 		if (this._mapPointers.length == 0){
-			
+
 			this._generateRandomOrder()
-			
+
 			this._fullUpdateCounter++
 			if (this._fullUpdateCounter >= 5){
 				// get the data again!
@@ -236,7 +236,7 @@ LondonSquaredMap.prototype = {
 				}
 			}
 		}
-		
+
 	},
 	_loadRemoteData: function(url){
 		this._dataURL = url
@@ -250,7 +250,7 @@ LondonSquaredMap.prototype = {
 				{
 					var data = JSON.parse( req.responseText ) // get the response and turn it into JSON
 					self._parseData( data )
-					
+
 				} else {
 					console.log("got an error loading remote data", req.status )
 				}
@@ -280,7 +280,7 @@ LondonSquaredMap.prototype = {
 					if (ob && ob.name == key ){
 						// we have a match!!
 						// update title (if we want it)
-						if (self._showTitle){ 
+						if (self._showTitle){
 							maprow[x].tilesquare.setTitle( key )
 						}
 						// update palette
@@ -293,17 +293,17 @@ LondonSquaredMap.prototype = {
 						if (thisdata.data != undefined){
 							maprow[x].tilesquare.setData( thisdata.data )
 						}
-						
+
 						self._queuedTileLoad.push( maprow[x].tilesquare )
 						found = true
 					}
 				}
-				
+
 			}
 			if (!found) console.log( "didn't find entry for ", key );
 		}
-		
-		self._loadNextTile()	
+
+		self._loadNextTile()
 	},
 	_loadNextTile: function(){
 		var self = this
@@ -320,7 +320,7 @@ LondonSquaredMap.prototype = {
 		}
 	},
 	_generateRandomOrder: function(){
-		
+
 		this._mapPointers = []
 		for( var i=0; i< this._mapLinear.length ; i++){
 			this._mapPointers.push( i )
@@ -329,16 +329,16 @@ LondonSquaredMap.prototype = {
 	},
 	_fisherYatesShuffle: function(array){
 		// algorithm from https://github.com/coolaj86/knuth-shuffle
-		
+
 		var currentIndex = array.length, temporaryValue, randomIndex ;
-		
+
 		// While there remain elements to shuffle...
 		while (0 !== currentIndex) {
-	
+
 			// Pick a remaining element...
 			randomIndex = Math.floor(Math.random() * currentIndex);
 			currentIndex -= 1;
-	
+
 			// And swap it with the current element.
 			temporaryValue = array[currentIndex];
 			array[currentIndex] = array[randomIndex];
@@ -398,20 +398,20 @@ TileSquare.prototype = {
 	},
 	render: function(){
 		this._container.removeChildren()
-	
+
 		var xp = (this.geometry.margin/2) + (this.geometry.tile_x * (this.geometry.width  + this.geometry.margin))
 		var yp = (this.geometry.margin/2) + (this.geometry.tile_y * (this.geometry.height + this.geometry.margin))
-		
+
 		this.geometry.x = xp
 		this.geometry.y = yp
-		
+
 		// generate the mask
 		if (this._shapeData == undefined){
 			// if there is no shape data, then draw a rectangle
 			var re = new paper.Path.Rectangle(new paper.Point(xp, yp), new paper.Size(this.geometry.width,this.geometry.height))
 		} else {
 			// we have shape data
-			var re = new paper.CompoundPath( this._shapeData )	
+			var re = new paper.CompoundPath( this._shapeData )
 			// squares in original design are 102 x 102
 			// so work out the size multiplier for the river shapes
 			this.geometry.shape_mult = this.geometry.width / 102
@@ -420,70 +420,70 @@ TileSquare.prototype = {
 			// work out the position offset (based on original position this shape appears)
 			this.geometry.yoff = re.position.y - 67.95
 			// position the shape (anchor is middle, so need to add 1/2 width & 1/2 height
-			re.position.x = xp + (this.geometry.width/2) 
+			re.position.x = xp + (this.geometry.width/2)
 			re.position.y = yp + (this.geometry.height/2) + (this.geometry.yoff * this.geometry.shape_mult)
 			// update bg_y for positioning images later
 			this.geometry.y = yp - Math.abs(this.geometry.yoff * this.geometry.shape_mult)
-			
+
 		}
 		this.geometry.originalWidth = this.geometry.width;
 		this._maskShape = re
-		
+
 		re.fillColor = '#000'
 		this._container.addChild( re )
-		
+
 		// turn on masking
 		this._container.clipped = true
-		
-		
+
+
 		this._bg = new paper.Path.Rectangle(new paper.Point(this.geometry.x, this.geometry.y - (this.geometry.height /4)), new paper.Size(this.geometry.width,this.geometry.height*2))
 		this._bg.fillColor = this._bgcolour; //"#000"
 		this._container.addChild( this._bg )
-		
+
 		this._creditText = new paper.PointText( new paper.Point( this.geometry.x+(this.geometry.margin*1.5), this.geometry.y+(this.geometry.margin*4) ) )
 		this._creditText.fontSize = 18
 		this._creditText.fillColor = 'black'
 		this._creditText.fontWeight = 'bold'
 		this._creditText.contents = ""
-		
+
 		this._valueText = new paper.PointText( new paper.Point( this.geometry.x+(this.geometry.margin*1.5), this._creditText.position.y + (this.geometry.margin*3) ) )
 		this._valueText.fontSize = 18
 		this._valueText.fillColor = 'black'
 		this._valueText.contents = ""
-		
+
 		this._bg.opacity = 1
-		
+
 	},
 	appear: function( duration, delay ){
 		this._createFadeInTween( this._container, duration, delay )
-	
+
 	},
 	resizeTile: function( geom ){
-		
+
 		var self = this
-		
+
 		this.geometry.originalWidth = this.geometry.width
-		
+
 		this.geometry.width = geom.tile_width
 		this.geometry.height = geom.tile_height
 		this.geometry.margin = geom.tile_margin
-		
+
 		var xp = (this.geometry.margin/4) + ((this.geometry.tile_x+.5) * (this.geometry.width  + this.geometry.margin))
 		var yp = (this.geometry.margin/4) + ((this.geometry.tile_y+.5) * (this.geometry.height + this.geometry.margin))
-		
+
 		this.geometry.x = xp
 		this.geometry.y = yp
-		
+
 		this._bg.position.x = this.geometry.x
 		this._bg.position.y = this.geometry.y - (this.geometry.height/4)
 		this._bg.scale( this.geometry.width / this.geometry.originalWidth )
-	
+
 		if (this._shapeData == undefined){
-			
+
 			this._maskShape.position.x = this.geometry.x
 			this._maskShape.position.y = this.geometry.y
 			this._maskShape.scale( this.geometry.width / this.geometry.originalWidth )
-			
+
 		} else {
 			var orig = this.geometry.originalWidth / 102
 			this.geometry.shape_mult = this.geometry.width / 102
@@ -491,22 +491,22 @@ TileSquare.prototype = {
 			this._maskShape.scale( this.geometry.shape_mult / orig )
 			this._maskShape.position.x = xp
 			this._maskShape.position.y = yp + (this.geometry.yoff * this.geometry.shape_mult)
-			
+
 		}
-		
+
 		// resize the images
 		for(var i=0; i<this._images.length; i++){
 			var img = this._images[i]
 			img.position.x = self.geometry.x //+ (self.geometry.width / 2)
 			img.position.y = self.geometry.y //+ (self.geometry.height / 2)
-			
+
 			// scale the image to fit the square,
 			var perc = 1
 			//  if the shape is funky then zoom in a bit more
 			if (self._shapeData) perc = 0.6
 			img.scale( (self.geometry.width / (306 * perc)) / (self.geometry.originalWidth / (306 * perc)) )
 		}
-		
+
 	},
 	setPalette: function( name ){
 		if (this.availablePalettes[name] != undefined){
@@ -525,7 +525,7 @@ TileSquare.prototype = {
 	},
 	queueImagesAtURL: function( arr ){
 		var self = this
-	
+
 		// filter out duplicate images from self._images here...
 		for( var i=arr.length-1; i >= 0; i--){
 			var url = arr[i]
@@ -535,18 +535,18 @@ TileSquare.prototype = {
 				}
 			}
 		}
-		
+
 		self._pendingImageUrls = arr
 		self._imagesToLoad = arr.length
-		
+
 	},
 	loadTile: function( imagesloaded_cb ){
 		var self = this
-		
-		if (self._pendingImageUrls.length > 0){ 
-			
+
+		if (self._pendingImageUrls.length > 0){
+
 			for( var i=0; i<self._pendingImageUrls.length; i++ ){
-			
+
 				// preload the images via HTML image object first... just to filter out the ones that won't load
 				var preloadImage = new Image()
 				preloadImage.onload = function(){
@@ -559,7 +559,7 @@ TileSquare.prototype = {
 					//  if the shape is funky then zoom in a bit more
 					if (self._shapeData) perc = 0.6
 					remoteImage.scale( self.geometry.width / (306 * perc) )
-					
+
 					self._container.addChild( remoteImage )
 					self._images.unshift( remoteImage )  // add to the beginning
 					self._loadedImageUrls.unshift( this.src )
@@ -570,14 +570,14 @@ TileSquare.prototype = {
 					self._imageLoaded( imagesloaded_cb, null, false )
 				}
 				preloadImage.src = self._pendingImageUrls[i];
-				
+
 			}
 		} else {
 			self._imageLoaded( imagesloaded_cb )
 		}
 	},
 	showNextImage: function( duration, delay ){
-	
+
 		//console.log("showNextImage",this._imagePointer,this._images);
 		// bail if we don't have images yet!
 		if (this._images.length == 0) return;
@@ -590,13 +590,13 @@ TileSquare.prototype = {
 		img.bringToFront()
 		//img.opacity = 1
 		var self = this
-		
+
 		duration = duration / 2
 		this._bg.bringToFront()
 		this._createFadeInTween( this._bg, duration, delay, function(){
-			
+
 			img.bringToFront()
-			
+
 			self._createFadeInTween( img, duration, delay, function(){
 				self._bg.opacity = 0
 				for(var i=0;i<self._images.length;i++){
@@ -622,7 +622,7 @@ TileSquare.prototype = {
 		// generic function to handle fading in
 		//item.opacity = 1
 		//cb()
-		
+
 		item.opacity = 0
 		var tween = new TWEEN.Tween({ opacity:0, element:item })
 			.to({ opacity: 1 }, duration)
@@ -637,8 +637,6 @@ TileSquare.prototype = {
 			})
 		}
 		tween.start()
-		
+
 	}
 }
-
-

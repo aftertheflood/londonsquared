@@ -1,0 +1,132 @@
+/* HTML5 Boilerplate accessible hidden styles */
+[type="radio"] {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px; margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+// reset the fieldset style
+fieldset {
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: none;
+}
+
+// One radio button per line
+.color-picker {
+  label {
+    display: block;
+    cursor: pointer;
+    line-height: 2.5;
+    margin-bottom: 20px;
+    //font-size: 1.5em;
+  }
+}
+
+[type="radio"] + span {
+  display: block;
+}
+
+// the basic, unchecked style
+[type="radio"] + span:before {
+  background-color: $grey-6;
+  content: '';
+  display: inline-block;
+  width: 3em;
+  height: 3em;
+  vertical-align: -1.2em;
+  border-radius: 3em;
+  border: 1px solid #eee;
+  box-shadow: none;
+  margin-right: 0.75em;
+  margin-left: -0.2em;
+  //margin-top: -10em;
+  //transition: 0.5s ease all;
+}
+
+// the checked style using the :checked pseudo class
+[type="radio"]:checked + span:before {
+  background: green;
+  //color: $white;
+}
+
+.paletteGreen {
+  [type="radio"]:checked + span:before {
+    background: #009460;
+    color: #fff;
+  }
+}
+.paletteBlue {
+  [type="radio"]:checked + span:before {
+    background: #1C6AD7;
+    color: #fff;
+  }
+}
+.palettePurple {
+  [type="radio"]:checked + span:before {
+    background: #8F39B8;
+    color: #fff;
+  }
+}
+.paletteRed {
+  [type="radio"]:checked + span:before {
+    background: #CD1D20;
+    color: #fff;
+  }
+}
+.paletteOrange {
+  [type="radio"]:checked + span:before {
+    background: #E36200;
+    color: #fff;
+  }
+}
+
+
+
+
+
+
+
+
+// never forget focus styling
+[type="radio"]:focus + span:after {
+  //content: '\0020\2190';
+  line-height: 1;
+  vertical-align: -0.05em;
+}
+
+/* Nothing to see here. */
+
+/*
+body {
+  margin: 3em auto;
+  max-width: 30em;
+  font-family: Cabin, serif;
+}
+
+fieldset {
+  font-size: 1em;
+  border: 2px solid #000;
+  padding: 2em;
+  border-radius: 0.5em;
+}
+
+legend {
+  color: #fff;
+  background: #000;
+  padding: 0.25em 1em;
+  border-radius: 1em;
+}
+
+.p {
+  text-align: center;
+  font-size: 14px;
+  padding-top: 120px;
+}
+
+*/

@@ -108,72 +108,119 @@
 </head>
 <body>
 
+
 	<section id="the-title">
-		<h1>London Squared Editor</h1>
+		<h1>London Squared, the Editor</h1>
+		<p><a href="http://aftertheflood.co/">Made by After the flood</a></p>
 	</section>
 
-	<section id="the-form">
-		<form id="londonsquared_form" name="londonsquared_form" action="">
 
-			1. Enter data for boroughs here:<br /><br />
+	<section id="the-body">
 
-			City of London: <input type="text" name="Cty" value="" /><br />
-			Barking & Dagenham: <input type="text" name="Bar" value="" /><br />
-			Barnet: <input type="text" name="Brn" value="" /><br />
-			Bexley: <input type="text" name="Bxl" value="" /><br />
-			Brent: <input type="text" name="Brt" value="" /><br />
-			Bromley: <input type="text" name="Brm" value="" /><br />
-			Camden: <input type="text" name="Cmd" value="" /><br />
-			Croydon: <input type="text" name="Crd" value="" /><br />
-			Enfield: <input type="text" name="Enf" value="" /><br />
-			Ealing: <input type="text" name="Elg" value="" /><br />
-			Greenwich: <input type="text" name="Grn" value="" /><br />
-			Hackney: <input type="text" name="Hck" value="" /><br />
-			Hammersmith & Fulham: <input type="text" name="Hms" value="" /><br />
-			Haringay: <input type="text" name="Hgy" value="" /><br />
-			Harrow: <input type="text" name="Hrw" value="" /><br />
-			Havering: <input type="text" name="Hvg" value="" /><br />
-			Hillingdon: <input type="text" name="Hdn" value="" /><br />
-			Hounslow: <input type="text" name="Hns" value="" /><br />
-			Islington: <input type="text" name="Isl" value="" /><br />
-			Kensington: <input type="text" name="Kns" value="" /><br />
-			Kingston upon Thames: <input type="text" name="Kng" value="" /><br />
-			Lambeth: <input type="text" name="Lam" value="" /><br />
-			Lewisham: <input type="text" name="Lsh" value="" /><br />
-			Merton: <input type="text" name="Mrt" value="" /><br />
-			Newham: <input type="text" name="Nwm" value="" /><br />
-			Redbridge: <input type="text" name="Rdb" value="" /><br />
-			Richmond: <input type="text" name="Rch" value="" /><br />
-			Southwark: <input type="text" name="Swr" value="" /><br />
-			Sutton: <input type="text" name="Stn" value="" /><br />
-			Tower Hamlets: <input type="text" name="Tow" value="" /><br />
-			Waltham Forest: <input type="text" name="Wth" value="" /><br />
-			Wandsworth: <input type="text" name="Wns" value="" /><br />
-			Westminster: <input type="text" name="Wst" value="" /><br />
 
-			2. Choose colour palette: <select name="palette">
-				<option value="green">Green</option>
-				<option value="blue">Blue</option>
-				<option value="purple">Purple</option>
-				<option value="red">Red</option>
-				<option value="orange">Orange</option>
-			</select><br />
+		<!-- The form. May need to add the export button to here -->
+		<section id="the-form">
+			<form id="londonsquared_form" name="londonsquared_form" action="">
 
-			<a href="javascript:processForm()" onClick="processForm()">3. Preview</a><br />
-		</form>
+				<section id="borough-data" class="row">
+					<h2 class="columns">
+						<span class="number-dot">1</span>:&nbsp;Enter your data for each borough
+					</h2>
+					<p class="hint columns">Hint! You can use your keyboard to tab through the data entry fields below</p>
+					<div class="data-fields">
+						<div class="borough-field large-4 medium-6 small-12 columns"><label>City of London:</label><input type="text" name="Cty" value="" /></div>
+						<div class="borough-field large-4 medium-6 small-12 columns"><label>Barking & Dagenham:</label><input type="text" name="Bar" value="" /></div>
+						<div class="borough-field large-4 medium-6 small-12 columns"><label>Barnet:</label><input type="text" name="Brn" value="" /></div>
+						<div class="borough-field large-4 medium-6 small-12 columns"><label>Bexley:</label><input type="text" name="Bxl" value="" /></div>
+						<div class="borough-field large-4 medium-6 small-12 columns"><label>Brent:</label><input type="text" name="Brt" value="" /></div>
+						<div class="borough-field large-4 medium-6 small-12 columns"><label>Bromley:</label><input type="text" name="Brm" value="" /></div>
+						<div class="borough-field large-4 medium-6 small-12 columns"><label>Camden:</label><input type="text" name="Cmd" value="" /></div>
+						<div class="borough-field large-4 medium-6 small-12 columns"><label>Croydon:</label><input type="text" name="Crd" value="" /></div>
+						<div class="borough-field large-4 medium-6 small-12 columns"><label>Enfield:</label><input type="text" name="Enf" value="" /></div>
+						<div class="borough-field large-4 medium-6 small-12 columns"><label>Ealing:</label><input type="text" name="Elg" value="" /></div>
+						<div class="borough-field large-4 medium-6 small-12 columns"><label>Greenwich:</label><input type="text" name="Grn" value="" /></div>
+						<div class="borough-field large-4 medium-6 small-12 columns"><label>Hackney:</label><input type="text" name="Hck" value="" /></div>
+						<div class="borough-field large-4 medium-6 small-12 columns"><label>Hammersmith & Fulham:</label><input type="text" name="Hms" value="" /></div>
+						<div class="borough-field large-4 medium-6 small-12 columns"><label>Haringay:</label><input type="text" name="Hgy" value="" /></div>
+						<div class="borough-field large-4 medium-6 small-12 columns"><label>Harrow:</label><input type="text" name="Hrw" value="" /></div>
+						<div class="borough-field large-4 medium-6 small-12 columns"><label>Havering:</label><input type="text" name="Hvg" value="" /></div>
+						<div class="borough-field large-4 medium-6 small-12 columns"><label>Hillingdon:</label><input type="text" name="Hdn" value="" /></div>
+						<div class="borough-field large-4 medium-6 small-12 columns"><label>Hounslow:</label><input type="text" name="Hns" value="" /></div>
+						<div class="borough-field large-4 medium-6 small-12 columns"><label>Islington:</label><input type="text" name="Isl" value="" /></div>
+						<div class="borough-field large-4 medium-6 small-12 columns"><label>Kensington:</label><input type="text" name="Kns" value="" /></div>
+						<div class="borough-field large-4 medium-6 small-12 columns"><label>Kingston upon Thames:</label><input type="text" name="Kng" value="" /></div>
+						<div class="borough-field large-4 medium-6 small-12 columns"><label>Lambeth:</label><input type="text" name="Lam" value="" /></div>
+						<div class="borough-field large-4 medium-6 small-12 columns"><label>Lewisham:</label><input type="text" name="Lsh" value="" /></div>
+						<div class="borough-field large-4 medium-6 small-12 columns"><label>Merton:</label><input type="text" name="Mrt" value="" /></div>
+						<div class="borough-field large-4 medium-6 small-12 columns"><label>Newham:</label><input type="text" name="Nwm" value="" /></div>
+						<div class="borough-field large-4 medium-6 small-12 columns"><label>Redbridge:</label><input type="text" name="Rdb" value="" /></div>
+						<div class="borough-field large-4 medium-6 small-12 columns"><label>Richmond:</label><input type="text" name="Rch" value="" /></div>
+						<div class="borough-field large-4 medium-6 small-12 columns"><label>Southwark:</label><input type="text" name="Swr" value="" /></div>
+						<div class="borough-field large-4 medium-6 small-12 columns"><label>Sutton:</label><input type="text" name="Stn" value="" /></div>
+						<div class="borough-field large-4 medium-6 small-12 columns"><label>Tower Hamlets:</label><input type="text" name="Tow" value="" /></div>
+						<div class="borough-field large-4 medium-6 small-12 columns"><label>Waltham Forest:</label><input type="text" name="Wth" value="" /></div>
+						<div class="borough-field large-4 medium-6 small-12 columns"><label>Wandsworth:</label><input type="text" name="Wns" value="" /></div>
+						<div class="borough-field large-4 medium-6 small-12 columns"><label>Westminster:</label><input type="text" name="Wst" value="" /></div>
+					</div>
+				</section>
+
+				<section id="color-palette" class="row">
+					<h2 class="columns">
+						<span class="number-dot">2</span>:&nbsp;Choose a colour palette
+					</h2>
+					<div class="color-selector columns">
+						<fieldset class="color-picker">
+							<label for="paletteGreen" class="paletteGreen">
+								<input type="radio" name="palette" value="green" id="paletteGreen"><span>Green</span>
+							</label>
+							<label for="paletteBlue" class="paletteBlue">
+								<input type="radio" name="palette" value="blue" id="paletteBlue"><span>Blue</span>
+							</label>
+							<label for="palettePurple" class="palettePurple">
+								<input type="radio" name="palette" value="purple" id="palettePurple"><span>Purple</span>
+							</label>
+							<label for="paletteRed" class="paletteRed">
+								<input type="radio" name="palette" value="red" id="paletteRed"><span>Red</span>
+							</label>
+							<label for="paletteOrange" class="paletteOrange">
+								<input type="radio" name="palette" value="orange" id="paletteOrange"><span>Orange</span>
+							</label>
+						</fieldset>
+
+					</div>
+				</section>
+
+				<section id="get-preview" class="row">
+					<h2 class="columns">
+						<a href="javascript:processForm()" onClick="processForm()">
+							<span class="number-dot">3</span>:&nbsp;Generate your map
+						</a>
+					</h2>
+				</section>
+
+			</form>
+		</section>
+		<!-- end of the form -->
+
+
+
+		<section id="the-export" class="row">
+			<div id="exportedcode">
+
+			</div>
+			<h2 class="columns">
+				<a href='javascript:exportMap();' download='londonsquared.png' onClick='exportMap();'>
+					<span class="number-dot">4</span>:&nbsp;Export
+				</a>
+			</h2>
+			<p class="hint columns">Hint! You can also right-click on the image to "save image as..."</p>
+		</section>
 
 	</section>
 
-	<section id="the-export">
-		<div id="exportedcode">
-
-		</div>
-		<div>
-			<a href='javascript:exportMap();' download='londonsquared.png' onClick='exportMap();'>4. Export</a>
-		</div>
-
+	<section id="the-footer">
+		<p class="row">© Copyright 2015, After the flood</p>
 	</section>
-
 
 </body>
 </html>

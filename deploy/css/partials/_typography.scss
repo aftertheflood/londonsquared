@@ -1,0 +1,64 @@
+// Font variables
+$headline-font: "futura-pt-condensed", Helvetica, Arial, Sans-serif;
+$text-font: "Tiempos", Georgia, Times, Serif;
+$logo-font: "Tiempos", Georgia, Times, Serif;
+$emphasis-font: "futura-pt", Helvetica, Arial, Sans-serif;
+
+
+
+html {
+  text-rendering: optimizeLegibility;
+  font-variant-ligatures: common-ligatures;
+  -webkit-font-smoothing:antialiased;
+  -webkit-font-variant-ligatures: common-ligatures;
+  // set the foundation size to base rem off of
+  font-size: 18px;
+}
+
+
+
+#the-title {
+  text-align: center;
+  h1 {
+    color: $white;
+    font-family: $headline-font;
+    font-weight: bold;
+    font-size: 3rem;
+    letter-spacing: 0.1em;
+    line-height: 3rem;
+    text-transform: uppercase;
+  }
+  p {
+    color: $grey-4;
+    font-family: $text-font;
+    font-size: 1rem;
+    font-weight: normal;
+    line-height: 1rem;
+  }
+}
+
+
+
+h2 {
+  font-family: $emphasis-font;
+  font-size: 1.6rem;
+  font-weight: bold;
+  line-height: 2rem;
+  letter-spacing: 0.05rem;
+}
+p, li, form {
+  font-family: $text-font;
+}
+
+
+
+#the-footer {
+  p {
+    color: $grey-3;
+    font-family: $text-font;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: normal;
+    line-height: 1rem;
+  }
+}
