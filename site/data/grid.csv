@@ -1,0 +1,34 @@
+LSAbbreviation, x, y, irregular, code, name
+enf,4,0,false,E09000010,Enfield
+hrw,2,1,false,E09000015,Harrow
+brn,3,1,false,E09000003,Barnet
+hgy,4,1,false,E09000014,Haringey
+wth,5,1,false,E09000031,Waltham Forest
+hdn,0,2,false,E09000017,Hillingdon
+elg,1,2,false,E09000009,Ealing
+brt,2,2,false,E09000005,Brent
+cmd,3,2,false,E09000007,Camden
+isl,4,2,false,E09000019,Islington
+hck,5,2,false,E09000012,Hackney
+rdb,6,2,false,E09000026,Redbridge
+hvg,7,2,false,E09000016,Havering
+hns,0,3,false,E09000018,Hounslow
+hms,1,3,false,E09000013,Hammersmith and Fulham
+kns,2,3,false,E09000020,Kensington and Chelsea
+wst,3,3,true,E09000033,Westminster
+cty,4,3,true,E09000001,City of London
+tow,5,3,true,E09000030,Tower Hamlets
+nwm,6,3,true,E09000025,Newham
+bar,7,3,true,E09000002,Barking and Dagenham
+rch,1,4,false,E09000027,Richmond upon Thames
+wns,2,4,false,E09000032,Wandsworth
+lam,3,4,true,E09000022,Lambeth
+swr,4,4,true,E09000028,Southwark
+lsh,5,4,true,E09000023,Lewisham
+grn,6,4,true,E09000011,Greenwich
+bxl,7,4,true,E09000004,Bexley
+kng,2,5,false,E09000021,Kingston upon Thames
+mrt,3,5,false,E09000024,Merton
+crd,4,5,false,E09000008,Croydon
+brm,5,5,false,E09000006,Bromley
+stn,3,6,false,E09000029,Sutton
