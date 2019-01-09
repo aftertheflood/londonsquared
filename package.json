@@ -1,12 +1,12 @@
 {
   "name": "@aftertheflood/londonsquared",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "npx browser-sync start --server 'site'",
-    "build": "npx webpack ./site/index.js -o ./site/bundle.js --watch"
+    "serve": "npx browser-sync start --server './'",
+    "build": "npx webpack --watch"
   },
   "author": "tom.g.pearson@gmail.com",
   "license": "ISC",

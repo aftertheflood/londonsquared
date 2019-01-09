@@ -158,4 +158,4 @@ const londonSquared = () => {
   return ls;
 }
 
-export default londonSquared;
+export { londonSquared as londonSquared };
