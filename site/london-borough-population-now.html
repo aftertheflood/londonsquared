@@ -6,6 +6,15 @@
       font-family: sans-serif;
     }
 
+    p{
+      max-width:600px;
+    }
+
+    .subtitle{
+      font-style:italic;
+      color:#666;
+    }
+
     .borough-label{
       fill: #111;
     }
@@ -19,6 +28,7 @@
 </head>
 <body>
 <h1>London population by borough</h1>
+<p class="subtitle">GLA Population Estimate 2015 (thousands)</p>
 <p>This example illustrates how you might use the After the Flood <a href="">London Squared</a> plugin for D3 to visualise a single variable accross all London boroughs.</p>
 <div class="vizualisation-container"></div>
 </body>
@@ -66,6 +76,12 @@ window.onload = ()=>{
             .attr('x', 5)
             .attr('y', 15)
             .text(d => d.LSAbbreviation);
+          
+          parent.append('text')
+            .attr('class', 'borough-label')
+            .attr('x', 5)
+            .attr('y', LS.blockSize()-5)
+            .text(d => `${d.data['GLA Population Estimate 2015']/1000}k`);
         })
     })
     .catch(err=>{
