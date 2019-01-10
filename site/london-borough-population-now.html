@@ -5,18 +5,31 @@
     body{
       font-family: sans-serif;
     }
-    svg{
-      border: solid 1px black;
+
+    p{
+      max-width:600px;
     }
+
+    .subtitle{
+      font-style:italic;
+      color:#666;
+    }
+
     .borough-label{
-      fill: #FFF;
+      fill: #111;
+    }
+
+    .ls-background{
+      fill:#eee;
     }
   </style>
   <script src="https://d3js.org/d3.v5.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@aftertheflood/londonsquared@0.0.2/dist/index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@aftertheflood/londonsquared/dist/index.js"></script>
 </head>
 <body>
 <h1>London population by borough</h1>
+<p class="subtitle">GLA Population Estimate 2015 (thousands)</p>
+<p>This example illustrates how you might use the After the Flood <a href="https://github.com/aftertheflood/londonsquared">London Squared</a> module for D3 to visualise a single variable accross all London boroughs.</p>
 <div class="vizualisation-container"></div>
 </body>
 <script>
@@ -63,6 +76,12 @@ window.onload = ()=>{
             .attr('x', 5)
             .attr('y', 15)
             .text(d => d.LSAbbreviation);
+          
+          parent.append('text')
+            .attr('class', 'borough-label')
+            .attr('x', 5)
+            .attr('y', LS.blockSize()-5)
+            .text(d => `${d.data['GLA Population Estimate 2015']/1000}k`);
         })
     })
     .catch(err=>{
