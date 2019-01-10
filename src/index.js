@@ -20,12 +20,15 @@ const londonSquared = () => {
     classDict: {
       borough:'borough',
       background:'background',
+      interaction:'interaction',
       masked:'masked',
       foreground:'foreground',
     },
     gridGapProportion: 0.05,
     parent: null,
   }
+
+  config.className = (n) => `${config.classPrefix}-${config.classDict[n]}`;
 
   function rescale(){ // this function is pretty much 100% side effect
     let availableSize = config.width; 
@@ -46,7 +49,6 @@ const londonSquared = () => {
   const ls = (parent) => {
     rescale();
 
-    const className = (n)=>`${config.classPrefix}-${config.classDict[n]}`;
     const layoutData = layout.map( d=> config.dataLookup[d.code] );
 
     parent.selectAll('defs').data([true])
@@ -61,7 +63,7 @@ const londonSquared = () => {
     
     parent.selectAll('clipPath').filter(d=>d.irregular)
       .append('path')
-        .attr('class', className('background'))
+        .attr('class', config.className('background'))
         .attr('transform', d=>`scale(${config.scaleFactor})`)
         .attr('d', d=>path[d.code]);      
 
@@ -70,17 +72,25 @@ const londonSquared = () => {
         .attr('width', config.blockSize)
         .attr('height', config.blockSize);
 
-    parent.selectAll(`.${className('borough')}`)
+    parent.selectAll(`.${config.className('borough')}`)
       .data(layoutData)
         .enter()
       .append('g')
         .attr('transform', d=>`translate(${config.gridScale(d.x)}, ${config.gridScale(d.y)})`)
-        .attr('class', className('borough'), true)
+        .attr('class', config.className('borough'), true)
         .call((borough) => {
           //background
+          borough.append('rect')
+            .attr('class', config.className('interaction'))
+            .attr('fill-opacity', 0)
+            .attr('x', config.gridGap/2)
+            .attr('y', config.gridGap/2)
+            .attr('width', config.blockSize)
+            .attr('height', config.blockSize);
+
           borough.filter(d => !d.irregular)
             .append('rect')
-            .attr('class', className('background'))
+            .attr('class', config.className('background'))
             .attr('x', config.gridGap/2)
             .attr('y', config.gridGap/2)
             .attr('width', config.blockSize)
@@ -88,20 +98,20 @@ const londonSquared = () => {
 
           borough.filter(d => d.irregular)
             .append('path')
-            .attr('class', className('background'))
+            .attr('class', config.className('background'))
             .attr('transform', `translate(${config.gridGap/2}, ${config.gridGap/2}) scale(${config.scaleFactor})`)
             .attr('d', d=>path[d.code]);
 
           //masked-attachment point
           borough.append('g')
             .attr('transform',`translate(${config.gridGap/2},${config.gridGap/2})`)
-            .attr('class', className('masked'))
+            .attr('class', config.className('masked'))
             .attr('clip-path', d=>`url(#${config.classPrefix}-mask-${d.code})`);
 
           //foreground attachment point
           borough.append('g')
             .attr('transform',`translate(${config.gridGap/2},${config.gridGap/2})`)
-            .attr('class',className('foreground'));
+            .attr('class', config.className('foreground'));
         });
     config.parent = parent;
     return parent;
@@ -122,7 +132,7 @@ const londonSquared = () => {
       }, {})
       return this;
     }
-    return config.data;
+    return config.parent.selectAll(`.${config.className('borough')}`).data()
   };
 
   ls.width = function(width) {
@@ -146,11 +156,23 @@ const londonSquared = () => {
   };
 
   ls.masked = function() {
-    return config.parent.selectAll('.ls-masked');
+    return config.parent
+      .selectAll(`.${config.className('masked')}`);
   };
 
   ls.foreground = function() {
-    return config.parent.selectAll('.ls-foreground');
+    return config.parent
+      .selectAll(`.${config.className('foreground')}`);
+  };
+
+  ls.background = function() {
+    return config.parent
+      .selectAll(`.${config.className('background')}`);
+  };
+
+  ls.interaction = function() {
+    return config.parent
+      .selectAll(`.${config.className('interaction')}`);
   };
 
   ls.blockSize = () => config.blockSize;
