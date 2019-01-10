@@ -1,6 +1,6 @@
 {
   "name": "@aftertheflood/londonsquared",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Visualise london brough data in the style of After the Floods London Squared cartograms",
   "keywords": ["d3-module","cartogram","london","visualization"],
   "main": "src/index.js",

@@ -180,4 +180,6 @@ const londonSquared = () => {
   return ls;
 }
 
+londonSquared.version = '0.1.1';
+
 export { londonSquared as londonSquared };
