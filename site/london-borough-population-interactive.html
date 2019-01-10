@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body{
+      font-family: sans-serif;
+    }
+
+    p{
+      max-width:600px;
+    }
+
+    .subtitle{
+      font-style:italic;
+      color:#666;
+    }
+
+    .borough-label{
+      fill: #111;
+    }
+
+    .borough-label-outline{
+      stroke: #FFF;
+      stroke-width: 2px;
+    }
+
+    .ls-background{
+      fill:#eee;
+    }
+
+    .ls-masked{
+      pointer-events:none;
+    
+    }
+    .ls-foreground{
+      pointer-events:none;
+    }
+
+    .ls-background{
+      pointer-events:none;
+    }
+
+    .chart-line{
+      fill: none;
+      stroke: #DDD;
+      stroke-width: 1px;
+    }
+
+    .y-graticule{
+      stroke: #000;
+      stroke-width: 1px;
+    }
+
+    .x-graticule{
+      stroke: #DDD;
+      stroke-width: 1px;
+    }
+  </style>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@aftertheflood/londonsquared/dist/index.js"></script>
+</head>
+<body>
+<h1>Historical London population by borough</h1>
+<p class="subtitle">Census data 1801 &ndash; 2011</p>
+<p>This example illustrates how you might use the After the Flood <a href="https://github.com/aftertheflood/londonsquared">London Squared</a> module for D3 to visualise time series data accross all London boroughs.</p>
+<div class="vizualisation-container"></div>
+</body>
+<script>
+
+function interactionStateFactory(data){
+  const changeDispatcher = d3.dispatch('change');
+  const stateData = data;
+  const values = {};
+
+  const years = stateData[0].data.population.map(d=>d.date.getFullYear());
+
+  const populationLookup = stateData.reduce((lookup, current)=>{
+    const keyPrefix = current.LSAbbreviation;
+    current.data.population.forEach(d=>{
+      const key = `${keyPrefix}-${d.date.getFullYear()}`;
+      lookup[key] = d.value;
+    });
+    return lookup;
+  },{});
+
+  function state(year, borough){
+    var closestYear = years.reduce(function(previousClosest, current) {
+      return (Math.abs(current - year) < Math.abs(previousClosest - year) ? current : previousClosest);
+    });
+
+    values.boroughs = Object.keys(populationLookup)
+      .filter(k=>k.indexOf(closestYear)>-1)
+      .reduce((lookup, current)=>{
+        lookup[current.split('-')[0]] = populationLookup[current];
+        return lookup;
+      },{});
+
+
+    values.reference = { 
+      year:new Date(closestYear,0,1), 
+      value: populationLookup[`${borough}-${closestYear}`],
+      totalPopulation: d3.sum(Object.values(values.boroughs)),
+      borough
+    };
+
+
+    changeDispatcher.call('change', values);
+  };
+
+  state.change = (f) => {
+    changeDispatcher.on('change', f);
+  };
+  
+  return state;
+}
+
+
+
+window.onload = ()=>{
+  const width = 600;
+  const height = 525;
+
+  const svg = d3.select('.vizualisation-container')
+    .append('svg')
+    .attr('width', width)
+    .attr('height', height);
+
+  d3.csv('data/census-historic-population-borough.csv')
+    .then((data)=>{
+      
+      // turn the data in to timeseries arrays
+      const boroughPopulationExtent = []
+      const processedData = data.map((row)=>{
+        const populationProperties = Object.keys(row).filter(key=>(key.indexOf('Persons-')>-1))
+        const population = populationProperties
+          .map((key)=>{
+            const value = Number(row[key]);
+            const date = new Date(Number(key.split('Persons-')[1]), 0, 1);
+            if(boroughPopulationExtent.length < 2){
+              boroughPopulationExtent[0] = value;
+              boroughPopulationExtent[1] = value;
+            }else{
+              boroughPopulationExtent[0] = Math.min(boroughPopulationExtent[0], value);
+              boroughPopulationExtent[1] = Math.max(boroughPopulationExtent[1], value);
+            }
+            return { date, value }
+          })
+          .sort((a,b)=>{
+            return (a.date.getTime() - b.date.getTime())
+          })
+        return {
+          code:row['Area Code'],
+          population
+        }
+      });
+
+      const LS = atf.londonSquared()
+        .data(processedData)
+        .width(width)
+        .height(height);
+
+      svg.call(LS); // draw the cartogram shapes
+
+      const vizState = interactionStateFactory(LS.data());
+      
+      const valueScale = d3.scaleLinear()
+        .domain(boroughPopulationExtent)
+        .range([LS.blockSize(), 0]);
+      
+      const timeScale = d3.scaleTime()
+        .domain([new Date(1801,0,1), new Date(2011,0,1)])
+        .range([0, LS.blockSize()]);
+
+      vizState.change(function(){
+        const stateValues = this;
+        LS.masked()
+          .call(function(parent){
+            parent.selectAll('.x-graticule')
+              .attr('x1', d=>timeScale(stateValues.reference.year))
+              .attr('x2', d=>timeScale(stateValues.reference.year));
+
+            parent.selectAll('.y-graticule')
+              .attr('y1', d=>valueScale(stateValues.boroughs[d.LSAbbreviation]))
+              .attr('y2', d=>valueScale(stateValues.boroughs[d.LSAbbreviation]));
+          });
+        
+        svg.selectAll('.year-label')
+          .data([stateValues.reference])
+            .enter()
+          .append('text')
+            .attr('class','year-label')
+            .attr('x', 0)
+            .attr('y', 20);
+
+        svg.selectAll('.year-label')
+          .text(d=>`${d.year.getFullYear()}: total population ${d.totalPopulation.toLocaleString()}`);
+        
+      });
+      
+      const line = d3.line()
+        .x((d)=>timeScale(d.date))
+        .y((d)=>valueScale(d.value));
+
+      LS.masked()
+        .call(function(parent){
+          parent.append('path')
+            .attr('d',d=>line(d.data.population))
+            .attr('class', 'chart-line');
+
+          parent.append('line')
+            .attr('class','x-graticule')
+            .attr('x1', 0)
+            .attr('x2', 0)
+            .attr('y1', -LS.blockSize()/2)
+            .attr('y2', LS.blockSize() * 2);
+
+          parent.append('line')
+            .attr('class','y-graticule')
+            .attr('x1', -LS.blockSize()/2)
+            .attr('x2', LS.blockSize() * 2)
+            .attr('y1', LS.blockSize())
+            .attr('y2', LS.blockSize());
+
+        });
+      
+      LS.interaction()
+        .on('mousemove', function(){
+          const [x] = d3.mouse(this);
+          vizState(timeScale.invert(x).getFullYear(), d3.select(this).data()[0].LSAbbreviation)
+        })
+        .on('click', function(d){
+          const [x,y] = d3.mouse(this)
+        });
+      
+      LS.foreground()
+        .call(function(parent){
+          parent.append('text')
+            .attr('class', 'borough-label-outline')
+            .attr('x', 5)
+            .attr('y', 15)
+            .text(d => d.LSAbbreviation);
+
+          parent.append('text')
+            .attr('class', 'borough-label')
+            .attr('x', 5)
+            .attr('y', 15)
+            .text(d => d.LSAbbreviation);
+        })
+    })
+    .catch(err=>{
+      console.log(err);
+    })
+}
+</script>
+</html>

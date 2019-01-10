@@ -29,7 +29,7 @@ window.onload = ()=>{
     .attr('width', width)
     .attr('height', height);
 
-  d3.csv('/site/data/london-borough-profiles.csv')
+  d3.csv('data/london-borough-profiles.csv')
     .then((data)=>{
       const LS = atf.londonSquared()
         .data(data, d=>d.Code) //the second argument is an accessor for the local authority code associated with the data row. by default this is d=>d.code
