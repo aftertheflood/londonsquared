@@ -52,7 +52,7 @@ window.onload = ()=>{
     .attr('width', width)
     .attr('height', height);
 
-  d3.csv('/site/data/census-historic-population-borough.csv')
+  d3.csv('data/census-historic-population-borough.csv')
     .then((data)=>{
 
       // turn the data in to timeseries arrays
