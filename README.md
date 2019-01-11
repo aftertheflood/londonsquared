@@ -1,8 +1,7 @@
 # London Squared
 
-Code to support the creation of London Squared cartograms.
+A D3  module to support the creation of <a href="https://www.informationisbeautifulawards.com/showcase/842-london-squared-map-making-the-city-easier-to-read">award winning</a> <a href="https://aftertheflood.com/projects/future-cities-catapult/">London Squared</a> cartograms.
 
-For more information about London Squared...
 
 ## Getting started
 
