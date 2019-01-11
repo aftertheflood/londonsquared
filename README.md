@@ -26,7 +26,7 @@ __londonSquared()__
 
 Create a london squared layout
 
-Note: all the example code assumes you're using the module via the script tag method explained above so the `londonSquared` function is preceded by the `atf` global name-spacing variable;
+_Note: all the example code assumes you're using the module via the script tag method explained above so the `londonSquared` function is preceded by the `atf` global name-spacing variable._
 
 ```js
 // create the londonSquared layout...
@@ -82,9 +82,18 @@ __londonSquared.data([array],[accessor])__
 
 This function sets the data to bind to the cartogram areas (_array_)and the mechanism by which to bind it (_accessor_ function) returns the data as bound to the cartogram areas, including abbreviations, names etc for the 
 
+```js
+// bind and array of data "boroughData" to the cartogram areas by the property "ONS Area Code"
+
+const LS = atf.londonSquared()
+  .data(boroughData, d=>d['ONS Area Code'])
+```
+
 ## Examples
 
-
+ * <a href="http://aftertheflood.github.io/londonsquared/site/london-borough-population-now.html">A single variable visualisation</a>
+ * <a href="http://aftertheflood.github.io/londonsquared/site/london-borough-population-timeline.html">A time series visualization</a>
+ * <a href="http://aftertheflood.github.io/londonsquared/site/london-borough-population-interactive.html">Adding some interaction to the time series vizualisation</a>
 
 ## Developing
 
