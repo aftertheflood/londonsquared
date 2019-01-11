@@ -91,9 +91,9 @@ const LS = atf.londonSquared()
 
 ## Examples
 
- * <a href="http://aftertheflood.github.io/londonsquared/site/london-borough-population-now.html">A single variable visualisation</a>
- * <a href="http://aftertheflood.github.io/londonsquared/site/london-borough-population-timeline.html">A time series visualization</a>
- * <a href="http://aftertheflood.github.io/londonsquared/site/london-borough-population-interactive.html">Adding some interaction to the time series vizualisation</a>
+ * <a href="http://aftertheflood.github.io/londonsquared/site/london-borough-population-now.html">A single variable visualisation</a> (<a href="https://github.com/aftertheflood/londonsquared/blob/master/site/london-borough-population-now.html">code</a>)
+ * <a href="http://aftertheflood.github.io/londonsquared/site/london-borough-population-timeline.html">A time series visualization</a> (<a href="https://github.com/aftertheflood/londonsquared/blob/master/site/london-borough-population-interactive.html">code</a>)
+ * <a href="http://aftertheflood.github.io/londonsquared/site/london-borough-population-interactive.html">Adding some interaction to the time series vizualisation</a> (<a href="https://github.com/aftertheflood/londonsquared/blob/master/site/london-borough-population-interactive.html">code</a>)
 
 ## Developing
 For local development you can use these npm scrpts
