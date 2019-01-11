@@ -96,5 +96,6 @@ const LS = atf.londonSquared()
  * <a href="http://aftertheflood.github.io/londonsquared/site/london-borough-population-interactive.html">Adding some interaction to the time series vizualisation</a>
 
 ## Developing
-
-build `npm run build` and serve `npm run serve`
+For local development you can use these npm scrpts
+ * `npm run build` uses <a href="https://webpack.js.org">webpack</a> to compile the code in the _src_ directory outputting to the _dist_ directory.
+ * `npm run serve` runs <a href="https://browsersync.io">browser-sync</a> on the _site_ directory.
