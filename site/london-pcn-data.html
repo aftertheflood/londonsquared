@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body{
+      font-family: sans-serif;
+    }
+
+    p{
+      max-width:600px;
+    }
+
+    .subtitle{
+      font-style:italic;
+      color:#666;
+    }
+
+    .borough-label{
+      fill: #111;
+    }
+
+    .ls-background{
+      fill:#eee;
+    }
+  </style>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://unpkg.com/@aftertheflood/londonsquared@0.1.1/dist/index.js"></script>
+</head>
+<body>
+<h1>London penalty charge notices by borough</h1>
+<p class="subtitle">2018 (thousands)</p>
+<p>This example illustrates how you might use the After the Flood <a href="https://github.com/aftertheflood/londonsquared">London Squared</a> module for D3 to visualise a few variable accross all London boroughs.</p>
+<div class="vizualisation-container"></div>
+</body>
+<script>
+window.onload = ()=>{
+  const width = 600;
+  const height = 525;
+
+  const svg = d3.select('.vizualisation-container')
+    .append('svg')
+    .attr('width', width)
+    .attr('height', height);
+
+  d3.csv('data/parking-enforcement-activity-2018.csv')
+    .then((data)=>{
+
+      const categories = ['Total parking PCNs', 'Bus lane PCNs', 'Moving traffic PCNs'];
+      
+      const LS = atf.londonSquared()
+        .data(data, d=>d.Code) //the second argument is an accessor for the local authority code associated with the data row. by default this is d=>d.code
+        .width(width)
+        .height(height);
+
+      svg.call(LS); // draw the cartogram shapes
+      const property = 'Total PCNs';
+
+      const valueScale = d3.scaleLinear()
+        .domain([0, data.reduce((accumulator, currentRow)=>{
+          const rowMax = d3.max(categories, category=> Number(currentRow[category]));
+          return Math.max(accumulator, rowMax);
+        }, 0)])
+        .range([0, LS.blockSize()]);
+
+      const categoryScale = d3.scaleBand()
+        .domain(categories)
+        .range([0, LS.blockSize()])
+        .padding([0.1]);
+
+      const categoryColourScale = d3.scaleOrdinal()
+        .domain(categories)
+        .range(['rgb(153, 107, 195)','rgb(56, 106, 197)','rgb(93, 199, 76)'])
+
+      svg.append('g')
+        .attr('class', 'legendOrdinal')
+        .attr('transform',(d,i)=>`translate(0, 15)`)
+        .selectAll('g')
+          .data(categoryColourScale.domain())
+        .enter()
+          .append('g')
+          .attr('transform',(d,i)=>`translate(0, ${i*20})`)
+        .call(function(parent){
+
+          parent.append('rect')
+            .attr('width', 15)
+            .attr('height', 15)
+            .attr('x', 0)
+            .attr('y', 0)
+            .attr('fill', d=>categoryColourScale(d));
+          
+          parent.append('text')
+            .attr('dx', 25)
+            .attr('dy', 15)
+            .text(d=>d);
+        })
+      
+      LS.masked()
+        .call(function(parent){
+          categories.forEach((category)=>{
+            parent.append('rect')
+              .attr('x',categoryScale(category))
+              .attr('y',d=>(LS.blockSize()-valueScale(d.data[category])))
+              .attr('width',categoryScale.bandwidth())
+              .attr('height',d=>valueScale(d.data[category]))
+              .attr('fill',categoryColourScale(category));
+          })
+        });
+      
+      LS.foreground()
+        .call(function(parent){
+          parent.append('text')
+            .attr('class', 'borough-label')
+            .attr('x', 5)
+            .attr('y', 15)
+            .text(d => d.LSAbbreviation);
+          
+          parent.append('text')
+            .attr('class', 'borough-label')
+            .attr('x', 5)
+            .attr('y', LS.blockSize()-5)
+            .text(d => `${Math.floor(d.data[property]/100)/10}k`);
+        })
+    })
+    .catch(err=>{
+      console.log(err);
+    })
+}
+</script>
+</html>
