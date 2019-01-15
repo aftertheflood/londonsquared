@@ -80,7 +80,6 @@ window.onload = ()=>{
           .append('g')
           .attr('transform',(d,i)=>`translate(0, ${i*20})`)
         .call(function(parent){
-
           parent.append('rect')
             .attr('width', 15)
             .attr('height', 15)
@@ -92,7 +91,7 @@ window.onload = ()=>{
             .attr('dx', 25)
             .attr('dy', 15)
             .text(d=>d);
-        })
+        });
       
       LS.masked()
         .call(function(parent){
