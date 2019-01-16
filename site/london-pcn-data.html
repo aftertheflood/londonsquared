@@ -59,6 +59,7 @@ function drawPCNData(boroughProfiles){
 
       svg.call(LS); // draw the cartogram shapes
 
+      // construct the necessary scales
       const valueScale = d3.scaleLinear()
         .domain([0, data.reduce((accumulator, currentRow)=>{
           const rowMax = d3.max(categories, category=> Number(currentRow[category]));
@@ -78,7 +79,8 @@ function drawPCNData(boroughProfiles){
       const colourBracket = ["#FFFFFF","#666666"];
       const densityScale = d3.scaleSequential(d3.interpolateRgbBasis(colourBracket))
         .domain([0,150]);
-
+      
+      // define the gradient fill
       svg.select('defs')
         .append("linearGradient")
           .attr("id", "linear-gradient")
@@ -96,6 +98,7 @@ function drawPCNData(boroughProfiles){
             .attr('stop-color', colourBracket[1]);
         });
 
+      // ordinalcreate a legend for the category colours
       svg.append('g')
         .attr('class', 'legend-ordinal')
         .attr('transform',(d,i)=>`translate(0, 15)`)
@@ -118,6 +121,7 @@ function drawPCNData(boroughProfiles){
             .text(d=>d);
         });
 
+      // create a legend for the choropleth
       svg.append('g')
         .attr('class', 'legend-continuous')
         .attr('transform','translate(350, 475)')
@@ -161,6 +165,7 @@ function drawPCNData(boroughProfiles){
             .text(densityScale.domain()[1])
         });
       
+      // add the data to the map
       LS.masked()
         .call(function(parent){
           categories.forEach((category)=>{
