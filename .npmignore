@@ -1,2 +1,4 @@
 site
 .vscode
+_layouts
+_config.yml
