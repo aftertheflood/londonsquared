@@ -20,6 +20,6 @@ For next steps you could either read the API documentation or dive into some of 
 </p>
 <h3>A note about data requirements</h3>
 
-<p>With the London Squared module Data is bound to shapes by the boroughs' <a href="http://geoportal.statistics.gov.uk/datasets/interim-local-authority-districts-april-2018-names-and-codes-in-the-united-kingdom">standard ONS code</a> so in order to bind your data to the layout you'll need to include those codes, by default you can include a property in each boroughs data called _code_ which and the layout should find that, if this isn't possible of convenient then you can specify a function.</p>
+<p>With the London Squared module Data is bound to shapes by the boroughs' <a href="http://geoportal.statistics.gov.uk/datasets/interim-local-authority-districts-april-2018-names-and-codes-in-the-united-kingdom">standard ONS code</a> so in order to bind your data to the layout you'll need to include those codes, by default you can include a property in each borough's data called _code_ and the layout should find that, if this isn't possible of convenient then you can specify an accessor function.</p>
 
 </div>
