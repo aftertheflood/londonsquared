@@ -1,6 +1,6 @@
 <div class="full-width">
 
-<h2>Getting started</2>
+<h2>Getting started</h2>
 
 <p>The quickest way to get started with the London Squared D3 module is by including the module in your page with a script tag (you'll also need to include D3). Just put the following tags into your HTML document and you're ready to go...</p>
 
