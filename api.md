@@ -1,3 +1,5 @@
+<div class="full-width">
+
 ## London Squared D3 module API
 
 __londonSquared()__
@@ -66,3 +68,4 @@ This function sets the data to bind to the cartogram areas (_array_)and the mech
 const LS = atf.londonSquared()
   .data(boroughData, d=>d['ONS Area Code'])
 ```
+</div>

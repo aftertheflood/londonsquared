@@ -1,3 +1,5 @@
+<div class="full-width">
+
 ## Getting started
 
 The quickest way to get going with this is __via a script tag__ (you'll also need to include D3)
@@ -13,3 +15,5 @@ via npm__
 `npm install @aftertheflood/londonsquared`
 
 _Data requirements_. Data is bound to shapes by the boroughs [standard code as defined by the ONS](http://geoportal.statistics.gov.uk/datasets/interim-local-authority-districts-april-2018-names-and-codes-in-the-united-kingdom).
+
+</div>
