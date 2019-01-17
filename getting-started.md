@@ -5,10 +5,10 @@
 <p>The quickest way to get started with the London Squared D3 module is by including the module in your page with a script tag (you'll also need to include D3). Just put the following tags into your HTML document and you're ready to go...</p>
 
 <pre>
-  <script src="https://d3js.org/d3.v5.min.js">
-  </script>
-  <script src="https://unpkg.com/@aftertheflood/londonsquared/dist/index.js">
-  </script>
+  &lt;script src=&quot;https://d3js.org/d3.v5.min.js&quot;&gt;
+  &lt;/script&gt;
+  &lt;script src=&quot;https://unpkg.com/@aftertheflood/londonsquared/dist/index.js&quot;&gt;
+  &lt;/script&gt;
 </pre>
 
 <p>If you're using webpack or something similar to compile your code you can install bundle the via npm.</p>
