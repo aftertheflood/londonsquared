@@ -54,6 +54,8 @@
 <div class="full-width">
   <h2>Developing</h2>
   For local development you can use these npm scripts
-  * `npm run build` uses <a href="https://webpack.js.org">webpack</a> to compile the code in the _src_ directory outputting to the _dist_ directory.
-  * `npm run serve` runs <a href="https://browsersync.io">browser-sync</a> on the _site_ directory.
+  <ul>
+    <li><pre>npm run build`</pre> uses <a href="https://webpack.js.org">webpack</a> to compile the code in the <i>src</i> directory outputting to the _dist_ directory.</li>
+    <li><pre>npm run serve</pre> runs <a href="https://browsersync.io">browser-sync</a> on the <i>site</i> directory.</li>
+  </ul>
 </div>
