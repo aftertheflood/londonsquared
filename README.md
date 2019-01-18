@@ -12,8 +12,11 @@
 <h2 class="full-width">Examples</h2>
   <div>
     <h3><a href="">Putting a map on a page</a></h3>
-    <img src="https://aftertheflood.com/wp-content/uploads/2017/11/london-squared-3.png" width="100%">
-    <a href="">Code</a> <a href="">Notebook</a>
+    <img src="assets/images/example1.png" width="100%">
+    <ul>
+      <li><a href="">Code</a></li>
+      <li><a href="https://beta.observablehq.com/@tomgp/london-squared">Observable notebook</a></li>
+    </ul>
   </div>
  <div>
   <a href="http://aftertheflood.github.io/londonsquared/site/london-borough-population-now.html">A single variable visualisation</a> (<a href="https://github.com/aftertheflood/londonsquared/blob/master/site/london-borough-population-now.html">code</a>)
