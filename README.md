@@ -2,12 +2,10 @@
   <h2>London Squared</h2>
 
   A D3  module to support the creation of <a href="https://aftertheflood.com/projects/future-cities-catapult/">London Squared</a> cartograms.
-
-  <img src="https://aftertheflood.com/wp-content/uploads/2017/11/london-squared-3.png" width="100%">
-
-  <a href="/londonsquared/getting-started">Getting started</a>
-
-  <a href="/londonsquared/api">API documentation</a>
+  <ul>
+    <li><a href="/londonsquared/getting-started">Getting started</a></li>
+    <li><a href="/londonsquared/api">API documentation</a></li>
+  </ul>
 </div>
 <h2 class="full-width">Examples</h2>
   <div>
