@@ -29,10 +29,18 @@
   <a href="http://aftertheflood.github.io/londonsquared/site/london-pcn-data.html">A multi-variable visualisation</a> (<a href="https://github.com/aftertheflood/londonsquared/blob/master/site/london-pcn-data.html">code</a>)
 </div>
 <div>
-  <a href="http://aftertheflood.github.io/londonsquared/site/london-borough-population-timeline.html">A time series visualization</a> (<a href="https://github.com/aftertheflood/londonsquared/blob/master/site/london-borough-population-interactive.html">code</a>)
+  <h3><a href="/londonsquared/site/london-borough-population-timeline.html">A time series visualization</a></h3>
+  <a href="/londonsquared/site/london-borough-population-timeline.html"><img src="assets/images/example3.png" width="100%"></a>
+  <ul>
+    <li><a href="https://github.com/aftertheflood/londonsquared/blob/master/site/london-borough-population-timeline.html">Code</a></li>
+    <li><a href="https://beta.observablehq.com/@tomgp/london-squared-population-timeseries">Observable notebook</a></li>
+  </ul>
 </div>
 <div>
   <a href="http://aftertheflood.github.io/londonsquared/site/london-borough-population-interactive.html">Adding some interaction to the time series vizualisation</a> (<a href="https://github.com/aftertheflood/londonsquared/blob/master/site/london-borough-population-interactive.html">code</a>)
+</div>
+<div class="full-width">
+  <a href="https://beta.observablehq.com/collection/@tomgp/london-squared">All Observable notebooks</a>
 </div>
 <div class="full-width">
   <h2>Developing</h2>
