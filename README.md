@@ -42,7 +42,11 @@
   </ul>
 </div>
 <div>
-  <a href="http://aftertheflood.github.io/londonsquared/site/london-borough-population-interactive.html">Adding some interaction to the time series vizualisation</a> (<a href="https://github.com/aftertheflood/londonsquared/blob/master/site/london-borough-population-interactive.html">code</a>)
+  <h3><a href="http://aftertheflood.github.io/londonsquared/site/london-borough-population-interactive.html">Adding interaction</a></h3> 
+  <a href="/londonsquared/site/london-borough-population-interactive.html"><img src="assets/images/example5.png" width="100%"></a>
+  <ul>
+    <li><a href="https://github.com/aftertheflood/londonsquared/blob/master/site/london-borough-population-interactive.html">Code</a></li>
+  </ul>
 </div>
 <div class="full-width">
   <a href="https://beta.observablehq.com/collection/@tomgp/london-squared">All Observable notebooks</a>
