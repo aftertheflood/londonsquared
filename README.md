@@ -48,6 +48,13 @@
     <li><a href="https://github.com/aftertheflood/londonsquared/blob/master/site/london-borough-population-interactive.html">Code</a></li>
   </ul>
 </div>
+<div>
+  <h3><a href="https://beta.observablehq.com/@tomgp/london-squared-greenspace-map">Area and greenspace</a></h3> 
+  <a href="https://beta.observablehq.com/@tomgp/london-squared-greenspace-map"><img src="assets/images/example6.png" width="100%"></a>
+  <ul>
+    <li><a href="https://beta.observablehq.com/@tomgp/london-squared-greenspace-map">Observable notebook</a></li>
+  </ul>
+</div>
 <div class="full-width">
   <a href="https://beta.observablehq.com/collection/@tomgp/london-squared">All Observable notebooks</a>
 </div>
@@ -55,7 +62,7 @@
   <h2>Developing</h2>
   For local development you can use these npm scripts
   <ul>
-    <li><pre>npm run build`</pre> uses <a href="https://webpack.js.org">webpack</a> to compile the code in the <i>src</i> directory outputting to the _dist_ directory.</li>
+    <li><pre>npm run build</pre> uses <a href="https://webpack.js.org">webpack</a> to compile the code in the <i>src</i> directory outputting to the _dist_ directory.</li>
     <li><pre>npm run serve</pre> runs <a href="https://browsersync.io">browser-sync</a> on the <i>site</i> directory.</li>
   </ul>
 </div>
