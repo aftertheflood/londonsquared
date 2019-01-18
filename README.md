@@ -17,7 +17,7 @@
     </ul>
   </div>
  <div>
-  <h3><a href="/londonsquared/site/london-borough-population-now.html">A single variable visualisation</a></h3>
+  <h3><a href="/londonsquared/site/london-borough-population-now.html">Single variable visualisation</a></h3>
   <a href="/londonsquared/site/london-borough-population-now.html"><img src="assets/images/example2.png" width="100%"></a>
   <ul>
     <li><a href="https://github.com/aftertheflood/londonsquared/blob/master/site/london-borough-population-now.html">Code</a></li>
@@ -26,10 +26,15 @@
 </div>
  
 <div>
-  <a href="http://aftertheflood.github.io/londonsquared/site/london-pcn-data.html">A multi-variable visualisation</a> (<a href="https://github.com/aftertheflood/londonsquared/blob/master/site/london-pcn-data.html">code</a>)
+  <h3><a href="http://aftertheflood.github.io/londonsquared/site/london-pcn-data.html">A multi-variable visualisation</a></h3> 
+  <a href="/londonsquared/site/london-borough-population-now.html"><img src="assets/images/example4.png" width="100%"></a>
+  <ul>
+    <li><a href="https://github.com/aftertheflood/londonsquared/blob/master/site/london-pcn-data.html">Code</a></li>
+    <li><a href="https://beta.observablehq.com/@tomgp/london-squared-penalty-charge-map">Observable notebook</a></li>
+  </ul>
 </div>
 <div>
-  <h3><a href="/londonsquared/site/london-borough-population-timeline.html">A time series visualization</a></h3>
+  <h3><a href="/londonsquared/site/london-borough-population-timeline.html">Time series visualization</a></h3>
   <a href="/londonsquared/site/london-borough-population-timeline.html"><img src="assets/images/example3.png" width="100%"></a>
   <ul>
     <li><a href="https://github.com/aftertheflood/londonsquared/blob/master/site/london-borough-population-timeline.html">Code</a></li>
