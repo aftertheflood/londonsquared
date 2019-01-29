@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" href="/assets/css/type.css" type="text/css">
-    <link rel="stylesheet" href="/assets/css/layout.css" type="text/css">
+    <!-- <link rel="stylesheet" href="/assets/css/type.css" type="text/css">
+    <link rel="stylesheet" href="/assets/css/layout.css" type="text/css"> -->
+
+    <link rel="stylesheet" href="http://localhost:3000/assets/css/type.css" type="text/css">
+    <link rel="stylesheet" href="http://localhost:3000/assets/css/layout.css" type="text/css">
     <title>After The Flood</title>
   </head>
   <body>
@@ -10,75 +13,75 @@
       <header>
         <h1><span class="highlight">After The Flood, London Squared</span> <span class="secondary">A visualization layout for London borough data</span></h1>
       </header>
-      <div role="main" class="content"><div class="full-width">
-  <h2>London Squared</h2>
+      <div role="main" class="content full-width">
+      <h2 id="london-squared">London Squared</h2>
 
-  A D3  module to support the creation of <a href="https://aftertheflood.com/projects/future-cities-catapult/">London Squared</a> cartograms.
-  <ul>
-    <li><a href="/londonsquared/getting-started">Getting started</a></li>
-    <li><a href="/londonsquared/api">API documentation</a></li>
-  </ul>
-</div>
-<h2 class="full-width">Examples</h2>
-<div>
-    <h3><a href="">Putting a map on a page</a></h3>
-    <img src="assets/images/example1.png" width="100%" />
-    <ul>
-      <li><a href="">Code</a></li>
-      <li><a href="https://beta.observablehq.com/@tomgp/london-squared">Observable notebook</a></li>
-    </ul>
-  </div>
-<div>
-  <h3><a href="/londonsquared/site/london-borough-population-now.html">Single variable visualisation</a></h3>
-  <a href="/londonsquared/site/london-borough-population-now.html"><img src="assets/images/example2.png" width="100%" /></a>
-  <ul>
-    <li><a href="https://github.com/aftertheflood/londonsquared/blob/master/site/london-borough-population-now.html">Code</a></li>
-    <li><a href="https://beta.observablehq.com/@tomgp/london-squared-population-map">Observable notebook</a></li>
-  </ul>
-</div>
+<p>A D3  module to support the creation of <a href="https://aftertheflood.com/projects/future-cities-catapult/">London Squared</a> cartograms.</p>
+<ul>
+  <li><a href="/londonsquared/getting-started">Getting started</a></li>
+  <li><a href="/londonsquared/api">API documentation</a></li>
+</ul>
 
-<div>
-  <h3><a href="http://aftertheflood.github.io/londonsquared/site/london-pcn-data.html">A multi-variable visualisation</a></h3> 
-  <a href="/londonsquared/site/london-borough-population-now.html"><img src="assets/images/example4.png" width="100%" /></a>
-  <ul>
-    <li><a href="https://github.com/aftertheflood/londonsquared/blob/master/site/london-pcn-data.html">Code</a></li>
-    <li><a href="https://beta.observablehq.com/@tomgp/london-squared-penalty-charge-map">Observable notebook</a></li>
-  </ul>
-</div>
-<div>
-  <h3><a href="/londonsquared/site/london-borough-population-timeline.html">Time series visualization</a></h3>
-  <a href="/londonsquared/site/london-borough-population-timeline.html"><img src="assets/images/example3.png" width="100%" /></a>
-  <ul>
-    <li><a href="https://github.com/aftertheflood/londonsquared/blob/master/site/london-borough-population-timeline.html">Code</a></li>
-    <li><a href="https://beta.observablehq.com/@tomgp/london-squared-population-timeseries">Observable notebook</a></li>
-  </ul>
-</div>
-<div>
-  <h3><a href="http://aftertheflood.github.io/londonsquared/site/london-borough-population-interactive.html">Adding interaction</a></h3> 
-  <a href="/londonsquared/site/london-borough-population-interactive.html"><img src="assets/images/example5.png" width="100%" /></a>
-  <ul>
-    <li><a href="https://github.com/aftertheflood/londonsquared/blob/master/site/london-borough-population-interactive.html">Code</a></li>
-  </ul>
-</div>
-<div>
-  <h3><a href="https://beta.observablehq.com/@tomgp/london-squared-greenspace-map">Area and greenspace</a></h3> 
-  <a href="https://beta.observablehq.com/@tomgp/london-squared-greenspace-map"><img src="assets/images/example6.png" width="100%" /></a>
-  <ul>
-    <li><a href="https://beta.observablehq.com/@tomgp/london-squared-greenspace-map">Observable notebook</a></li>
-  </ul>
-</div>
-<div class="full-width">
-  <a href="https://beta.observablehq.com/collection/@tomgp/london-squared">All Observable notebooks</a>
-</div>
-<div class="full-width">
-  <h2>Developing</h2>
-  For local development you can use these npm scripts
-  <ul>
-    <li><pre>npm run build</pre> uses <a href="https://webpack.js.org">webpack</a> to compile the code in the <i>src</i> directory outputting to the _dist_ directory.</li>
-    <li><pre>npm run serve</pre> runs <a href="https://browsersync.io">browser-sync</a> on the <i>site</i> directory.</li>
-  </ul>
-</div>
-</div>
+<h2 id="examples">Examples</h2>
+
+<h3 id="putting-a-map-on-a-page">Putting a map on a page</h3>
+
+<p><img src="/assets/images/example1.png" alt="a simple and colourful cartogram of London" /></p>
+
+<ul>
+  <li>Code</li>
+  <li><a href="https://beta.observablehq.com/@tomgp/london-squared">Observable notebook</a></li>
+</ul>
+
+<h3 id="single-variable-visualisation">Single variable visualisation</h3>
+
+<p><img src="/assets/images/example2.png" alt="a cartogram showing a single variable visualisaed as circles" /></p>
+
+<ul>
+  <li><a href="/londonsquared/site/london-borough-population-now.html">Demo</a></li>
+  <li><a href="https://github.com/aftertheflood/londonsquared/blob/master/site/london-borough-population-now.html">Code</a></li>
+  <li><a href="https://beta.observablehq.com/@tomgp/london-squared-population-map">Observable notebook</a></li>
+</ul>
+
+<h3 id="a-multi-variable-visualisation">A multi-variable visualisation</h3>
+
+<p><img src="/assets/images/example4.png" alt="a cartogram showing a bar chart and colour coding on each element" /></p>
+
+<ul>
+  <li><a href="/londonsquared/site/london-borough-population-now.html">Demo</a></li>
+  <li><a href="https://github.com/aftertheflood/londonsquared/blob/master/site/london-pcn-data.html">Code</a></li>
+  <li><a href="https://beta.observablehq.com/@tomgp/london-squared-penalty-charge-map">Observable notebook</a></li>
+</ul>
+
+<h3 id="time-series-visualization">Time series visualization</h3>
+
+<p><img src="/assets/images/example3.png" alt="a london squared cartogram with a line chart drawn in each cell" /></p>
+
+<ul>
+  <li><a href="/londonsquared/site/london-borough-population-timeline.html">Demo</a></li>
+  <li><a href="https://github.com/aftertheflood/londonsquared/blob/master/site/london-borough-population-timeline.html">Code</a></li>
+  <li><a href="https://beta.observablehq.com/@tomgp/london-squared-population-timeseries">Observable notebook</a></li>
+</ul>
+
+<h3 id="adding-interaction">Adding interaction</h3>
+
+<p><img src="/assets/images/example5.png" alt="a london squared cartogram with an image of a mouse pointer" /></p>
+
+<ul>
+  <li><a href="http://aftertheflood.github.io/londonsquared/site/london-borough-population-interactive.html">Demo</a></li>
+  <li><a href="https://github.com/aftertheflood/londonsquared/blob/master/site/london-borough-population-interactive.html">Code</a></li>
+</ul>
+
+<h3 id="area-and-greenspace">Area and greenspace</h3>
+
+<p><img src="/assets/images/example6.png" alt="a cartogram showing the proportion of greenspace in each london borough" /></p>
+
+<ul>
+  <li><a href="https://beta.observablehq.com/@tomgp/london-squared-greenspace-map">Observable notebook</a></li>
+</ul>
+
+
+      </div>
       <footer>
         <p class="secondary">
           After the flood

@@ -23,3 +23,9 @@ For next steps you could either read the API documentation or dive into some of 
 <p>With the London Squared module Data is bound to shapes by the boroughs' <a href="http://geoportal.statistics.gov.uk/datasets/interim-local-authority-districts-april-2018-names-and-codes-in-the-united-kingdom">standard ONS code</a> so in order to bind your data to the layout you'll need to include those codes, by default you can include a property in each borough's data called _code_ and the layout should find that, if this isn't possible of convenient then you can specify an accessor function.</p>
 
 </div>
+<h2>Developing</h2>
+For local development you can use these npm scripts
+<ul>
+  <li><pre>npm run build</pre> uses <a href="https://webpack.js.org">webpack</a> to compile the code in the <i>src</i> directory outputting to the _dist_ directory.</li>
+  <li><pre>npm run serve</pre> runs <a href="https://browsersync.io">browser-sync</a> on the <i>site</i> directory.</li>
+</ul>

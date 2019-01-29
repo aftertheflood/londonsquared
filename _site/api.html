@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" href="/assets/css/type.css" type="text/css">
-    <link rel="stylesheet" href="/assets/css/layout.css" type="text/css">
+    <!-- <link rel="stylesheet" href="/assets/css/type.css" type="text/css">
+    <link rel="stylesheet" href="/assets/css/layout.css" type="text/css"> -->
+
+    <link rel="stylesheet" href="http://localhost:3000/assets/css/type.css" type="text/css">
+    <link rel="stylesheet" href="http://localhost:3000/assets/css/layout.css" type="text/css">
     <title>After The Flood</title>
   </head>
   <body>
@@ -10,7 +13,8 @@
       <header>
         <h1><span class="highlight">After The Flood, London Squared</span> <span class="secondary">A visualization layout for London borough data</span></h1>
       </header>
-      <div role="main" class="content"><div class="full-width">
+      <div role="main" class="content full-width">
+      <div class="full-width">
 
 ## London Squared D3 module API
 
@@ -81,7 +85,8 @@ const LS = atf.londonSquared()
   .data(boroughData, d=&gt;d['ONS Area Code'])
 ```
 </div>
-</div>
+
+      </div>
       <footer>
         <p class="secondary">
           After the flood
