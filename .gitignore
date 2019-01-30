@@ -6,3 +6,4 @@ Gemfile
 vendor
 .bundle/config
 Gemfile.lock
+_site
