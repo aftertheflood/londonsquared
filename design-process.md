@@ -16,7 +16,7 @@ We needed a new, non-geographic system to plot data.
     
 How can a city be reshaped to allow for a more even presentation of data without obliterating the forms that make it a recognizable space?
     
-<div class="grid">
+<div class="grid-container">
   <div markdown="1">
 ![a simple abstraction of london boroughs into squares](assets/images/abstraction-1.jpg)
 
@@ -54,7 +54,7 @@ The most basic map allows for a choropleth, or shaded cells, to show data. There
 
 ![the London Squared cartogram layout as used to visualise a data set](assets/images/london-squared-1.jpg)
 
-<div class="grid">
+<div class="grid-container">
   <div markdown="1">
 
 ![bar charts on the London Squared layout](assets/images/london-squared-2.jpg)
