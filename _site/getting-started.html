@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- <link rel="stylesheet" href="/assets/css/type.css" type="text/css">
+    <link rel="stylesheet" href="/assets/css/syntax.css" type="text/css">
+    <link rel="stylesheet" href="/assets/css/layout.css" type="text/css"> -->
+
+    <link rel="stylesheet" href="http://localhost:3000/assets/css/type.css" type="text/css">
+    <link rel="stylesheet" href="http://localhost:3000/assets/css/syntax.css" type="text/css">
+    <link rel="stylesheet" href="http://localhost:3000/assets/css/layout.css" type="text/css">
+    <title>After The Flood</title>
+  </head>
+  <body>
+    <div class="page">
+      <header>
+        <h1><span class="highlight">After The Flood, London Squared</span> <span class="secondary">A visualization layout for London borough data</span></h1>
+      </header>
+      <div role="main" class="content full-width">
+      <h2 id="getting-started">Getting started</h2>
+
+<p>The quickest way to get started with the London Squared D3 module is by including the module in your page with a script tag (you’ll also need to include D3). Just put the following tags into your HTML document and you’re ready to go…</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://d3js.org/d3.v5.min.js"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://unpkg.com/@aftertheflood/londonsquared/dist/index.js"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre></div></div>
+
+<p>If you’re using webpack or something similar to compile your code you can install bundle the via npm.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm install --save @aftertheflood/londonsquared
+</code></pre></div></div>
+
+<p>For next steps you could either read the <a href="/londonsquared/api">API documentation</a>, dive into some of the <a href="https://github.com/aftertheflood/londonsquared/tree/master/site">code examples</a> or explore some interactive <a href="https://beta.observablehq.com/collection/@tomgp/london-squared">Observable notebooks</a>.</p>
+
+<h2 id="a-note-about-data-requirements">A note about data requirements</h2>
+
+<p>With the London Squared module Data is bound to shapes by the boroughs’ <a href="http://geoportal.statistics.gov.uk/datasets/interim-local-authority-districts-april-2018-names-and-codes-in-the-united-kingdom">standard ONS code</a> so in order to bind your data to the layout you’ll need to include those codes, by default you can include a property in each borough’s data called <em>code</em> and the layout should find that, if this isn’t possible of convenient then you can specify an accessor function.</p>
+
+<h2 id="developing">Developing</h2>
+<p>For local development work on the London Squared module you should have NodeJS and npm installed. You can use these npm scripts</p>
+
+<ul>
+  <li><code class="highlighter-rouge">npm run build</code> uses <a href="https://webpack.js.org">webpack</a> to compile the code in the <em>src</em> directory outputting to the <em>dist</em> directory.</li>
+  <li><code class="highlighter-rouge">npm run serve</code> runs <a href="https://browsersync.io">browser-sync</a> on the <em>site</em> directory.</li>
+</ul>
+
+      </div>
+      <footer>
+        <p class="secondary">
+          After the flood
+          <br>140–142 St John St, London, EC1V 4UB, UK
+          <br>info@aftertheflood.com
+          <br><a href="href=https://twitter.com/AftertheFloodco">@Afterthefloodco</a>
+          <br>Registered in England and Wales as After the flood Limited. 7792366
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>
