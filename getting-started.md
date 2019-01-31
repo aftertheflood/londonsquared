@@ -2,7 +2,8 @@ A D3  module to support the creation of [London Squared](https://aftertheflood.c
 
  * [Examples](/londonsquared/getting-started)
  * [API documentation](/londonsquared/api)
- * [More about the thinking behind London Squared](/londonsquared/apidesign-process)
+ * [More about the thinking behind London Squared](/londonsquared/design-process)
+ * [Code on github](https://www.github.com/aftertheflood/londonsquared)
 
 ## Getting started
 
