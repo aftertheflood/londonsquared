@@ -1,3 +1,9 @@
+A D3  module to support the creation of [London Squared](https://aftertheflood.com/projects/future-cities-catapult/) cartograms.
+
+ * [Examples](/londonsquared/getting-started)
+ * [API documentation](/londonsquared/api)
+ * [More about the thinking behind London Squared](/londonsquared/apidesign-process)
+
 ## Getting started
 
 The quickest way to get started with the London Squared D3 module is by including the module in your page with a script tag (you'll also need to include D3). Just put the following tags into your HTML document and you're ready to go...

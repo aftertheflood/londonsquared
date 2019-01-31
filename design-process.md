@@ -1,8 +1,17 @@
 
-## Future Cities Catapult
+A D3  module to support the creation of [London Squared](https://aftertheflood.com/projects/future-cities-catapult/) cartograms.
+
+ * [Examples](/londonsquared)
+ * [Getting started](/londonsquared/getting-started)
+ * [API documentation](/londonsquared/api)
+ * [Code on github](https://www.github.com/aftertheflood/londonsquared)
+
+## The thinking behind London Squared
+
+### Future Cities Catapult
    [Future Cities Catapult](https://futurecities.catapult.org.uk) has many programmes that require data analysis. London Squared came out of a partnership between us to develop product ideas that would help them and their network — anyone working in this field who wanted to create, use, and share data better. Key to this was the ability to compare data across the city’s 32 boroughs (33 if you include The City of London, not officially a borough). Unfortunately at the moment the only way of doing that spatially was to use a geographical map ...
     
-## The Trouble With Data Maps
+### The Trouble With Data Maps
 
 Maps are excellent for navigating space, showing boundaries, landmarks, and location but lousy at imparting data. The visual impact of data shown in a spatial way is driven by the way areas of that space are divided. Low quantities seem higher if taking up more space. High qualities in lots of space dominate. Maps are uneven spaces – more developed areas tend to be smaller than rural areas. This creates an uneven ground on which to place figures – with important data finding no place to live.
 
@@ -12,7 +21,7 @@ During the product development work with Future Cities Catapult, it became clear
 
 We needed a new, non-geographic system to plot data.
     
-## Abstracting the City
+### Abstracting the City
     
 How can a city be reshaped to allow for a more even presentation of data without obliterating the forms that make it a recognizable space?
     
@@ -39,7 +48,7 @@ Instead, we put the city back together, forcing it to give way to the key curves
   </div>
 </div>
 
-## The Square Unit
+### The Square Unit
     
 Squares have the added benefit of being able to contain more data. Unlike circles, there are enough options for spatial significance in a square – top, bottom, left, right. Squares have space to allow data to be separate or connected to other data. The squares are also a usefully small module that can be shared individually when needed, and because of their regularised and bite-size scale, they work well on small screens.
 
@@ -48,7 +57,7 @@ Squares have the added benefit of being able to contain more data. Unlike circle
 
 The names of the boroughs have been abbreviated and vowels removed for maximum recognition and efficiency. This function needs to allow first time users to orient themselves as well as regular viewers to remind themselves and not have an obstructed view.
 
-## The London Squared Map, Version 1.0
+### The London Squared Map, Version 1.0
 
 The most basic map allows for a choropleth, or shaded cells, to show data. There has been minimal shuffling of the – and the placement of the river finishes this off economically. The basic map shows one set of data, but there are other possibilities for combining display types.
 

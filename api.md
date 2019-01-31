@@ -1,3 +1,10 @@
+A D3  module to support the creation of [London Squared](https://aftertheflood.com/projects/future-cities-catapult/) cartograms.
+
+ * [Examples](/londonsquared/api)
+ * [Getting started](/londonsquared/getting-started)
+ * [More about the thinking behind London Squared](/londonsquared/apidesign-process)
+ * [Code on github](https://www.github.com/aftertheflood/londonsquared)
+
 ## London Squared D3 module. API
 
 #### londonSquared()
