@@ -15,7 +15,11 @@ A D3  module to support the creation of [London Squared](https://aftertheflood.c
 
 Maps are excellent for navigating space, showing boundaries, landmarks, and location but lousy at imparting data. The visual impact of data shown in a spatial way is driven by the way areas of that space are divided. Low quantities seem higher if taking up more space. High qualities in lots of space dominate. Maps are uneven spaces – more developed areas tend to be smaller than rural areas. This creates an uneven ground on which to place figures – with important data finding no place to live.
 
-![a variety of maps showing data encoded as colour](assets/images/london-collage.jpg)
+<div>
+  <hr class="no-top-border">
+  <img class="full-width" src="assets/images/london-collage.jpg" alt="a variety of maps showing data encoded as colour" />
+  <hr class="no-top-border">
+</div>
     
 During the product development work with Future Cities Catapult, it became clear that there was a need for a way to visual data across all boroughs that did not create a visual bias due to the relative size of individual boroughs.
 
