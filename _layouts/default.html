@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" href="{{ '/assets/css/fonts.css' }}" type="text/css">
     <link rel="stylesheet" href="{{ '/assets/css/type.css' }}" type="text/css">
     <link rel="stylesheet" href="{{ '/assets/css/syntax.css' }}" type="text/css">
     <link rel="stylesheet" href="{{ '/assets/css/layout.css' }}" type="text/css">  
@@ -12,21 +13,31 @@
   </head>
   <body>
     <div class="page">
-      <header>
-        <h1 class="project"><span class="highlight">After The Flood, {{ site.name }}</span> <span class="secondary">{{ site.description }}</span></h1>
-      </header>
-      <div role="main" class="content full-width project">
+      
+			<header>
+				<ul>
+					<li class="page-title"><a href="/">After the flood, tools</a></li>
+					<li>Design and code for communicating with data</li>
+					<li class="main-site-link"><a href="https://aftertheflood.com/">(Go to Aftertheflood.com)</a></li>
+				</ul>
+			</header>
+
+			<h1>London Squared</h1>
+
+      <div role="main" class="content project">
       {{ content }}
       </div>
+     
       <footer>
         <p class="secondary">
-          After the flood
+          <a href="aftertheflood.com/">After the flood</a>
           <br>140–142 St John St, London, EC1V 4UB, UK
           <br>info@aftertheflood.com
           <br><a href="https://twitter.com/AftertheFloodco">@Afterthefloodco</a>
           <br>Registered in England and Wales as After the flood Limited. 7792366
         </p>
       </footer>
+
     </div>
   </body>
 </html>
