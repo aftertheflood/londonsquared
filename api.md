@@ -76,3 +76,7 @@ const LS = atf.londonSquared()
   .data(boroughData, d=>d['ONS Area Code'])
 ```
 
+#### londonSquared.gridGapProportion([number])
+
+This function sets the size of the gap between the cells of the cartogram as a proportion of a square cell. The value should lie between between 0 and 1 inclusive.
+If no number is specified the function returns the current value. The default value is 0.05 i.e. if a square cell is calculated as 100px 
