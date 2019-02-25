@@ -7,9 +7,21 @@ A D3  module to support the creation of [London Squared](https://aftertheflood.c
 
 ## London Squared D3 module. API
 
-#### londonSquared()
+#### londonSquared([object])
 
-Create a London Squared layout
+Create a London Squared layout. 
+
+The optional `object` argument can be used to bulk assign values which might otherwise be set by the individual, explicit API functions. An example of such a configuration object might look something like this...
+
+```js
+{
+  width: 800,
+  height: 700,
+  accessor: d => d.code,
+  classPrefix: 'ls',
+  gridGapProportion: 0.05,
+}
+```
 
 _Note: all the example code assumes you're using the module via the script tag method explained above so the `londonSquared` function is preceded by the `atf` global name-spacing variable._
 
@@ -76,3 +88,7 @@ const LS = atf.londonSquared()
   .data(boroughData, d=>d['ONS Area Code'])
 ```
 
+#### londonSquared.gridGapProportion([number])
+
+This function sets the size of the gap between the cells of the cartogram as a proportion of a square cell. The value should lie between between 0 and 1 inclusive.
+If no number is specified the function returns the current value. The default value is 0.05 i.e. if a square cell is calculated as 100px 

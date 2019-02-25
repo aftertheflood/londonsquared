@@ -7,8 +7,8 @@ const lsLookup = layout.reduce((lookup,current)=>{
   return lookup;
 }, {})
 
-const londonSquared = () => {
-  const config = {
+const londonSquared = (userConfig) => {
+  const config = Object.assign({
     width: 800,
     height: 700,
     blockSize: 100,
@@ -26,7 +26,7 @@ const londonSquared = () => {
     },
     gridGapProportion: 0.05,
     parent: null,
-  }
+  }, userConfig);
 
   config.className = (n) => `${config.classPrefix}-${config.classDict[n]}`;
 
@@ -174,6 +174,13 @@ const londonSquared = () => {
     return config.parent
       .selectAll(`.${config.className('interaction')}`);
   };
+
+  ls.gridGapProportion = function(x) {
+    if(!x) return config.gridGapProportion;
+    config.gridGap = x;
+    rescale();
+    return this();
+  }
 
   ls.blockSize = () => config.blockSize;
 
