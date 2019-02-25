@@ -14,7 +14,6 @@ A D3  module to support the creation of [London Squared](https://aftertheflood.c
 
 ![a simple and colourful cartogram of London](assets/images/example1.png)
 
- * Code
  * [Observable notebook](https://beta.observablehq.com/@tomgp/london-squared)
  
   </div>
@@ -22,7 +21,7 @@ A D3  module to support the creation of [London Squared](https://aftertheflood.c
 
 ### Single variable visualisation
 
-![a cartogram showing a single variable visualisaed as circles](assets/images/example2.png)
+![a cartogram showing a single variable visualised as circles](assets/images/example2.png)
 
  * [Demo](/londonsquared/site/london-borough-population-now.html)
  * [Code](https://github.com/aftertheflood/londonsquared/blob/master/site/london-borough-population-now.html)
@@ -35,7 +34,7 @@ A D3  module to support the creation of [London Squared](https://aftertheflood.c
 
 ![a cartogram showing a bar chart and colour coding on each element](assets/images/example4.png)
 
- * [Demo](/londonsquared/site/london-borough-population-now.html)
+ * [Demo](/londonsquared/site/london-pcn-data.html)
  * [Code](https://github.com/aftertheflood/londonsquared/blob/master/site/london-pcn-data.html)
  * [Observable notebook](https://beta.observablehq.com/@tomgp/london-squared-penalty-charge-map)
 
@@ -46,8 +45,8 @@ A D3  module to support the creation of [London Squared](https://aftertheflood.c
 
 ![a london squared cartogram with a line chart drawn in each cell](assets/images/example3.png)
 
- * [Demo](/londonsquared/site/london-borough-population-timeline.html)
- * [Code](https://github.com/aftertheflood/londonsquared/blob/master/site/london-borough-population-timeline.html)
+ * [Demo](/londonsquared/site/london-borough-population-timeseries.html)
+ * [Code](https://github.com/aftertheflood/londonsquared/blob/master/site/london-borough-population-timeseries.html)
  * [Observable notebook](https://beta.observablehq.com/@tomgp/london-squared-population-timeseries)
 
   </div>
