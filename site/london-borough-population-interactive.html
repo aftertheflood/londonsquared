@@ -15,12 +15,21 @@
       color:#666;
     }
 
-    .borough-label{
+    .year-label{
+      font-size: 30px;
+    }
+
+    .borough-label, .population-label {
       fill: #111;
     }
-    .borough-label-outline{
+
+    .borough-label-outline, .population-label-outline{
       stroke: #FFF;
       stroke-width: 2px;
+    }
+
+    .population-label, .population-label-outline{
+      font-size: 10px;
     }
 
     .ls-background{
@@ -40,7 +49,7 @@
     }
 
     .chart-line{
-      fill: none;
+      fill: #DDD;
       stroke: #DDD;
       stroke-width: 1px;
     }
@@ -66,7 +75,7 @@
 </body>
 <script>
 
-console.log(`london squared module v${atf.londonSquared.version}`);
+console.log(`london squared module v${ atf.londonSquared.version }`);
 
 function interactionStateFactory(data){
   const changeDispatcher = d3.dispatch('change');
@@ -103,8 +112,7 @@ function interactionStateFactory(data){
       totalPopulation: d3.sum(Object.values(values.boroughs)),
       borough
     };
-
-
+    
     changeDispatcher.call('change', values);
   };
 
@@ -129,7 +137,7 @@ window.onload = ()=>{
   d3.csv('data/census-historic-population-borough.csv')
     .then((data)=>{
       // turn the data in to timeseries arrays
-      const boroughPopulationExtent = []
+      const boroughPopulationExtent = [];
       const processedData = data.map((row)=>{
         const populationProperties = Object.keys(row).filter(key=>(key.indexOf('Persons-')>-1))
         const population = populationProperties
@@ -172,6 +180,7 @@ window.onload = ()=>{
 
       vizState.change(function(){
         const stateValues = this;
+
         LS.masked()
           .call(function(parent){
             parent.selectAll('.x-graticule')
@@ -182,6 +191,13 @@ window.onload = ()=>{
               .attr('y1', d=>valueScale(stateValues.boroughs[d.LSAbbreviation]))
               .attr('y2', d=>valueScale(stateValues.boroughs[d.LSAbbreviation]));
           });
+
+        LS.foreground()
+          .call(function(foregroundElements){
+            foregroundElements
+              .selectAll('.population-label-outline, .population-label')
+              .text(d => stateValues.boroughs[d.LSAbbreviation].toLocaleString());
+          });
         
         svg.selectAll('.year-label')
           .data([stateValues.reference])
@@ -189,21 +205,34 @@ window.onload = ()=>{
           .append('text')
             .attr('class','year-label')
             .attr('x', 0)
-            .attr('y', 20);
+            .attr('y', 30);
 
         svg.selectAll('.year-label')
-          .text(d=>`${d.year.getFullYear()}: total population ${d.totalPopulation.toLocaleString()}`);
-        
+          .text(d=>`${d.year.getFullYear()}`);
+
+
+        svg.selectAll('.total-population-label')
+          .data([stateValues.reference])
+            .enter()
+          .append('text')
+            .attr('class','total-population-label')
+            .attr('x', 400)
+            .attr('y', height - 10);
+
+        svg.selectAll('.total-population-label')
+          .text(d=>`total population ${d.totalPopulation.toLocaleString()}`);
       });
-      
-      const line = d3.line()
+
+      const area = d3.area()
         .x((d)=>timeScale(d.date))
-        .y((d)=>valueScale(d.value));
+        .y0(valueScale(-500))
+        .y1((d)=>valueScale(d.value))
+      
 
       LS.masked()
         .call(function(parent){
           parent.append('path')
-            .attr('d',d=>line(d.data.population))
+            .attr('d', d=>area(d.data.population))
             .attr('class', 'chart-line');
 
           parent.append('line')
@@ -244,6 +273,22 @@ window.onload = ()=>{
             .attr('x', 5)
             .attr('y', 15)
             .text(d => d.LSAbbreviation);
+
+          parent.append('text')
+            .attr('class', 'population-label-outline')
+            .attr('x', LS.blockSize()-5)
+            .attr('y', LS.blockSize()-5)
+            .attr('text-anchor','end')
+            .text('');
+
+          parent.append('text')
+            .attr('class', 'population-label')
+            .attr('x', LS.blockSize()-5)
+            .attr('y', LS.blockSize()-5)
+            .attr('text-anchor','end')
+            .text('');
+
+          
         })
     })
     .catch(err=>{
