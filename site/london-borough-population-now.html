@@ -20,7 +20,7 @@
     }
 
     .ls-background{
-      fill:#000;
+      fill:#DDD;
     }
   </style>
   <script src="https://d3js.org/d3.v5.min.js"></script>
@@ -44,7 +44,7 @@ window.onload = ()=>{
 
   d3.csv('data/london-borough-profiles.csv')
     .then((data)=>{
-      const LS = atf.londonSquared({gridGapProportion:0.01})
+      const LS = atf.londonSquared({gridGapProportion:0.05})
         .data(data, d=>d.Code) //the second argument is an accessor for the local authority code associated with the data row. by default this is d=>d.code
         .width(width)
         .height(height);

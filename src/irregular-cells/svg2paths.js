@@ -7,9 +7,8 @@ const inFile = process.argv[2];
 const svg = cheerio.load(fs.readFileSync(inFile, 'utf-8'));
 const pathsObject = {};
 
-svg('path')
-  .each((i, path)=>{
-    pathObject[path.attribs.id] = path.attribs.d;
+svg('path').each((i, path)=>{
+    pathsObject[path.attribs.id] = path.attribs.d;
   });
 
 console.log( JSON.stringify(pathsObject) );
