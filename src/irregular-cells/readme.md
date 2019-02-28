@@ -1,8 +1,8 @@
-# Making the map
+## Making the map
 
 The London Squared layout definition is made of two parts.
 
-First, defined in the `ls-layout.js` file we have coordinates and other information for each borough in an array.
+First, defined in the [ls-layout.js](https://github.com/aftertheflood/londonsquared/blob/master/src/ls-layout.js) file we have coordinates and other information for each borough in an array.
 
 ```js
 {
@@ -15,7 +15,7 @@ First, defined in the `ls-layout.js` file we have coordinates and other informat
 }
 ```
 
-Second, in `irregular-cells/paths.json` via `ls-path.js` we define the outlines of the irregular cells (those along the course of the Thames) in [SVG path](https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Paths) syntax. The SVG paths are based on the convention that a regular cell is a square of side 100 pixels with their top left corner at (0, 0).
+Second, in [irregular-cells/paths.json](https://github.com/aftertheflood/londonsquared/blob/master/src/irregular-cells/paths.json) via [ls-path.js](https://github.com/aftertheflood/londonsquared/blob/master/src/ls-path.js) we define the outlines of the irregular cells (those along the course of the Thames) in [SVG path](https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Paths) syntax. The SVG paths are based on the convention that a regular cell is a square of side 100 pixels with their top left corner at (0, 0).
 
 ## Editing paths
 

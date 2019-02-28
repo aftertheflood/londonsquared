@@ -3,3 +3,5 @@ site
 _layouts
 _config.yml
 Gemfile
+Gemfile.lock
+vendor
