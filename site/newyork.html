@@ -1,39 +1,43 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <style>
-    body{
-      font-family: sans-serif;
-    }
+  <head>
+    <style>
+      body {
+        font-family: sans-serif;
+      }
+      p {
+        max-width:600px;
+      }
+      .subtitle {
+        font-style:italic;
+        color:#666;
+      }
+      .borough-label {
+        fill: #111;
+      }
+      .borough-label-outline{
+        stroke: #FFF;
+        stroke-width: 4px;
+        stroke-linejoin: round;
+      }
+      line.tick{
+        stroke: #000;
+        stroke-width: 1px;
+      }
+      .ls-background{
+        fill:#EEE;
+      }
+    </style>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="../dist/index.js"></script>
+  </head>
+  <body>
+    <h1>New York</h1>
+    <div class="vizualisation-container">
 
-    p{
-      max-width:600px;
-    }
-
-    .subtitle{
-      font-style:italic;
-      color:#666;
-    }
-
-    .borough-label{
-      fill: #111;
-    }
-
-    .ls-background{
-      fill:#DDD;
-    }
-  </style>
-  <script src="https://d3js.org/d3.v5.min.js"></script>
-  <!-- <script src="../dist/index.js"></script> -->
-  <script src="https://unpkg.com/@aftertheflood/londonsquared@0.2.1/dist/index.js"></script>
-</head>
-<body>
-<h1>London population by borough</h1>
-<p class="subtitle">GLA Population Estimate 2015 (thousands)</p>
-<p>This example illustrates how you might use the After the Flood <a href="https://github.com/aftertheflood/londonsquared">London Squared</a> module for D3 to visualise a single variable accross all London boroughs.</p>
-<div class="vizualisation-container"></div>
-</body>
-<script>
+    </div>
+  </body>
+  <script>
 window.onload = ()=>{
   const width = 600;
   const height = 525;
@@ -43,9 +47,9 @@ window.onload = ()=>{
     .attr('width', width)
     .attr('height', height);
 
-  d3.csv('data/london-borough-profiles.csv')
+  d3.csv('data/new-york-profiles.csv')
     .then((data)=>{
-      const LS = atf.londonSquared({gridGapProportion:0.05})
+      const LS = atf.londonSquared({gridGapProportion:(1/13)})
         .data(data, d=>d.Code) //the second argument is an accessor for the local authority code associated with the data row. by default this is d=>d.code
         .width(width)
         .height(height);
@@ -53,7 +57,7 @@ window.onload = ()=>{
       svg.call(LS); // draw the cartogram shapes
       
       const circleScale = d3.scalePow()
-        .domain([0, d3.max(data, d => Number(d['GLA Population Estimate 2015']))])
+        .domain([0, d3.max(data, d => Number(d['population']))])
         .range([0, LS.blockSize()/2])
 
       console.log(circleScale.domain(), circleScale.range());
@@ -63,7 +67,7 @@ window.onload = ()=>{
           parent.append('circle')
             .attr('r', d => {
               console.log(d); 
-              return circleScale(d.data['GLA Population Estimate 2015'])
+              return circleScale(d.data['population'])
             })
             .attr('cx', LS.centroid()[0])
             .attr('cy', LS.centroid()[1])
@@ -82,12 +86,12 @@ window.onload = ()=>{
             .attr('class', 'borough-label')
             .attr('x', 5)
             .attr('y', LS.blockSize()-5)
-            .text(d => `${d.data['GLA Population Estimate 2015']/1000}k`);
+            .text(d => `${d.data['population']/1000000}m`);
         })
     })
     .catch(err=>{
       console.log(err);
     })
 }
-</script>
+  </script>
 </html>

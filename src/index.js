@@ -1,6 +1,8 @@
-import layout from './ls-layout';
-import path from './ls-path';
+import layout from './nys-layout';
 import * as d3 from 'd3-scale';
+const path = {}; // no irregular paths
+
+console.log(layout);
 
 const lsLookup = layout.reduce((lookup,current)=>{
   lookup[current.code] = current;
