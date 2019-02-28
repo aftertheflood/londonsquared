@@ -5,3 +5,4 @@ _config.yml
 Gemfile
 Gemfile.lock
 vendor
+dev-assets
