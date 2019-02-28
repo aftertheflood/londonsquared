@@ -7,3 +7,4 @@ vendor
 .bundle/config
 Gemfile.lock
 _site
+dev-assets
