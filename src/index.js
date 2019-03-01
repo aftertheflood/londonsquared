@@ -1,5 +1,5 @@
-import layout from './ls-layout';
-import path from './ls-path';
+import layout from './stockholm-layout';
+import path from './stockholm-path';
 import * as d3 from 'd3-scale';
 
 const lsLookup = layout.reduce((lookup,current)=>{
