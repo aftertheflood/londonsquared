@@ -6,3 +6,6 @@ Gemfile
 Gemfile.lock
 vendor
 dev-assets
+assets/images
+src/irregular-cells
+design-process.md
