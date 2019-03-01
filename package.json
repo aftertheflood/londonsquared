@@ -12,7 +12,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve": "npx browser-sync start --server './'",
-    "build": "npx webpack --watch"
+    "build": "npx webpack --watch",
+    "prepublish": "npx webpack"
   },
   "author": "tom.g.pearson@gmail.com",
   "license": "ISC",
