@@ -24,7 +24,7 @@ const londonSquared = (userConfig) => {
       masked:'masked',
       foreground:'foreground',
     },
-    gridGapProportion: 0.05,
+    gridGapProportion: 1/13,
     parent: null,
   }, userConfig);
 
