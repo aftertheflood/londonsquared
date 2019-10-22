@@ -1,6 +1,6 @@
 {
   "name": "@aftertheflood/londonsquared",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Visualise london borough data in the style of After the Floods London Squared cartograms",
   "keywords": [
     "d3-module",
@@ -22,7 +22,7 @@
   },
   "repository": "https://github.com/aftertheflood/londonsquared",
   "devDependencies": {
-    "browser-sync": "^2.26.3",
+    "browser-sync": "^2.26.7",
     "cheerio": "^1.0.0-rc.2",
     "webpack": "^4.22.0",
     "webpack-cli": "^3.2.1"
