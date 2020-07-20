@@ -74,6 +74,7 @@ A D3  module to support the creation of [London Squared](https://aftertheflood.c
 ---
 ### Release notes
 
+_v0.3.2_ : dependency security fix 
 _v0.3.1_ : dependency security fix 
 
 ---
