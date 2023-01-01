@@ -24,7 +24,7 @@
   "devDependencies": {
     "browser-sync": "^2.26.10",
     "cheerio": "^1.0.0-rc.2",
-    "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.12"
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
   }
 }
